@@ -99,5 +99,13 @@ share_online.bat
 
 ---
 
+## ☁️ 24/7 Cloud Deployment (Render / Railway / PythonAnywhere)
+The project is configured for cloud deployment with Gunicorn WSGI and automatic dual-database support (MySQL with SQLite zero-config fallback).
+
+For step-by-step instructions on deploying to **Render**, **Railway**, or **PythonAnywhere**, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+---
+
 ## 📝 Note
 The included CSV is synthetic demonstration data. Replace it with approved real academic data before publishing or reporting research results.
+

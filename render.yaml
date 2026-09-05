@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: ai-student-performance
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --timeout 120
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DB_ENGINE
+        value: sqlite

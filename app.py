@@ -1,28 +1,23 @@
 import os
 import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for, session
-import mysql.connector, joblib
+import joblib
+from database.db import get_db, init_db, detect_engine
 
-# Load local .env if present
-if os.path.exists(".env"):
-    with open(".env") as f:
-        for line in f:
-            line = line.strip()
-            if line and not line.startswith("#") and "=" in line:
-                k, v = line.split("=", 1)
-                os.environ.setdefault(k.strip(), v.strip().strip("'\""))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "ml", "student_performance_model.pkl")
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "change-this-secret")
-DB = dict(
-    host=os.getenv("DB_HOST", "localhost"),
-    user=os.getenv("DB_USER", "root"),
-    password=os.getenv("DB_PASSWORD", "root"),
-    database=os.getenv("DB_NAME", "student_performance")
-)
+
+# Auto-initialize database tables and seed records if needed
+try:
+    init_db()
+except Exception as err:
+    app.logger.warning("Database init warning: %s", err)
 
 def db():
-    return mysql.connector.connect(**DB)
+    return get_db()
 
 @app.route("/", methods=["GET", "POST"])
 def login():
@@ -156,7 +151,7 @@ def predict():
     if request.method == "POST":
         features = [float(request.form[k]) for k in ["attendance", "internal", "assignment", "gpa", "failures"]]
         v = pd.DataFrame([features], columns=["attendance", "internal", "assignment", "gpa", "failures"])
-        m = joblib.load("ml/student_performance_model.pkl")
+        m = joblib.load(MODEL_PATH)
         pred = m.predict(v)[0]
         prob = max(m.predict_proba(v)[0])
         conn = db()
@@ -177,4 +172,6 @@ def logout():
     return redirect(url_for("login"))
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    debug_mode = os.environ.get("FLASK_DEBUG", "False").lower() in ("true", "1", "t")
+    app.run(host="0.0.0.0", port=port, debug=debug_mode)

@@ -1,4 +1,4 @@
-﻿# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *.class
@@ -35,3 +35,9 @@ Desktop.ini
 # Temporary tunnel config
 config.yml
 *.log
+
+# SQLite Databases
+*.db
+*.sqlite
+*.sqlite3
+database/*.db
