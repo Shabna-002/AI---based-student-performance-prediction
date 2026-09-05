@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Student Performance Analytics - EduPredict AI{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Page Header -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 pb-2 border-bottom">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-graph-up-arrow text-primary me-2"></i>Student Performance Analytics</h2>
+            <p class="text-muted mb-0">Overview of student academic records, database management, and AI predictive insights.</p>
+        </div>
+        <div class="d-flex gap-2 mt-3 mt-md-0">
+            <a href="/students" class="btn btn-outline-primary fw-medium">
+                <i class="bi bi-person-plus me-1"></i> Manage Students
+            </a>
+            <a href="/predict" class="btn btn-primary fw-medium">
+                <i class="bi bi-magic me-1"></i> AI Prediction
+            </a>
+        </div>
+    </div>
+
+    <!-- Stat KPI Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-12 col-md-4">
+            <div class="card stat-card shadow-sm h-100">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="stat-icon bg-primary bg-opacity-10 text-primary me-3">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small fw-semibold text-uppercase">Total Students</div>
+                        <h2 class="fw-bold mb-0 text-dark">{{ students }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card stat-card shadow-sm h-100">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="stat-icon bg-success bg-opacity-10 text-success me-3">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small fw-semibold text-uppercase">AI Predictions Made</div>
+                        <h2 class="fw-bold mb-0 text-dark">{{ predictions }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card stat-card shadow-sm h-100">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="stat-icon bg-warning bg-opacity-10 text-warning me-3">
+                        <i class="bi bi-award-fill"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small fw-semibold text-uppercase">Average Class GPA</div>
+                        <h2 class="fw-bold mb-0 text-dark">{{ gpa }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions Section -->
+    <div class="row g-4">
+        <div class="col-12 col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                            <i class="bi bi-person-lines-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-dark">Student Database</h5>
+                        </div>
+                    </div>
+                    <a href="/students" class="btn btn-outline-primary rounded-pill px-4">
+                        Manage <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="stat-icon bg-success bg-opacity-10 text-success">
+                            <i class="bi bi-magic"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-dark">AI Prediction</h5>
+                        </div>
+                    </div>
+                    <a href="/predict" class="btn btn-primary rounded-pill px-4">
+                        Predict <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
