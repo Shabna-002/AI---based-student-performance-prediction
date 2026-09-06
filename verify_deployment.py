@@ -24,6 +24,12 @@ class TestDeploymentReadiness(unittest.TestCase):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Sign In", response.data)
+        self.assertNotIn(b"/signup", response.data)
+
+    def test_03b_signup_disabled_and_redirects(self):
+        response = self.client.get("/signup", follow_redirects=False)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.headers["Location"].endswith("/") or "/login" in response.headers["Location"])
 
     def test_04_admin_login(self):
         response = self.client.post("/", data={"username": "admin", "password": "admin123"}, follow_redirects=False)

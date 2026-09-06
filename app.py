@@ -40,30 +40,9 @@ def login():
         return render_template("login.html", error="Invalid credentials", success=success)
     return render_template("login.html", success=success)
 
-@app.route("/signup", methods=["GET", "POST"])
+@app.route("/signup")
 def signup():
-    if request.method == "POST":
-        username = request.form["username"].strip()
-        password = request.form["password"]
-        confirm_password = request.form.get("confirm_password", "")
-        if not username or not password:
-            return render_template("signup.html", error="Username and password are required")
-        if password != confirm_password:
-            return render_template("signup.html", error="Passwords do not match")
-        conn = db()
-        c = conn.cursor()
-        c.execute("SELECT user_id FROM users WHERE username = %s", (username,))
-        if c.fetchone():
-            c.close()
-            conn.close()
-            return render_template("signup.html", error="Username already exists. Please choose another.")
-        c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
-        conn.commit()
-        c.close()
-        conn.close()
-        session["user"] = username
-        return redirect(url_for("dashboard"))
-    return render_template("signup.html")
+    return redirect(url_for("login"))
 
 @app.route("/dashboard")
 def dashboard():

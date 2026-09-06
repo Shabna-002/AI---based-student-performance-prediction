@@ -292,8 +292,7 @@ The core web service is written in Python using Flask:
       )
   ```
 - **CRUD Endpoints**:
-  - `/` (GET/POST): Authentication & portal sign in.
-  - `/signup` (GET/POST): Account registration with duplicate username verification.
+  - `/` (GET/POST): Authentication & portal sign in (Admin/Authorized credentials).
   - `/dashboard` (GET): Overview querying summary metrics via SQL aggregate functions (`COUNT(*)`, `AVG(gpa)`).
   - `/students` (GET/POST): Alphabetically sorted student registry display and new student enrollment.
   - `/students/edit/<id>` (GET/POST): Updating student profile records.

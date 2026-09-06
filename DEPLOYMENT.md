@@ -119,4 +119,3 @@ Regardless of platform, the default credentials are:
 - **Username**: `admin`
 - **Password**: `admin123`
 
-You can also register new accounts directly from the `/signup` page.
