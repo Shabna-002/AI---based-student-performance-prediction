@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Edit Student - EduPredict AI{% endblock %}
 
@@ -21,7 +21,9 @@
                 <div class="card-header bg-white py-3">
                     <div class="d-flex align-items-center justify-content-between">
                         <span class="fw-bold"><i class="bi bi-pencil-square text-warning me-2"></i>Update Details</span>
-                        <span class="badge bg-secondary rounded-pill">Student ID: #{{ student[0] }}</span>
+                        <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 font-monospace px-2 py-1">
+                            <i class="bi bi-person-vcard me-1"></i>STU-{{ "%03d"|format(student[0]) }} <small class="text-muted">(#{{ student[0] }})</small>
+                        </span>
                     </div>
                 </div>
                 <div class="card-body p-4">

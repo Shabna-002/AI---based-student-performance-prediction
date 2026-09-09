@@ -116,15 +116,19 @@ def students():
             (student_name, request.form["department"].strip(), request.form["semester"]),
         )
         conn.commit()
-    sort_by = request.args.get("sort", "name")
-    if sort_by == "id":
-        c.execute("SELECT * FROM students ORDER BY student_id ASC")
+    sort_by = request.args.get("sort", "id")
+    order = request.args.get("order", "asc").lower()
+    order_sql = "DESC" if order == "desc" else "ASC"
+
+    if sort_by == "name":
+        c.execute(f"SELECT * FROM students ORDER BY LOWER(name) {order_sql}, student_id ASC")
     else:
-        c.execute("SELECT * FROM students ORDER BY LOWER(name) ASC, student_id ASC")
+        sort_by = "id"
+        c.execute(f"SELECT * FROM students ORDER BY student_id {order_sql}")
     rows = c.fetchall()
     c.close()
     conn.close()
-    return render_template("students.html", rows=rows, sort_by=sort_by)
+    return render_template("students.html", rows=rows, sort_by=sort_by, order=order)
 
 @app.route("/students/delete/<int:student_id>", methods=["GET", "POST"])
 def delete_student(student_id):
@@ -171,6 +175,18 @@ def predict():
         return redirect(url_for("login"))
     result = None
     if request.method == "POST":
+        raw_sid = str(request.form.get("student_id", "1")).strip().upper()
+        if raw_sid.startswith("STU-"):
+            sid = raw_sid.replace("STU-", "")
+        elif raw_sid.startswith("#"):
+            sid = raw_sid.replace("#", "")
+        else:
+            sid = raw_sid
+        try:
+            student_id = int(sid)
+        except ValueError:
+            student_id = 1
+
         features = [float(request.form[k]) for k in ["attendance", "internal", "assignment", "gpa", "failures"]]
         v = pd.DataFrame([features], columns=["attendance", "internal", "assignment", "gpa", "failures"])
         m = joblib.load(MODEL_PATH)
@@ -180,7 +196,7 @@ def predict():
         c = conn.cursor()
         c.execute(
             "INSERT INTO predictions(student_id,predicted_class,probability) VALUES(%s,%s,%s)",
-            (request.form["student_id"], pred, float(prob)),
+            (student_id, pred, float(prob)),
         )
         conn.commit()
         c.close()
