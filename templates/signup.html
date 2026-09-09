@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Sign In - EduPredict AI{% endblock %}
+{% block title %}Sign Up - EduPredict AI{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -91,44 +91,44 @@
                             </div>
                             <h2 class="display-6 fw-bold mb-3 text-white">EduPredict AI</h2>
                             <p class="text-white-50 leading-relaxed mb-4">
-                                Intelligent student performance monitoring and machine learning predictive analytics system.
+                                Join the student performance monitoring and machine learning predictive analytics system.
                             </p>
                         </div>
 
                         <div class="my-2">
                             <div class="feature-badge">
-                                <i class="bi bi-cpu-fill"></i>
+                                <i class="bi bi-person-check-fill"></i>
                                 <div>
-                                    <strong class="d-block text-white">AI Performance Prediction</strong>
-                                    <small class="text-white-50">Random Forest predictive inference</small>
+                                    <strong class="d-block text-white">Faculty & Staff Access</strong>
+                                    <small class="text-white-50">Manage student academic records securely</small>
                                 </div>
                             </div>
                             <div class="feature-badge">
-                                <i class="bi bi-database-fill-check"></i>
+                                <i class="bi bi-cpu-fill"></i>
                                 <div>
-                                    <strong class="d-block text-white">Database Management</strong>
-                                    <small class="text-white-50">Student record tracking & CRUD management</small>
+                                    <strong class="d-block text-white">Real-Time Risk Prediction</strong>
+                                    <small class="text-white-50">Accurate machine learning forecasting</small>
                                 </div>
                             </div>
                             <div class="feature-badge mb-0">
-                                <i class="bi bi-shield-check"></i>
+                                <i class="bi bi-graph-up-arrow"></i>
                                 <div>
-                                    <strong class="d-block text-white">Early Academic Intervention</strong>
-                                    <small class="text-white-50">Risk classification for timely mentoring</small>
+                                    <strong class="d-block text-white">Performance Analytics</strong>
+                                    <small class="text-white-50">Comprehensive class GPA & attendance tracking</small>
                                 </div>
                             </div>
                         </div>
 
                         <div class="pt-4 text-white-50 small border-top border-white border-opacity-10 mt-4">
-                            <i class="bi bi-lock-fill me-1"></i> Secure Institutional Access
+                            <i class="bi bi-shield-lock me-1"></i> Quick & Secure Registration
                         </div>
                     </div>
 
-                    <!-- Right Side: Portal Sign In Form -->
+                    <!-- Right Side: Registration Form -->
                     <div class="col-12 col-lg-6 auth-form-side d-flex flex-column justify-content-center">
                         <div class="mb-4">
-                            <h3 class="fw-bold text-dark mb-1">Sign In</h3>
-                            <p class="text-muted small">Enter your credentials to access the portal</p>
+                            <h3 class="fw-bold text-dark mb-1">Create Account</h3>
+                            <p class="text-muted small">Sign up to get access to EduPredict AI portal</p>
                         </div>
 
                         {% if error %}
@@ -137,35 +137,41 @@
                             <div class="small">{{ error }}</div>
                         </div>
                         {% endif %}
-                        {% if success %}
-                        <div class="alert alert-success d-flex align-items-center rounded-3 mb-4 py-2 px-3" role="alert">
-                            <i class="bi bi-check-circle-fill fs-5 me-2 flex-shrink-0"></i>
-                            <div class="small">{{ success }}</div>
-                        </div>
-                        {% endif %}
 
-                        <form method="post">
+                        <form method="post" action="{{ url_for('signup') }}">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-secondary small">USERNAME</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-person"></i></span>
-                                    <input type="text" name="username" class="form-control border-start-0 ps-0" placeholder="Enter username" required autofocus>
+                                    <input type="text" name="username" class="form-control border-start-0 ps-0" placeholder="Choose a username" value="{{ username or '' }}" required autofocus minlength="3" maxlength="50">
                                 </div>
+                                <div class="form-text text-muted small">At least 3 characters.</div>
                             </div>
-                            <div class="mb-4">
+
+                            <div class="mb-3">
                                 <label class="form-label fw-semibold text-secondary small">PASSWORD</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-lock"></i></span>
-                                    <input type="password" name="password" class="form-control border-start-0 ps-0" placeholder="Enter password" required>
+                                    <input type="password" name="password" class="form-control border-start-0 ps-0" placeholder="Enter password" required minlength="4">
+                                </div>
+                                <div class="form-text text-muted small">At least 4 characters.</div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold text-secondary small">CONFIRM PASSWORD</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-shield-lock"></i></span>
+                                    <input type="password" name="confirm_password" class="form-control border-start-0 ps-0" placeholder="Confirm password" required minlength="4">
                                 </div>
                             </div>
+
                             <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold rounded-3 shadow-sm mb-3">
-                                Sign In <i class="bi bi-arrow-right ms-1"></i>
+                                <i class="bi bi-person-plus me-1"></i> Sign Up
                             </button>
 
                             <div class="text-center">
-                                <span class="text-muted small">Don't have an account?</span>
-                                <a href="{{ url_for('signup') }}" class="small fw-semibold text-primary text-decoration-none ms-1">Sign Up</a>
+                                <span class="text-muted small">Already have an account?</span>
+                                <a href="{{ url_for('login') }}" class="small fw-semibold text-primary text-decoration-none ms-1">Sign In</a>
                             </div>
                         </form>
                     </div>

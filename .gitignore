@@ -35,6 +35,7 @@ Desktop.ini
 # Temporary tunnel config
 config.yml
 *.log
+public_url.txt
 
 # SQLite Databases
 *.db

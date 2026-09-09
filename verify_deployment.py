@@ -24,12 +24,68 @@ class TestDeploymentReadiness(unittest.TestCase):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Sign In", response.data)
-        self.assertNotIn(b"/signup", response.data)
+        self.assertIn(b"/signup", response.data)
 
-    def test_03b_signup_disabled_and_redirects(self):
-        response = self.client.get("/signup", follow_redirects=False)
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.headers["Location"].endswith("/") or "/login" in response.headers["Location"])
+    def test_03b_signup_page_renders(self):
+        response = self.client.get("/signup")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Create Account", response.data)
+        self.assertIn(b"Sign Up", response.data)
+
+    def test_03c_signup_flow_and_validation(self):
+        import database.db as db_mod
+        test_user = "testuser_reg"
+
+        # Clean up any leftover test user
+        conn = db_mod.get_db()
+        c = conn.cursor()
+        c.execute("DELETE FROM users WHERE username = %s", (test_user,))
+        conn.commit()
+        c.close()
+        conn.close()
+
+        # Test password mismatch
+        mismatch_res = self.client.post("/signup", data={
+            "username": test_user,
+            "password": "password123",
+            "confirm_password": "password456"
+        })
+        self.assertEqual(mismatch_res.status_code, 200)
+        self.assertIn(b"Passwords do not match", mismatch_res.data)
+
+        # Test successful signup
+        success_res = self.client.post("/signup", data={
+            "username": test_user,
+            "password": "password123",
+            "confirm_password": "password123"
+        }, follow_redirects=False)
+        self.assertEqual(success_res.status_code, 302)
+        self.assertTrue(success_res.headers["Location"].startswith("/") and "success=" in success_res.headers["Location"])
+
+        # Test duplicate username rejection
+        duplicate_res = self.client.post("/signup", data={
+            "username": test_user,
+            "password": "password123",
+            "confirm_password": "password123"
+        })
+        self.assertEqual(duplicate_res.status_code, 200)
+        self.assertIn(b"Username already exists", duplicate_res.data)
+
+        # Test login with newly created user
+        login_res = self.client.post("/", data={
+            "username": test_user,
+            "password": "password123"
+        }, follow_redirects=False)
+        self.assertEqual(login_res.status_code, 302)
+        self.assertIn("/dashboard", login_res.headers["Location"])
+
+        # Clean up test user
+        conn = db_mod.get_db()
+        c = conn.cursor()
+        c.execute("DELETE FROM users WHERE username = %s", (test_user,))
+        conn.commit()
+        c.close()
+        conn.close()
 
     def test_04_admin_login(self):
         response = self.client.post("/", data={"username": "admin", "password": "admin123"}, follow_redirects=False)

@@ -40,9 +40,52 @@ def login():
         return render_template("login.html", error="Invalid credentials", success=success)
     return render_template("login.html", success=success)
 
-@app.route("/signup")
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
-    return redirect(url_for("login"))
+    if "user" in session:
+        return redirect(url_for("dashboard"))
+
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+        confirm_password = request.form.get("confirm_password", "")
+
+        if not username or not password or not confirm_password:
+            return render_template("signup.html", error="Please fill in all fields.", username=username)
+
+        if len(username) < 3:
+            return render_template("signup.html", error="Username must be at least 3 characters long.", username=username)
+
+        if len(password) < 4:
+            return render_template("signup.html", error="Password must be at least 4 characters long.", username=username)
+
+        if password != confirm_password:
+            return render_template("signup.html", error="Passwords do not match. Please re-enter.", username=username)
+
+        conn = db()
+        c = conn.cursor()
+        c.execute("SELECT user_id FROM users WHERE LOWER(username) = LOWER(%s)", (username,))
+        existing_user = c.fetchone()
+        if existing_user:
+            c.close()
+            conn.close()
+            return render_template("signup.html", error="Username already exists. Please choose another.", username=username)
+
+        try:
+            c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+            conn.commit()
+        except Exception as e:
+            conn.rollback()
+            c.close()
+            conn.close()
+            app.logger.error("Signup error: %s", e)
+            return render_template("signup.html", error="An error occurred during registration. Please try again.", username=username)
+
+        c.close()
+        conn.close()
+        return redirect(url_for("login", success="Account created successfully! Please sign in."))
+
+    return render_template("signup.html")
 
 @app.route("/dashboard")
 def dashboard():
