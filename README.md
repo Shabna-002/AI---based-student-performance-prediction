@@ -3,12 +3,12 @@
 
 An end-to-end intelligent web application that predicts student academic performance using machine learning algorithms (Random Forest, Decision Tree, Logistic Regression) combined with a relational database (MySQL) and a Flask web interface.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Active%20Public%20Link-success?style=for-the-badge&logo=cloudflare)](https://shopping-messaging-canberra-simulations.trycloudflare.com)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Active%20Public%20Link-success?style=for-the-badge&logo=cloudflare)](https://female-transcription-villas-paragraphs.trycloudflare.com)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge&logo=github)](https://github.com/Shabna-002/AI---based-student-performance-prediction)
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Shabna-002/AI---based-student-performance-prediction)
 
 ### 🌐 Live Public Link:
-👉 **[Open Live EduPredict AI Application](https://shopping-messaging-canberra-simulations.trycloudflare.com)**  
+👉 **[Open Live EduPredict AI Application](https://female-transcription-villas-paragraphs.trycloudflare.com)**  
 * **Default Username:** `admin`  
 * **Default Password:** `admin123`  
 
