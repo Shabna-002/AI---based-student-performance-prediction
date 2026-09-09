@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:7860"
+    environment:
+      - SECRET_KEY=student-ai-production-secret-key
+      - DB_ENGINE=sqlite
+      - PORT=7860
+    restart: unless-stopped
