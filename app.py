@@ -116,19 +116,12 @@ def students():
             (student_name, request.form["department"].strip(), request.form["semester"]),
         )
         conn.commit()
-    sort_by = request.args.get("sort", "id")
-    order = request.args.get("order", "asc").lower()
-    order_sql = "DESC" if order == "desc" else "ASC"
-
-    if sort_by == "name":
-        c.execute(f"SELECT * FROM students ORDER BY LOWER(name) {order_sql}, student_id ASC")
-    else:
-        sort_by = "id"
-        c.execute(f"SELECT * FROM students ORDER BY student_id {order_sql}")
+    # Order strictly by student_id in ascending order only
+    c.execute("SELECT * FROM students ORDER BY student_id ASC")
     rows = c.fetchall()
     c.close()
     conn.close()
-    return render_template("students.html", rows=rows, sort_by=sort_by, order=order)
+    return render_template("students.html", rows=rows)
 
 @app.route("/students/delete/<int:student_id>", methods=["GET", "POST"])
 def delete_student(student_id):

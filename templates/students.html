@@ -48,43 +48,22 @@
             <div class="card shadow-sm">
                 <div class="card-header bg-white py-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
                     <h5 class="mb-0 fw-bold"><i class="bi bi-table text-primary me-2"></i>Student Records</h5>
-                    <div class="d-flex align-items-center gap-2 small">
-                        <span class="text-muted">Order:</span>
-                        <span class="badge bg-light text-primary border border-primary border-opacity-25">
-                            {% if sort_by == 'id' %}
-                                <i class="bi bi-sort-numeric-{{ 'down' if order == 'asc' else 'up-alt' }} me-1"></i>Student ID ({{ 'Ascending' if order == 'asc' else 'Descending' }})
-                            {% else %}
-                                <i class="bi bi-sort-alpha-{{ 'down' if order == 'asc' else 'up-alt' }} me-1"></i>Name ({{ 'A-Z' if order == 'asc' else 'Z-A' }})
-                            {% endif %}
-                        </span>
-                    </div>
+                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-1">
+                        <i class="bi bi-sort-numeric-down me-1"></i>Ordered by Student ID (Ascending)
+                    </span>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
                             <thead>
                                 <tr>
-                                    <th class="ps-4" style="width: 60px;">Sl.</th>
-                                    <th style="width: 150px;">
-                                        <a href="/students?sort=id&order={{ 'desc' if sort_by == 'id' and order == 'asc' else 'asc' }}" class="text-dark text-decoration-none d-inline-flex align-items-center gap-1" title="Toggle Student ID sorting">
-                                            <span class="fw-semibold">Student ID</span>
-                                            {% if sort_by == 'id' %}
-                                                <i class="bi bi-sort-numeric-{{ 'down' if order == 'asc' else 'up-alt' }} text-primary"></i>
-                                            {% else %}
-                                                <i class="bi bi-arrow-down-up text-muted opacity-50 small"></i>
-                                            {% endif %}
-                                        </a>
+                                    <th class="ps-4" style="width: 70px;">Sl.</th>
+                                    <th style="width: 120px;">
+                                        <span class="fw-semibold text-primary d-inline-flex align-items-center gap-1">
+                                            Student ID <i class="bi bi-arrow-up text-primary"></i>
+                                        </span>
                                     </th>
-                                    <th>
-                                        <a href="/students?sort=name&order={{ 'desc' if sort_by == 'name' and order == 'asc' else 'asc' }}" class="text-dark text-decoration-none d-inline-flex align-items-center gap-1" title="Toggle Name sorting">
-                                            <span class="fw-semibold">Name</span>
-                                            {% if sort_by == 'name' %}
-                                                <i class="bi bi-sort-alpha-{{ 'down' if order == 'asc' else 'up-alt' }} text-primary"></i>
-                                            {% else %}
-                                                <i class="bi bi-arrow-down-up text-muted opacity-50 small"></i>
-                                            {% endif %}
-                                        </a>
-                                    </th>
+                                    <th>Name</th>
                                     <th>Department</th>
                                     <th>Semester</th>
                                     <th class="text-end pe-4">Action</th>
@@ -96,10 +75,7 @@
                                     <tr>
                                         <td class="ps-4 text-muted fw-semibold">{{ loop.index }}</td>
                                         <td>
-                                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 font-monospace px-2 py-1">
-                                                <i class="bi bi-person-vcard me-1"></i>STU-{{ "%03d"|format(r[0]) }}
-                                            </span>
-                                            <small class="text-muted ms-1" style="font-size: 0.75rem;">(#{{ r[0] }})</small>
+                                            <span class="badge bg-secondary rounded-pill px-2 py-1 fw-bold">#{{ r[0] }}</span>
                                         </td>
                                         <td class="fw-semibold text-dark">{{ r[1] }}</td>
                                         <td><span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25">{{ r[2] }}</span></td>
