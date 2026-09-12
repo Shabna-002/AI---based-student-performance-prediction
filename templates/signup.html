@@ -67,26 +67,7 @@
         pointer-events: none;
     }
 
-    /* 🤖 Small AI/ML Illustration Card */
-    .ai-ml-graphic-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 1.25rem;
-        padding: 1.25rem;
-        backdrop-filter: blur(12px);
-        box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.5), inset 0 0 25px rgba(99, 102, 241, 0.1);
-        margin: 1.25rem 0;
-        transition: transform 0.35s ease, box-shadow 0.35s ease;
-    }
-    .ai-ml-graphic-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 22px 42px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(129, 140, 248, 0.25);
-    }
-    .ai-svg-illustration {
-        width: 100%;
-        max-height: 145px;
-        filter: drop-shadow(0 10px 20px rgba(79, 70, 229, 0.45));
-    }
+
 
     /* Feature Badges */
     .feature-badge {
@@ -256,54 +237,8 @@
                             </p>
                         </div>
 
-                        <!-- 🤖 Small AI/ML Illustration -->
-                        <div class="ai-ml-graphic-card">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="badge bg-success bg-opacity-20 text-success rounded-pill px-2 py-1 small">
-                                    <i class="bi bi-shield-check me-1"></i> Secure Institutional Registration
-                                </span>
-                                <span class="badge bg-primary bg-opacity-25 text-info rounded-pill px-2 py-1 small">
-                                    Encrypted
-                                </span>
-                            </div>
-                            <svg class="ai-svg-illustration" viewBox="0 0 360 135" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <linearGradient id="aiGradReg" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#818cf8" />
-                                        <stop offset="100%" stop-color="#2563eb" />
-                                    </linearGradient>
-                                    <linearGradient id="goldCapGradReg" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#fbbf24" />
-                                        <stop offset="100%" stop-color="#f59e0b" />
-                                    </linearGradient>
-                                </defs>
-                                <line x1="60" y1="40" x2="180" y2="25" stroke="rgba(99,102,241,0.3)" stroke-width="1.5" stroke-dasharray="3 3" />
-                                <line x1="180" y1="25" x2="300" y2="40" stroke="rgba(99,102,241,0.3)" stroke-width="1.5" stroke-dasharray="3 3" />
-                                <line x1="60" y1="95" x2="180" y2="110" stroke="rgba(99,102,241,0.3)" stroke-width="1.5" stroke-dasharray="3 3" />
-                                <line x1="180" y1="110" x2="300" y2="95" stroke="rgba(99,102,241,0.3)" stroke-width="1.5" stroke-dasharray="3 3" />
-
-                                <!-- Central AI Neural Hub -->
-                                <rect x="145" y="42" width="70" height="42" rx="10" fill="url(#aiGradReg)" stroke="#a5b4fc" stroke-width="1.5" />
-                                <circle cx="180" cy="63" r="13" fill="#1e1b4b" stroke="#38bdf8" stroke-width="1.5" />
-                                <circle cx="180" cy="63" r="4.5" fill="#38bdf8" />
-                                <text x="180" y="56" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="sans-serif">AI</text>
-                                <text x="180" y="74" font-size="6" font-weight="bold" fill="#93c5fd" text-anchor="middle" font-family="sans-serif">CORE</text>
-
-                                <circle cx="60" cy="40" r="14" fill="rgba(15,23,42,0.8)" stroke="#38bdf8" stroke-width="1.5" />
-                                <text x="60" y="44" font-size="9" font-weight="bold" fill="#38bdf8" text-anchor="middle" font-family="sans-serif">USER</text>
-
-                                <circle cx="300" cy="40" r="14" fill="rgba(15,23,42,0.8)" stroke="#10b981" stroke-width="1.5" />
-                                <text x="300" y="44" font-size="9" font-weight="bold" fill="#10b981" text-anchor="middle" font-family="sans-serif">SAFE</text>
-
-                                <circle cx="60" cy="95" r="14" fill="rgba(15,23,42,0.8)" stroke="#f59e0b" stroke-width="1.5" />
-                                <text x="60" y="99" font-size="9" font-weight="bold" fill="#f59e0b" text-anchor="middle" font-family="sans-serif">PASS</text>
-
-                                <circle cx="300" cy="95" r="14" fill="rgba(15,23,42,0.8)" stroke="#818cf8" stroke-width="1.5" />
-                                <text x="300" y="99" font-size="9" font-weight="bold" fill="#818cf8" text-anchor="middle" font-family="sans-serif">AUTH</text>
-                            </svg>
-                        </div>
-
-                        <div class="my-1">
+                        <!-- Highlights -->
+                        <div class="my-auto py-3">
                             <div class="feature-badge">
                                 <i class="bi bi-person-check-fill"></i>
                                 <div>
@@ -311,11 +246,18 @@
                                     <small class="text-white-50">Manage student academic records securely</small>
                                 </div>
                             </div>
-                            <div class="feature-badge mb-0">
+                            <div class="feature-badge">
                                 <i class="bi bi-cpu-fill"></i>
                                 <div>
                                     <strong class="d-block text-white">AI Performance Prediction</strong>
                                     <small class="text-white-50">Accurate machine learning forecasting</small>
+                                </div>
+                            </div>
+                            <div class="feature-badge mb-0">
+                                <i class="bi bi-shield-check"></i>
+                                <div>
+                                    <strong class="d-block text-white">Encrypted & Certified</strong>
+                                    <small class="text-white-50">Safe, institutional role-based access</small>
                                 </div>
                             </div>
                         </div>
