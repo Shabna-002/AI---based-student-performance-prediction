@@ -1,60 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}Sign In - AI Student Performance{% endblock %}
+{% block title %}Sign In - EduPredict AI{% endblock %}
 
 {% block extra_css %}
 <style>
-    /* 1. 🌌 Dark Blue / Purple Gradient Background */
     body {
-        background: radial-gradient(circle at 15% 18%, rgba(79, 70, 229, 0.38) 0%, transparent 45%),
-                    radial-gradient(circle at 85% 82%, rgba(147, 51, 234, 0.35) 0%, transparent 48%),
-                    radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.22) 0%, transparent 60%),
-                    linear-gradient(135deg, #070913 0%, #0f172a 30%, #1e1b4b 68%, #2e1065 100%) !important;
+        background: radial-gradient(circle at 12% 18%, rgba(37, 99, 235, 0.22) 0%, transparent 45%),
+                    radial-gradient(circle at 88% 82%, rgba(14, 165, 233, 0.18) 0%, transparent 45%),
+                    linear-gradient(135deg, #090d16 0%, #0f172a 45%, #1e293b 100%) !important;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        position: relative;
-        overflow-x: hidden;
     }
     main {
         flex: 1;
         display: flex;
         align-items: center;
-        padding-top: 2.5rem !important;
-        padding-bottom: 2.5rem !important;
-        position: relative;
-        z-index: 2;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
     }
-
-    /* 2. 🪟 Glassmorphism Login Card & 🔄 Smooth Page Transitions */
     .auth-container {
-        border-radius: 1.75rem;
-        background: rgba(255, 255, 255, 0.94) !important;
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.45);
-        box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.7), 0 0 35px rgba(99, 102, 241, 0.28);
+        border-radius: 1.5rem;
+        box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
         overflow: hidden;
-        animation: cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        background-color: #ffffff;
     }
-    @keyframes cardEntrance {
-        from {
-            opacity: 0;
-            transform: translateY(24px) scale(0.98);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-    }
-
-    /* Left Hero Panel */
     .auth-hero {
-        background: linear-gradient(145deg, #090e1a 0%, #171c38 45%, #1e1b4b 100%);
+        background: linear-gradient(145deg, #0f172a 0%, #1e3a8a 100%);
         color: #ffffff;
         position: relative;
-        padding: 3.25rem 2.75rem;
-        overflow: hidden;
+        padding: 3.25rem 3rem;
     }
     .auth-hero::before {
         content: "";
@@ -63,151 +38,29 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(circle at top right, rgba(129, 140, 248, 0.28) 0%, transparent 65%);
+        background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.25) 0%, transparent 70%);
         pointer-events: none;
     }
-
-
-    /* ⚡ AI Student Performance Branding Logo */
-    .brand-logo-box {
-        width: 50px;
-        height: 50px;
-        border-radius: 14px;
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.28) 0%, rgba(99, 102, 241, 0.3) 100%);
-        border: 1px solid rgba(245, 158, 11, 0.55);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 0 22px rgba(245, 158, 11, 0.35);
-        flex-shrink: 0;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .brand-logo-box:hover {
-        transform: scale(1.08) rotate(4deg);
-        box-shadow: 0 0 30px rgba(245, 158, 11, 0.6);
-    }
-    .brand-logo-box i {
-        font-size: 1.65rem;
-        color: #fbbf24;
-        filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.8));
-    }
-
-    /* Feature Badges */
     .feature-badge {
         display: flex;
         align-items: center;
-        gap: 0.85rem;
-        padding: 0.7rem 0.95rem;
-        background: rgba(255, 255, 255, 0.06);
+        gap: 0.9rem;
+        padding: 0.8rem 1rem;
+        background: rgba(255, 255, 255, 0.07);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 0.85rem;
-        font-size: 0.88rem;
+        font-size: 0.9rem;
         backdrop-filter: blur(8px);
-        margin-bottom: 0.75rem;
-        transition: transform 0.22s ease, background 0.22s ease;
-    }
-    .feature-badge:hover {
-        transform: translateX(4px);
-        background: rgba(255, 255, 255, 0.11);
+        margin-bottom: 0.85rem;
     }
     .feature-badge i {
-        font-size: 1.25rem;
-        color: #818cf8;
+        font-size: 1.3rem;
+        color: #60a5fa;
     }
-
-    /* Right Form Side */
     .auth-form-side {
         padding: 3.5rem 3rem;
-        background-color: transparent;
-    }
-
-    /* 👤 🔒 Animated Username & Password Inputs */
-    .input-group-animated {
-        border-radius: 0.65rem;
-        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        border: 1px solid #cbd5e1;
-        overflow: hidden;
         background-color: #ffffff;
     }
-    .input-group-animated:focus-within {
-        border-color: #6366f1 !important;
-        box-shadow: 0 0 0 3.5px rgba(99, 102, 241, 0.2), 0 0 15px rgba(99, 102, 241, 0.25) !important;
-    }
-    .input-group-animated .input-group-text {
-        background-color: transparent;
-        border: none;
-        color: #94a3b8;
-        transition: color 0.25s ease, transform 0.25s ease;
-    }
-    .input-group-animated:focus-within .input-group-text i {
-        color: #6366f1 !important;
-        transform: scale(1.18);
-    }
-    .input-group-animated .form-control {
-        border: none;
-        box-shadow: none !important;
-        padding: 0.75rem 0.5rem;
-        font-size: 0.95rem;
-    }
-
-    /* Password Show/Hide Toggle Button */
-    .btn-toggle-pwd {
-        border: none;
-        background: transparent;
-        color: #94a3b8;
-        cursor: pointer;
-        transition: color 0.2s ease, transform 0.2s ease;
-        padding-right: 0.9rem;
-    }
-    .btn-toggle-pwd:hover {
-        color: #4f46e5;
-        transform: scale(1.1);
-    }
-
-    /* 🚀 Modern Sign In Button with Hover Animation */
-    .btn-modern-signin {
-        background: linear-gradient(135deg, #4f46e5 0%, #2563eb 50%, #06b6d4 100%);
-        color: #ffffff;
-        border: none;
-        padding: 0.75rem 1.25rem;
-        font-weight: 600;
-        font-size: 1rem;
-        border-radius: 0.65rem;
-        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-        position: relative;
-        overflow: hidden;
-    }
-    .btn-modern-signin::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-        transition: left 0.6s ease;
-    }
-    .btn-modern-signin:hover {
-        color: #ffffff;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(79, 70, 229, 0.5);
-    }
-    .btn-modern-signin:hover::before {
-        left: 100%;
-    }
-    .btn-modern-signin:hover .signin-icon {
-        transform: translateX(4px) translateY(-1px);
-    }
-    .signin-icon {
-        transition: transform 0.25s ease;
-    }
-
-    /* 📱 Fully Responsive For Mobile */
     @media (max-width: 991px) {
         .auth-hero {
             padding: 2.25rem 1.75rem;
@@ -220,21 +73,6 @@
             text-align: left;
         }
     }
-    @media (max-width: 575px) {
-        main {
-            padding-top: 1.5rem !important;
-            padding-bottom: 1.5rem !important;
-        }
-        .auth-container {
-            border-radius: 1.25rem;
-        }
-        .auth-hero {
-            padding: 1.75rem 1.25rem;
-        }
-        .auth-form-side {
-            padding: 2rem 1.25rem;
-        }
-    }
 </style>
 {% endblock %}
 
@@ -242,33 +80,22 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-11 col-xl-10">
-            <!-- 🪟 Glassmorphism Login Card -->
-            <div class="auth-container glow-border">
+            <div class="auth-container">
                 <div class="row g-0">
-                    <!-- Left Side: ⚡ AI Student Performance Branding/Logo -->
+                    <!-- Left Side: Project Branding & Academic Features -->
                     <div class="col-12 col-lg-6 auth-hero d-flex flex-column justify-content-between">
                         <div>
-                            <!-- ⚡ Branding / Logo Badge -->
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <div class="brand-logo-box">
-                                    <i class="bi bi-lightning-charge-fill"></i>
-                                </div>
-                                <div>
-                                    <div class="d-inline-flex align-items-center gap-1 px-2 py-0.5 bg-warning bg-opacity-10 rounded-pill border border-warning border-opacity-30 mb-1">
-                                        <span class="text-warning small fw-bold" style="font-size: 0.75rem;">⚡ AI Student Performance</span>
-                                    </div>
-                                    <h2 class="display-6 fw-bold mb-0 text-white">
-                                        <span class="gradient-text-accent">AI Student Performance</span>
-                                    </h2>
-                                </div>
+                            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-primary bg-opacity-25 rounded-pill border border-primary border-opacity-25 mb-4">
+                                <i class="bi bi-mortarboard-fill text-primary"></i>
+                                <span class="small fw-semibold text-white">Academic Analytics Portal</span>
                             </div>
-                            <p class="text-white-50 small leading-relaxed mb-2">
-                                Intelligent predictive analytics and machine learning academic trajectory monitoring.
+                            <h2 class="display-6 fw-bold mb-3 text-white">EduPredict AI</h2>
+                            <p class="text-white-50 leading-relaxed mb-4">
+                                Intelligent student performance monitoring and machine learning predictive analytics system.
                             </p>
                         </div>
 
-                        <!-- Highlights -->
-                        <div class="my-auto py-3">
+                        <div class="my-2">
                             <div class="feature-badge">
                                 <i class="bi bi-cpu-fill"></i>
                                 <div>
@@ -277,35 +104,31 @@
                                 </div>
                             </div>
                             <div class="feature-badge">
-                                <i class="bi bi-shield-check"></i>
+                                <i class="bi bi-database-fill-check"></i>
                                 <div>
-                                    <strong class="d-block text-white">Early Academic Intervention</strong>
-                                    <small class="text-white-50">Timely student guidance & mentoring</small>
+                                    <strong class="d-block text-white">Database Management</strong>
+                                    <small class="text-white-50">Student record tracking & CRUD management</small>
                                 </div>
                             </div>
                             <div class="feature-badge mb-0">
-                                <i class="bi bi-graph-up-arrow"></i>
+                                <i class="bi bi-shield-check"></i>
                                 <div>
-                                    <strong class="d-block text-white">Real-Time Analytics</strong>
-                                    <small class="text-white-50">Instant risk classification & trajectory tracking</small>
+                                    <strong class="d-block text-white">Early Academic Intervention</strong>
+                                    <small class="text-white-50">Risk classification for timely mentoring</small>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="pt-3 text-white-50 small border-top border-white border-opacity-10 mt-3">
-                            <i class="bi bi-lock-fill me-1"></i> Institutional Role-Based Access
+                        <div class="pt-4 text-white-50 small border-top border-white border-opacity-10 mt-4">
+                            <i class="bi bi-lock-fill me-1"></i> Secure Institutional Access
                         </div>
                     </div>
 
                     <!-- Right Side: Portal Sign In Form -->
                     <div class="col-12 col-lg-6 auth-form-side d-flex flex-column justify-content-center">
                         <div class="mb-4">
-                            <div class="d-inline-flex align-items-center gap-2 mb-2 px-2.5 py-1 bg-primary bg-opacity-10 rounded-pill">
-                                <i class="bi bi-lightning-charge-fill text-warning"></i>
-                                <span class="fw-bold small text-primary" style="letter-spacing: 0.03em;">AI Student Performance</span>
-                            </div>
-                            <h3 class="fw-bold text-dark mb-1"><span class="gradient-text">Sign In</span></h3>
-                            <p class="text-muted small">Enter your credentials to access the AI performance portal</p>
+                            <h3 class="fw-bold text-dark mb-1">Sign In</h3>
+                            <p class="text-muted small">Enter your credentials to access the portal</p>
                         </div>
 
                         {% if error %}
@@ -322,44 +145,27 @@
                         {% endif %}
 
                         <form method="post">
-                            <!-- 👤 Animated Username / Email Field -->
                             <div class="mb-3">
-                                <label class="form-label fw-semibold text-secondary small">USERNAME OR EMAIL</label>
-                                <div class="input-group input-group-animated">
-                                    <span class="input-group-text ps-3"><i class="bi bi-person-fill"></i></span>
-                                    <input type="text" name="username" class="form-control ps-2" placeholder="Enter username or institutional email" required autofocus>
+                                <label class="form-label fw-semibold text-secondary small">USERNAME</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-person"></i></span>
+                                    <input type="text" name="username" class="form-control border-start-0 ps-0" placeholder="Enter username" required autofocus>
                                 </div>
                             </div>
-
-                            <!-- 🔒 Password Field + Show/Hide Icon -->
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label class="form-label fw-semibold text-secondary small">PASSWORD</label>
-                                <div class="input-group input-group-animated">
-                                    <span class="input-group-text ps-3"><i class="bi bi-lock-fill"></i></span>
-                                    <input type="password" name="password" id="passwordInput" class="form-control ps-2" placeholder="Enter your password" required>
-                                    <button type="button" class="btn-toggle-pwd" id="togglePasswordBtn" title="Show or hide password" aria-label="Toggle password visibility">
-                                        <i class="bi bi-eye-fill" id="togglePasswordIcon"></i>
-                                    </button>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-lock"></i></span>
+                                    <input type="password" name="password" class="form-control border-start-0 ps-0" placeholder="Enter password" required>
                                 </div>
                             </div>
-
-                            <!-- 🔑 Forgot Password -->
-                            <div class="d-flex justify-content-end align-items-center mb-4">
-                                <a href="javascript:void(0)" onclick="alert('Please contact your department administrator to reset your credentials.');" class="small text-decoration-none text-primary fw-semibold">
-                                    Forgot Password?
-                                </a>
-                            </div>
-
-                            <!-- 🚀 Modern Sign In Button with Hover Animation -->
-                            <button type="submit" class="btn-modern-signin w-100 mb-4">
-                                <span>Sign In</span>
-                                <i class="bi bi-arrow-right signin-icon fs-5"></i>
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold rounded-3 shadow-sm mb-3">
+                                Sign In <i class="bi bi-arrow-right ms-1"></i>
                             </button>
 
-                            <!-- 📝 “Don’t have an account? Create Account” -->
-                            <div class="text-center pt-2 border-top">
-                                <span class="text-muted small">Don’t have an account?</span>
-                                <a href="{{ url_for('signup') }}" class="small fw-semibold text-primary text-decoration-none ms-1">Create Account</a>
+                            <div class="text-center">
+                                <span class="text-muted small">Don't have an account?</span>
+                                <a href="{{ url_for('signup') }}" class="small fw-semibold text-primary text-decoration-none ms-1">Sign Up</a>
                             </div>
                         </form>
                     </div>
@@ -368,24 +174,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    // 🔒 Password Show/Hide Toggle
-    document.addEventListener('DOMContentLoaded', () => {
-        const toggleBtn = document.getElementById('togglePasswordBtn');
-        const passwordInput = document.getElementById('passwordInput');
-        const toggleIcon = document.getElementById('togglePasswordIcon');
-
-        if (toggleBtn && passwordInput && toggleIcon) {
-            toggleBtn.addEventListener('click', () => {
-                const isPassword = passwordInput.getAttribute('type') === 'password';
-                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
-                toggleIcon.classList.toggle('bi-eye-fill', !isPassword);
-                toggleIcon.classList.toggle('bi-eye-slash-fill', isPassword);
-            });
-        }
-    });
-</script>
 {% endblock %}
