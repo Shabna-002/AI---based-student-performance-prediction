@@ -4,14 +4,34 @@
 
 {% block content %}
 <div class="container">
-    <!-- Page Header -->
-    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 pb-2 border-bottom">
-        <div>
-            <h2 class="fw-bold mb-0">AI Performance Prediction</h2>
+    <!-- AI Performance Prediction Header Card -->
+    <div class="card shadow-sm border-0 mb-4 text-white" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div>
+                    <span class="badge bg-white bg-opacity-25 text-white px-3 py-1 rounded-pill mb-2 fw-semibold">
+                        <i class="bi bi-cpu-fill me-1"></i> Machine Learning Predictive System
+                    </span>
+                    <h2 class="fw-bold mb-1">AI Performance Prediction</h2>
+                    <p class="text-white-50 mb-0">Multi-factor academic evaluation using Random Forest classification model.</p>
+                </div>
+                <a href="/dashboard" class="btn btn-light btn-sm px-3 rounded-pill fw-semibold">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Overview
+                </a>
+            </div>
+
+            <!-- Key Evaluated Academic Features -->
+            <div class="pt-3 border-top border-white border-opacity-20">
+                <div class="small fw-semibold text-uppercase tracking-wider text-white-50 mb-2">Evaluated Academic Features:</div>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="badge bg-white bg-opacity-15 text-white px-3 py-2 rounded-pill"><i class="bi bi-file-earmark-text me-1"></i> Previous Exam Marks</span>
+                    <span class="badge bg-white bg-opacity-15 text-white px-3 py-2 rounded-pill"><i class="bi bi-check2-all me-1"></i> Assignment Completion</span>
+                    <span class="badge bg-white bg-opacity-15 text-white px-3 py-2 rounded-pill"><i class="bi bi-flask me-1"></i> Lab/Practical Marks</span>
+                    <span class="badge bg-white bg-opacity-15 text-white px-3 py-2 rounded-pill"><i class="bi bi-laptop me-1"></i> Project Marks</span>
+                    <span class="badge bg-white bg-opacity-15 text-white px-3 py-2 rounded-pill"><i class="bi bi-mortarboard me-1"></i> Previous Academic Performance</span>
+                </div>
+            </div>
         </div>
-        <a href="/dashboard" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left me-1"></i> Back to Overview
-        </a>
     </div>
 
     <div class="row g-4">
@@ -33,34 +53,50 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-secondary">ATTENDANCE (%)</label>
+                                <label class="form-label fw-semibold small text-secondary">PREVIOUS EXAM MARKS</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-calendar-check"></i></span>
-                                    <input type="number" step="0.1" name="attendance" class="form-control" placeholder="0 - 100" min="0" max="100" required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-secondary">INTERNAL MARKS</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-clipboard2-check"></i></span>
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-file-earmark-text"></i></span>
                                     <input type="number" step="0.1" name="internal" class="form-control" placeholder="0 - 100" min="0" max="100" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-secondary">ASSIGNMENT MARKS</label>
+                                <label class="form-label fw-semibold small text-secondary">ASSIGNMENT COMPLETION (%)</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-journal-text"></i></span>
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-journal-check"></i></span>
                                     <input type="number" step="0.1" name="assignment" class="form-control" placeholder="0 - 100" min="0" max="100" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-secondary">PREVIOUS GPA</label>
+                                <label class="form-label fw-semibold small text-secondary">LAB / PRACTICAL MARKS</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-flask"></i></span>
+                                    <input type="number" step="0.1" name="lab_marks" class="form-control" placeholder="0 - 100 (e.g. 80)" min="0" max="100">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-secondary">PROJECT MARKS</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-laptop"></i></span>
+                                    <input type="number" step="0.1" name="project_marks" class="form-control" placeholder="0 - 100 (e.g. 85)" min="0" max="100">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-secondary">PREVIOUS ACADEMIC PERFORMANCE (GPA)</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light text-muted"><i class="bi bi-star"></i></span>
                                     <input type="number" step="0.01" name="gpa" class="form-control" placeholder="0.00 - 10.00" min="0" max="10" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-secondary">ATTENDANCE (%)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-calendar-check"></i></span>
+                                    <input type="number" step="0.1" name="attendance" class="form-control" placeholder="0 - 100" min="0" max="100" required>
                                 </div>
                             </div>
 

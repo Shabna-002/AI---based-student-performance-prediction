@@ -180,7 +180,23 @@ def predict():
         except ValueError:
             student_id = 1
 
-        features = [float(request.form[k]) for k in ["attendance", "internal", "assignment", "gpa", "failures"]]
+        # Retrieve academic parameters
+        attendance = float(request.form.get("attendance", 85.0))
+        exam_marks = float(request.form.get("internal", request.form.get("previous_exam", 0)))
+        lab_marks = float(request.form.get("lab_marks", 0) or 0)
+        project_marks = float(request.form.get("project_marks", 0) or 0)
+
+        # If lab & project marks are provided, factor them into internal evaluation
+        if lab_marks > 0 or project_marks > 0:
+            internal_val = round((exam_marks * 0.6) + (lab_marks * 0.2) + (project_marks * 0.2), 2)
+        else:
+            internal_val = exam_marks
+
+        assignment = float(request.form.get("assignment", 0))
+        gpa = float(request.form.get("gpa", 0))
+        failures = float(request.form.get("failures", 0))
+
+        features = [attendance, internal_val, assignment, gpa, failures]
         v = pd.DataFrame([features], columns=["attendance", "internal", "assignment", "gpa", "failures"])
         m = joblib.load(MODEL_PATH)
         pred = m.predict(v)[0]
