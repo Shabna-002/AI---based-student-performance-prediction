@@ -3,12 +3,12 @@
 
 An end-to-end intelligent web application that predicts student academic performance using machine learning algorithms (Random Forest, Decision Tree, Logistic Regression) combined with a relational database (MySQL) and a Flask web interface.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Active%20Public%20Link-success?style=for-the-badge&logo=cloudflare)](https://something-emails-textile-impressive.trycloudflare.com)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render%20Cloud-success?style=for-the-badge&logo=render)](https://ai-student-performance-qfua.onrender.com)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge&logo=github)](https://github.com/Shabna-002/AI---based-student-performance-prediction)
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Shabna-002/AI---based-student-performance-prediction)
 
-### 🌐 Live Public Link:
-👉 **[Open Live EduPredict AI Application](https://something-emails-textile-impressive.trycloudflare.com)**  
+### 🌐 Live Public Website:
+👉 **[https://ai-student-performance-qfua.onrender.com](https://ai-student-performance-qfua.onrender.com)**  
 * **Default Username:** `admin`  
 * **Default Password:** `admin123`  
 
