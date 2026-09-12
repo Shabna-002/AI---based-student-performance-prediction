@@ -26,47 +26,7 @@
         z-index: 2;
     }
 
-    /* 2. ✨ Subtle Animated Floating Academic Particles */
-    .academic-particles-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 1;
-        overflow: hidden;
-    }
-    .academic-particle {
-        position: absolute;
-        color: rgba(165, 180, 252, 0.28);
-        filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.45));
-        animation: floatAcademicParticle 14s linear infinite;
-        user-select: none;
-    }
-    .particle-1 { top: 12%; left: 8%; font-size: 2rem; animation-duration: 12s; animation-delay: 0s; }
-    .particle-2 { top: 75%; left: 6%; font-size: 1.6rem; animation-duration: 16s; animation-delay: -3s; }
-    .particle-3 { top: 20%; right: 9%; font-size: 2.2rem; animation-duration: 15s; animation-delay: -5s; }
-    .particle-4 { top: 80%; right: 7%; font-size: 1.7rem; animation-duration: 13s; animation-delay: -2s; }
-    .particle-5 { top: 48%; left: 3%; font-size: 1.4rem; animation-duration: 18s; animation-delay: -7s; }
-    .particle-6 { top: 50%; right: 3%; font-size: 1.5rem; animation-duration: 17s; animation-delay: -9s; }
-
-    @keyframes floatAcademicParticle {
-        0% {
-            transform: translateY(0) rotate(0deg);
-            opacity: 0.25;
-        }
-        50% {
-            transform: translateY(-28px) rotate(12deg);
-            opacity: 0.6;
-        }
-        100% {
-            transform: translateY(0) rotate(0deg);
-            opacity: 0.25;
-        }
-    }
-
-    /* 3. 🪟 Glassmorphism Login Card & 🔄 Smooth Page Transitions */
+    /* 2. 🪟 Glassmorphism Login Card & 🔄 Smooth Page Transitions */
     .auth-container {
         border-radius: 1.75rem;
         background: rgba(255, 255, 255, 0.94) !important;
@@ -245,9 +205,6 @@
 
     /* 📱 Fully Responsive For Mobile */
     @media (max-width: 991px) {
-        .academic-particle {
-            display: none !important;
-        }
         .auth-hero {
             padding: 2.25rem 1.75rem;
             text-align: center;
@@ -278,16 +235,6 @@
 {% endblock %}
 
 {% block content %}
-<!-- ✨ Subtle Animated Floating Academic Particles -->
-<div class="academic-particles-container">
-    <div class="academic-particle particle-1"><i class="bi bi-graph-up"></i></div>
-    <div class="academic-particle particle-2"><i class="bi bi-book-half"></i></div>
-    <div class="academic-particle particle-3"><i class="bi bi-award-fill"></i></div>
-    <div class="academic-particle particle-4"><i class="bi bi-cpu-fill"></i></div>
-    <div class="academic-particle particle-5"><i class="bi bi-pencil-fill"></i></div>
-    <div class="academic-particle particle-6"><i class="bi bi-lightbulb-fill"></i></div>
-</div>
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-11 col-xl-10">
@@ -424,14 +371,8 @@
                                 </div>
                             </div>
 
-                            <!-- ☑️ Remember Me & 🔑 Forgot Password -->
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
-                                    <label class="form-check-label text-muted small user-select-none" for="rememberMe">
-                                        Remember Me
-                                    </label>
-                                </div>
+                            <!-- 🔑 Forgot Password -->
+                            <div class="d-flex justify-content-end align-items-center mb-4">
                                 <a href="javascript:void(0)" onclick="alert('Please contact your department administrator to reset your credentials.');" class="small text-decoration-none text-primary fw-semibold">
                                     Forgot Password?
                                 </a>
