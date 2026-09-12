@@ -182,7 +182,15 @@ def predict():
 
         # Retrieve academic parameters
         attendance = float(request.form.get("attendance", 85.0))
-        exam_marks = float(request.form.get("internal", request.form.get("previous_exam", 0)))
+        internal_raw = request.form.get("internal")
+        prev_exam_raw = request.form.get("previous_exam")
+        if internal_raw is not None and str(internal_raw).strip() != "":
+            exam_marks = float(internal_raw)
+        elif prev_exam_raw is not None and str(prev_exam_raw).strip() != "":
+            exam_marks = float(prev_exam_raw)
+        else:
+            exam_marks = 0.0
+
         lab_marks = float(request.form.get("lab_marks", 0) or 0)
         project_marks = float(request.form.get("project_marks", 0) or 0)
 
