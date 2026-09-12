@@ -2,104 +2,78 @@
 
 {% block title %}AI Prediction - EduPredict AI{% endblock %}
 
-{% block extra_css %}
-<style>
-    .prediction-glow-high {
-        box-shadow: 0 0 35px rgba(52, 211, 153, 0.3), inset 0 0 15px rgba(52, 211, 153, 0.1) !important;
-        border-color: rgba(52, 211, 153, 0.5) !important;
-    }
-    .prediction-glow-average {
-        box-shadow: 0 0 35px rgba(251, 191, 36, 0.3), inset 0 0 15px rgba(251, 191, 36, 0.1) !important;
-        border-color: rgba(251, 191, 36, 0.5) !important;
-    }
-    .prediction-glow-low {
-        box-shadow: 0 0 35px rgba(244, 63, 94, 0.3), inset 0 0 15px rgba(244, 63, 94, 0.1) !important;
-        border-color: rgba(244, 63, 94, 0.5) !important;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="container py-2">
-    <!-- Page Header (Reveal on scroll) -->
-    <div class="reveal-on-scroll d-flex flex-wrap align-items-center justify-content-between mb-4 pb-3 border-bottom border-white border-opacity-10">
+<div class="container">
+    <!-- Page Header -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 pb-2 border-bottom">
         <div>
-            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-info bg-opacity-10 border border-info border-opacity-25 rounded-pill mb-2">
-                <span class="pulse-dot"></span>
-                <span class="small fw-semibold text-info">Random Forest Inference Engine</span>
-            </div>
-            <h2 class="fw-bold mb-0">
-                <i class="bi bi-cpu text-info me-2"></i><span class="gradient-text">AI Performance Prediction</span>
-            </h2>
+            <h2 class="fw-bold mb-0">AI Performance Prediction</h2>
         </div>
-        <a href="/dashboard" class="btn btn-outline-secondary btn-sm px-3 py-2">
+        <a href="/dashboard" class="btn btn-outline-secondary btn-sm">
             <i class="bi bi-arrow-left me-1"></i> Back to Overview
         </a>
     </div>
 
     <div class="row g-4">
-        <!-- Prediction Form Card (3D Tilt Card & Glassmorphic) -->
-        <div class="col-12 col-lg-7 reveal-on-scroll stagger-1">
-            <div class="card tilt-card glow-border h-100">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0 fw-bold">
-                        <i class="bi bi-sliders text-info me-2"></i>Student Academic Parameters
-                    </h5>
-                    <span class="badge bg-white bg-opacity-10 text-muted">Inputs Required</span>
+        <!-- Prediction Form -->
+        <div class="col-12 col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-sliders text-primary me-2"></i>Student Academic Parameters</h5>
                 </div>
                 <div class="card-body p-4">
                     <form method="post">
                         <div class="row g-3">
                             <div class="col-12">
-                                <label class="form-label fw-semibold small text-muted">STUDENT ID</label>
+                                <label class="form-label fw-semibold small text-secondary">STUDENT ID</label>
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-hash"></i></span>
                                     <input type="number" name="student_id" class="form-control" placeholder="Enter Student ID (e.g. 1)" value="{{ request.args.get('student_id', '') }}" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-muted">ATTENDANCE (%)</label>
+                                <label class="form-label fw-semibold small text-secondary">ATTENDANCE (%)</label>
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-calendar-check"></i></span>
                                     <input type="number" step="0.1" name="attendance" class="form-control" placeholder="0 - 100" min="0" max="100" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-muted">INTERNAL MARKS</label>
+                                <label class="form-label fw-semibold small text-secondary">INTERNAL MARKS</label>
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-clipboard2-check"></i></span>
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-clipboard2-check"></i></span>
                                     <input type="number" step="0.1" name="internal" class="form-control" placeholder="0 - 100" min="0" max="100" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-muted">ASSIGNMENT MARKS</label>
+                                <label class="form-label fw-semibold small text-secondary">ASSIGNMENT MARKS</label>
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-journal-text"></i></span>
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-journal-text"></i></span>
                                     <input type="number" step="0.1" name="assignment" class="form-control" placeholder="0 - 100" min="0" max="100" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-muted">PREVIOUS GPA</label>
+                                <label class="form-label fw-semibold small text-secondary">PREVIOUS GPA</label>
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-star"></i></span>
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-star"></i></span>
                                     <input type="number" step="0.01" name="gpa" class="form-control" placeholder="0.00 - 10.00" min="0" max="10" required>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label fw-semibold small text-muted">PREVIOUS FAILURES / BACKLOGS</label>
+                                <label class="form-label fw-semibold small text-secondary">PREVIOUS FAILURES / BACKLOGS</label>
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-exclamation-octagon"></i></span>
+                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-exclamation-octagon"></i></span>
                                     <input type="number" name="failures" class="form-control" placeholder="0, 1, 2..." min="0" value="0" required>
                                 </div>
                             </div>
 
                             <div class="col-12 pt-2">
-                                <button type="submit" class="btn btn-primary w-100 py-3 fw-semibold">
+                                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
                                     <i class="bi bi-magic me-1"></i> Analyze & Predict Performance
                                 </button>
                             </div>
@@ -109,65 +83,63 @@
             </div>
         </div>
 
-        <!-- Result Card / Guidance (Reveal on scroll) -->
-        <div class="col-12 col-lg-5 reveal-on-scroll stagger-2">
+        <!-- Result Card / Guidance -->
+        <div class="col-12 col-lg-5">
             {% if result %}
-            <div class="card tilt-card h-100 {% if result[0] == 'High' %}prediction-glow-high{% elif result[0] == 'Average' %}prediction-glow-average{% else %}prediction-glow-low{% endif %}">
-                <div class="card-header py-3 text-center border-bottom border-white border-opacity-10">
-                    <h5 class="mb-0 fw-bold">
-                        <i class="bi bi-stars me-1 text-info"></i> AI Prediction Result
-                    </h5>
+            <div class="card shadow-sm border-0 overflow-hidden">
+                <div class="card-header py-3 text-white text-center {% if result[0] == 'High' %}bg-success{% elif result[0] == 'Average' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-check2-circle me-1"></i> Prediction Outcome</h5>
                 </div>
                 <div class="card-body p-4 text-center">
-                    <small class="text-uppercase fw-bold text-muted tracking-wider">Predicted Performance Level</small>
-                    <h1 class="display-4 fw-bold my-3 {% if result[0] == 'High' %}gradient-text-emerald{% elif result[0] == 'Average' %}gradient-text-amber{% else %}text-danger{% endif %}">
+                    <small class="text-uppercase fw-semibold text-muted">Predicted Performance Level</small>
+                    <h1 class="display-5 fw-bold my-2 {% if result[0] == 'High' %}text-success{% elif result[0] == 'Average' %}text-warning{% else %}text-danger{% endif %}">
                         {{ result[0] }}
                     </h1>
 
-                    <div class="my-4 p-3 bg-white bg-opacity-5 rounded-3 border border-white border-opacity-10">
-                        <div class="d-flex justify-content-between mb-2 small fw-semibold">
-                            <span class="text-muted">Model Confidence</span>
-                            <span class="text-white">{{ result[1] }}%</span>
+                    <div class="my-4 p-3 bg-light rounded-3 border">
+                        <div class="d-flex justify-content-between mb-1 small fw-semibold">
+                            <span>Model Confidence</span>
+                            <span>{{ result[1] }}%</span>
                         </div>
-                        <div class="progress" style="height: 12px; background: rgba(255,255,255,0.08); border-radius: 6px;">
+                        <div class="progress" style="height: 10px;">
                             <div class="progress-bar {% if result[0] == 'High' %}bg-success{% elif result[0] == 'Average' %}bg-warning{% else %}bg-danger{% endif %} progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ result[1] }}%;"></div>
                         </div>
                     </div>
 
-                    <div class="text-start p-3 rounded-3 border {% if result[0] == 'High' %}bg-success bg-opacity-10 border-success border-opacity-30 text-light{% elif result[0] == 'Average' %}bg-warning bg-opacity-10 border-warning border-opacity-30 text-light{% else %}bg-danger bg-opacity-10 border-danger border-opacity-30 text-light{% endif %}">
+                    <div class="text-start p-3 rounded-3 border {% if result[0] == 'High' %}bg-success bg-opacity-10 border-success{% elif result[0] == 'Average' %}bg-warning bg-opacity-10 border-warning{% else %}bg-danger bg-opacity-10 border-danger{% endif %}">
                         <strong class="d-block mb-1">
                             <i class="bi bi-info-circle-fill me-1"></i>
-                            {% if result[0] == 'High' %}Excellent Academic Trajectory
-                            {% elif result[0] == 'Average' %}Stable Academic Trajectory
+                            {% if result[0] == 'High' %}Excellent Student Trajectory
+                            {% elif result[0] == 'Average' %}Stable Student Trajectory
                             {% else %}At-Risk Academic Warning
                             {% endif %}
                         </strong>
-                        <p class="small mb-0 text-white-50">
+                        <p class="small mb-0">
                             {% if result[0] == 'High' %}
-                            Student demonstrates high consistency and strong foundational scores. Recommended for advanced projects, leadership initiatives, and peer-mentoring.
+                            Student demonstrates high consistency and strong foundational scores. Recommended for honors projects and peer-tutoring.
                             {% elif result[0] == 'Average' %}
-                            Student is performing steadily. Regular monitoring of assignment completion and exam attendance will help them progress to distinction.
+                            Student is performing steadily. Regular monitoring of assignment completion and attendance will help them progress to higher grades.
                             {% else %}
-                            Student falls in the lower performance bracket. Immediate remedial mentorship, attendance intervention, and assignment counseling recommended.
+                            Student is falling in the low performance bracket. Immediate remedial mentorship, attendance intervention, and assignment support recommended.
                             {% endif %}
                         </p>
                     </div>
 
                     <div class="mt-4">
-                        <a href="/predict" class="btn btn-outline-secondary w-100 py-2 btn-sm">
+                        <a href="/predict" class="btn btn-outline-secondary w-100 btn-sm">
                             <i class="bi bi-arrow-repeat me-1"></i> Perform Another Prediction
                         </a>
                     </div>
                 </div>
             </div>
             {% else %}
-            <div class="card tilt-card glow-border text-center p-5 h-100 d-flex flex-column justify-content-center align-items-center">
-                <div class="kpi-icon bg-info bg-opacity-15 text-info border border-info border-opacity-25 mb-3" style="width: 70px; height: 70px; font-size: 2rem;">
-                    <i class="bi bi-cpu"></i>
+            <div class="card shadow-sm border-dashed text-center p-5 h-100 d-flex flex-column justify-content-center">
+                <div class="text-muted mb-3">
+                    <i class="bi bi-cpu fs-1 text-primary"></i>
                 </div>
-                <h4 class="fw-bold text-white mb-2">Ready for Prediction</h4>
-                <p class="text-muted small mb-0" style="max-width: 320px;">
-                    Fill out the student's academic metrics on the left and click <strong>Analyze & Predict Performance</strong> to view real-time ML evaluation and confidence metrics.
+                <h5 class="fw-bold text-dark">Ready for Prediction</h5>
+                <p class="text-muted small mb-0">
+                    Fill out the student's academic metrics on the left and click <strong>Analyze & Predict Performance</strong> to view real-time ML evaluation.
                 </p>
             </div>
             {% endif %}

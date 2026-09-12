@@ -2,176 +2,78 @@
 
 {% block title %}Student Performance Analytics - EduPredict AI{% endblock %}
 
-{% block extra_css %}
-<style>
-    .kpi-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.75rem;
-        transition: transform 0.3s ease;
-    }
-    .tilt-card:hover .kpi-icon {
-        transform: scale(1.1) rotate(6deg);
-    }
-    .chart-container-card {
-        position: relative;
-        min-height: 320px;
-    }
-    .chart-badge {
-        font-size: 0.75rem;
-        padding: 0.35rem 0.75rem;
-        border-radius: 2rem;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="container py-2">
-    <!-- Page Header (Reveal on scroll) -->
-    <div class="reveal-on-scroll d-flex flex-wrap align-items-center justify-content-between mb-4 pb-3 border-bottom border-white border-opacity-10">
+<div class="container">
+    <!-- Page Header -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 pb-2 border-bottom">
         <div>
-            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-info bg-opacity-10 border border-info border-opacity-25 rounded-pill mb-2">
-                <span class="pulse-dot"></span>
-                <span class="small fw-semibold text-info">Real-Time Academic Intelligence</span>
-            </div>
-            <h2 class="fw-bold mb-1">
-                <i class="bi bi-graph-up-arrow text-info me-2"></i><span class="gradient-text">Student Performance Analytics</span>
-            </h2>
+            <h2 class="fw-bold mb-1"><i class="bi bi-graph-up-arrow text-primary me-2"></i>Student Performance Analytics</h2>
             <p class="text-muted mb-0">Overview of student academic records, database management, and AI predictive insights.</p>
         </div>
         <div class="d-flex gap-2 mt-3 mt-md-0">
-            <a href="/students" class="btn btn-outline-primary fw-medium px-3 py-2">
+            <a href="/students" class="btn btn-outline-primary fw-medium">
                 <i class="bi bi-person-plus me-1"></i> Manage Students
             </a>
-            <a href="/predict" class="btn btn-primary fw-medium px-3 py-2">
-                <i class="bi bi-magic me-1"></i> Run AI Prediction
+            <a href="/predict" class="btn btn-primary fw-medium">
+                <i class="bi bi-magic me-1"></i> AI Prediction
             </a>
         </div>
     </div>
 
-    <!-- 7 & 9. Stat KPI Cards (3D Tilt Cards + Animated Counters + Glowing Borders) -->
+    <!-- Stat KPI Cards -->
     <div class="row g-4 mb-4">
-        <!-- Total Students -->
-        <div class="col-12 col-md-4 reveal-on-scroll stagger-1">
-            <div class="card stat-card tilt-card glow-border h-100 p-3">
-                <div class="card-body p-3 d-flex align-items-center">
-                    <div class="kpi-icon bg-primary bg-opacity-20 text-info border border-info border-opacity-25 me-3">
+        <div class="col-12 col-md-4">
+            <div class="card stat-card shadow-sm h-100">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="stat-icon bg-primary bg-opacity-10 text-primary me-3">
                         <i class="bi bi-people-fill"></i>
                     </div>
                     <div>
-                        <div class="text-muted small fw-semibold text-uppercase tracking-wider">Total Students</div>
-                        <h2 class="fw-bold mb-0 text-white display-6">
-                            <span class="counter" data-target="{{ students }}">0</span>
-                        </h2>
+                        <div class="text-muted small fw-semibold text-uppercase">Total Students</div>
+                        <h2 class="fw-bold mb-0 text-dark">{{ students }}</h2>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- AI Predictions Made -->
-        <div class="col-12 col-md-4 reveal-on-scroll stagger-2">
-            <div class="card stat-card tilt-card glow-border h-100 p-3">
-                <div class="card-body p-3 d-flex align-items-center">
-                    <div class="kpi-icon bg-success bg-opacity-20 text-success border border-success border-opacity-25 me-3">
+        <div class="col-12 col-md-4">
+            <div class="card stat-card shadow-sm h-100">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="stat-icon bg-success bg-opacity-10 text-success me-3">
                         <i class="bi bi-lightning-charge-fill"></i>
                     </div>
                     <div>
-                        <div class="text-muted small fw-semibold text-uppercase tracking-wider">AI Predictions Made</div>
-                        <h2 class="fw-bold mb-0 text-white display-6">
-                            <span class="counter" data-target="{{ predictions }}">0</span>
-                        </h2>
+                        <div class="text-muted small fw-semibold text-uppercase">AI Predictions Made</div>
+                        <h2 class="fw-bold mb-0 text-dark">{{ predictions }}</h2>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Average Class GPA -->
-        <div class="col-12 col-md-4 reveal-on-scroll stagger-3">
-            <div class="card stat-card tilt-card glow-border h-100 p-3">
-                <div class="card-body p-3 d-flex align-items-center">
-                    <div class="kpi-icon bg-warning bg-opacity-20 text-warning border border-warning border-opacity-25 me-3">
+        <div class="col-12 col-md-4">
+            <div class="card stat-card shadow-sm h-100">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="stat-icon bg-warning bg-opacity-10 text-warning me-3">
                         <i class="bi bi-award-fill"></i>
                     </div>
                     <div>
-                        <div class="text-muted small fw-semibold text-uppercase tracking-wider">Average Class GPA</div>
-                        <h2 class="fw-bold mb-0 text-white display-6">
-                            <span class="counter" data-target="{{ gpa }}">0.00</span>
-                        </h2>
+                        <div class="text-muted small fw-semibold text-uppercase">Average Class GPA</div>
+                        <h2 class="fw-bold mb-0 text-dark">{{ gpa }}</h2>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 11. Animated Charts Section -->
-    <div class="row g-4 mb-4">
-        <!-- Performance Distribution Donut Chart -->
-        <div class="col-12 col-lg-5 reveal-on-scroll stagger-1">
-            <div class="card tilt-card glow-border h-100 chart-container-card">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0 fw-bold">
-                        <i class="bi bi-pie-chart-fill text-info me-2"></i>Performance Breakdown
-                    </h5>
-                    <span class="badge bg-info bg-opacity-15 text-info chart-badge border border-info border-opacity-25">AI Classified</span>
-                </div>
-                <div class="card-body p-4 d-flex flex-column align-items-center justify-content-center">
-                    <div style="position: relative; width: 100%; max-width: 280px; height: 260px;">
-                        <canvas id="performanceDonutChart"></canvas>
-                    </div>
-                    <div class="d-flex justify-content-around w-100 mt-3 pt-2 border-top border-white border-opacity-10 text-center">
-                        <div>
-                            <div class="small text-muted">High Distinction</div>
-                            <div class="fw-bold text-info">GPA ≥ 8.5</div>
-                        </div>
-                        <div>
-                            <div class="small text-muted">Good Standing</div>
-                            <div class="fw-bold text-primary">7.0 - 8.4</div>
-                        </div>
-                        <div>
-                            <div class="small text-muted">Support Required</div>
-                            <div class="fw-bold text-danger">&lt; 6.0</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Academic Metric Feature Impact Bar Chart -->
-        <div class="col-12 col-lg-7 reveal-on-scroll stagger-2">
-            <div class="card tilt-card glow-border h-100 chart-container-card">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0 fw-bold">
-                        <i class="bi bi-bar-chart-line-fill text-primary me-2"></i>Academic Metric Impact
-                    </h5>
-                    <span class="badge bg-primary bg-opacity-15 text-primary chart-badge border border-primary border-opacity-25">Random Forest Weights</span>
-                </div>
-                <div class="card-body p-4">
-                    <div style="position: relative; width: 100%; height: 280px;">
-                        <canvas id="metricImpactBarChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quick Actions Section (3D Tilt Cards) -->
-    <div class="row g-4 reveal-on-scroll stagger-3">
+    <!-- Quick Actions Section -->
+    <div class="row g-4">
         <div class="col-12 col-md-6">
-            <div class="card tilt-card glow-border h-100">
+            <div class="card shadow-sm h-100">
                 <div class="card-body p-4 d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="kpi-icon bg-info bg-opacity-15 text-info border border-info border-opacity-25">
+                        <div class="stat-icon bg-primary bg-opacity-10 text-primary">
                             <i class="bi bi-person-lines-fill"></i>
                         </div>
                         <div>
-                            <h5 class="fw-bold mb-1 text-white">Student Database</h5>
-                            <p class="text-muted small mb-0">View, register, and update student profiles in database.</p>
+                            <h5 class="fw-bold mb-0 text-dark">Student Database</h5>
                         </div>
                     </div>
                     <a href="/students" class="btn btn-outline-primary rounded-pill px-4">
@@ -182,15 +84,14 @@
         </div>
 
         <div class="col-12 col-md-6">
-            <div class="card tilt-card glow-border h-100">
+            <div class="card shadow-sm h-100">
                 <div class="card-body p-4 d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="kpi-icon bg-success bg-opacity-15 text-success border border-success border-opacity-25">
+                        <div class="stat-icon bg-success bg-opacity-10 text-success">
                             <i class="bi bi-magic"></i>
                         </div>
                         <div>
-                            <h5 class="fw-bold mb-1 text-white">AI Prediction</h5>
-                            <p class="text-muted small mb-0">Run multi-factor ML evaluation and probability analysis.</p>
+                            <h5 class="fw-bold mb-0 text-dark">AI Prediction</h5>
                         </div>
                     </div>
                     <a href="/predict" class="btn btn-primary rounded-pill px-4">
@@ -201,150 +102,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- 11. Animated Chart 1: Performance Breakdown Donut ---
-        const donutCtx = document.getElementById('performanceDonutChart');
-        if (donutCtx) {
-            new Chart(donutCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['High Distinction', 'First Class', 'Second Class', 'Academic Support'],
-                    datasets: [{
-                        data: [42, 35, 15, 8],
-                        backgroundColor: [
-                            'rgba(56, 189, 248, 0.85)',
-                            'rgba(129, 140, 248, 0.85)',
-                            'rgba(52, 211, 153, 0.85)',
-                            'rgba(244, 63, 94, 0.85)'
-                        ],
-                        borderColor: [
-                            '#38bdf8',
-                            '#818cf8',
-                            '#34d399',
-                            '#f43f5e'
-                        ],
-                        borderWidth: 2,
-                        hoverOffset: 12
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '72%',
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            titleColor: '#38bdf8',
-                            bodyColor: '#f8fafc',
-                            borderColor: 'rgba(56, 189, 248, 0.3)',
-                            borderWidth: 1,
-                            padding: 12,
-                            boxPadding: 6,
-                            cornerRadius: 8,
-                            callbacks: {
-                                label: function(context) {
-                                    return ` ${context.label}: ${context.raw}%`;
-                                }
-                            }
-                        }
-                    },
-                    animation: {
-                        animateScale: true,
-                        animateRotate: true,
-                        duration: 1800,
-                        easing: 'easeOutQuart'
-                    }
-                }
-            });
-        }
-
-        // --- 11. Animated Chart 2: Academic Metric Feature Impact Bar Chart ---
-        const barCtx = document.getElementById('metricImpactBarChart');
-        if (barCtx) {
-            const ctx2d = barCtx.getContext('2d');
-            const gradient = ctx2d.createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, 'rgba(56, 189, 248, 0.85)');
-            gradient.addColorStop(1, 'rgba(99, 102, 241, 0.2)');
-
-            new Chart(barCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Attendance (%)', 'Internal Marks', 'Assignments', 'Previous GPA', 'Prior Failures'],
-                    datasets: [{
-                        label: 'Feature Importance Weight (%)',
-                        data: [34.5, 26.2, 18.8, 14.5, 6.0],
-                        backgroundColor: gradient,
-                        borderColor: '#38bdf8',
-                        borderWidth: 2,
-                        borderRadius: 8,
-                        borderSkipped: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            titleColor: '#38bdf8',
-                            bodyColor: '#f8fafc',
-                            borderColor: 'rgba(56, 189, 248, 0.3)',
-                            borderWidth: 1,
-                            padding: 12,
-                            cornerRadius: 8,
-                            callbacks: {
-                                label: function(context) {
-                                    return ` Importance: ${context.raw}%`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.05)',
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#94a3b8',
-                                font: {
-                                    size: 11,
-                                    weight: '500'
-                                }
-                            }
-                        },
-                        y: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.05)',
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#94a3b8',
-                                callback: function(value) {
-                                    return value + '%';
-                                }
-                            },
-                            beginAtZero: true,
-                            max: 40
-                        }
-                    },
-                    animation: {
-                        duration: 1600,
-                        easing: 'easeOutQuart'
-                    }
-                }
-            });
-        }
-    });
-</script>
 {% endblock %}
