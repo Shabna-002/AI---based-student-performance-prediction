@@ -3,39 +3,46 @@
 {% block title %}Students - EduPredict AI{% endblock %}
 
 {% block content %}
-<div class="container">
-    <!-- Page Header -->
-    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 pb-2 border-bottom">
+<div class="container py-2">
+    <!-- Page Header (Reveal on scroll) -->
+    <div class="reveal-on-scroll d-flex flex-wrap align-items-center justify-content-between mb-4 pb-3 border-bottom border-white border-opacity-10">
         <div>
-            <h2 class="fw-bold mb-0">Student Management</h2>
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-info bg-opacity-10 border border-info border-opacity-25 rounded-pill mb-2">
+                <span class="pulse-dot"></span>
+                <span class="small fw-semibold text-info">Database Directory</span>
+            </div>
+            <h2 class="fw-bold mb-0">
+                <i class="bi bi-people text-info me-2"></i><span class="gradient-text">Student Management</span>
+            </h2>
         </div>
-        <a href="/dashboard" class="btn btn-outline-secondary btn-sm">
+        <a href="/dashboard" class="btn btn-outline-secondary btn-sm px-3 py-2">
             <i class="bi bi-arrow-left me-1"></i> Back to Overview
         </a>
     </div>
 
     <div class="row g-4">
-        <!-- Add Student Form Card -->
-        <div class="col-12 col-lg-4">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h5 class="mb-0 fw-bold"><i class="bi bi-person-plus-fill text-primary me-2"></i>Add Student</h5>
+        <!-- Add Student Form Card (3D Tilt Card) -->
+        <div class="col-12 col-lg-4 reveal-on-scroll stagger-1">
+            <div class="card tilt-card glow-border h-100">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-person-plus-fill text-info me-2"></i>Add Student</h5>
+                    <span class="badge bg-white bg-opacity-10 text-muted">New Profile</span>
                 </div>
                 <div class="card-body p-4">
                     <form method="post">
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small text-secondary">STUDENT NAME</label>
+                            <label class="form-label fw-semibold small text-muted">STUDENT NAME</label>
                             <input type="text" name="name" class="form-control" placeholder="e.g. John Doe" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small text-secondary">DEPARTMENT</label>
+                            <label class="form-label fw-semibold small text-muted">DEPARTMENT</label>
                             <input type="text" name="department" class="form-control" placeholder="e.g. CSE / IT / ECE" value="CSE" required>
                         </div>
                         <div class="mb-4">
-                            <label class="form-label fw-semibold small text-secondary">SEMESTER</label>
+                            <label class="form-label fw-semibold small text-muted">SEMESTER</label>
                             <input type="number" name="semester" class="form-control" placeholder="e.g. 2" min="1" max="8" value="2" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 py-2">
+                        <button type="submit" class="btn btn-primary w-100 py-3">
                             <i class="bi bi-plus-circle me-1"></i> Register Student
                         </button>
                     </form>
@@ -44,10 +51,13 @@
         </div>
 
         <!-- Student Records Table Card -->
-        <div class="col-12 col-lg-8">
-            <div class="card shadow-sm">
-                <div class="card-header bg-white py-3">
-                    <h5 class="mb-0 fw-bold"><i class="bi bi-table text-primary me-2"></i>Student Records</h5>
+        <div class="col-12 col-lg-8 reveal-on-scroll stagger-2">
+            <div class="card glow-border h-100">
+                <div class="card-header py-3 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-table text-info me-2"></i>Student Records</h5>
+                    <span class="badge bg-info bg-opacity-15 text-info border border-info border-opacity-25 px-3 py-1">
+                        {{ rows|length }} Active Students
+                    </span>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -55,7 +65,7 @@
                             <thead>
                                 <tr>
                                     <th class="ps-4" style="width: 70px;">Sl.</th>
-                                    <th style="width: 120px;">Student ID</th>
+                                    <th style="width: 130px;">Student ID</th>
                                     <th>Name</th>
                                     <th>Department</th>
                                     <th>Semester</th>
@@ -68,17 +78,17 @@
                                     <tr>
                                         <td class="ps-4 text-muted fw-semibold">{{ loop.index }}</td>
                                         <td>
-                                            <span class="badge bg-secondary rounded-pill px-2 py-1 fw-bold">#{{ r[0] }}</span>
+                                            <span class="badge bg-info bg-opacity-15 text-info border border-info border-opacity-30 rounded-pill px-3 py-1 fw-bold">#{{ r[0] }}</span>
                                         </td>
-                                        <td class="fw-semibold text-dark">{{ r[1] }}</td>
-                                        <td><span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25">{{ r[2] }}</span></td>
-                                        <td>Semester {{ r[3] }}</td>
+                                        <td class="fw-semibold text-white">{{ r[1] }}</td>
+                                        <td><span class="badge bg-white bg-opacity-10 text-light border border-white border-opacity-15">{{ r[2] }}</span></td>
+                                        <td><span class="text-muted">Sem {{ r[3] }}</span></td>
                                         <td class="text-end pe-4">
                                             <div class="d-inline-flex gap-2">
                                                 <a href="/predict?student_id={{ r[0] }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                                                     <i class="bi bi-magic me-1"></i> Predict
                                                 </a>
-                                                <a href="/students/edit/{{ r[0] }}" class="btn btn-sm btn-outline-warning text-dark rounded-pill px-2" title="Edit Student">
+                                                <a href="/students/edit/{{ r[0] }}" class="btn btn-sm btn-outline-warning rounded-pill px-2" title="Edit Student">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
                                                 <a href="/students/delete/{{ r[0] }}" class="btn btn-sm btn-outline-danger rounded-pill px-2" onclick="return confirm('Are you sure you want to delete this student record?');" title="Delete Student">
@@ -90,7 +100,7 @@
                                     {% endfor %}
                                 {% else %}
                                     <tr>
-                                        <td colspan="6" class="text-center py-4 text-muted">No student records found. Add one on the left.</td>
+                                        <td colspan="6" class="text-center py-5 text-muted">No student records found. Add one on the left.</td>
                                     </tr>
                                 {% endif %}
                             </tbody>

@@ -3,46 +3,46 @@
 {% block title %}Edit Student - EduPredict AI{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container py-2">
     <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6">
+        <div class="col-12 col-md-8 col-lg-6 reveal-on-scroll">
             <!-- Header breadcrumb -->
-            <div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom">
+            <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-white border-opacity-10">
                 <div>
-                    <h2 class="fw-bold mb-1">Edit Student Record</h2>
-                    <p class="text-muted mb-0">Update information in the MySQL database for Student #{{ student[0] }}.</p>
+                    <h2 class="fw-bold mb-1"><span class="gradient-text">Edit Student Record</span></h2>
+                    <p class="text-muted mb-0">Update profile parameters for Student #{{ student[0] }}.</p>
                 </div>
-                <a href="/students" class="btn btn-outline-secondary btn-sm">
+                <a href="/students" class="btn btn-outline-secondary btn-sm px-3 py-2">
                     <i class="bi bi-arrow-left me-1"></i> Back to Students
                 </a>
             </div>
 
-            <div class="card shadow-sm">
-                <div class="card-header bg-white py-3">
+            <div class="card tilt-card glow-border">
+                <div class="card-header py-3">
                     <div class="d-flex align-items-center justify-content-between">
                         <span class="fw-bold"><i class="bi bi-pencil-square text-warning me-2"></i>Update Details</span>
-                        <span class="badge bg-secondary rounded-pill px-3 py-1">Student ID: #{{ student[0] }}</span>
+                        <span class="badge bg-info bg-opacity-15 text-info border border-info border-opacity-30 rounded-pill px-3 py-1 fw-bold">Student ID: #{{ student[0] }}</span>
                     </div>
                 </div>
                 <div class="card-body p-4">
                     <form method="post">
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small text-secondary">STUDENT NAME</label>
+                            <label class="form-label fw-semibold small text-muted">STUDENT NAME</label>
                             <input type="text" name="name" class="form-control" value="{{ student[1] }}" placeholder="e.g. John Doe" required autofocus>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small text-secondary">DEPARTMENT</label>
+                            <label class="form-label fw-semibold small text-muted">DEPARTMENT</label>
                             <input type="text" name="department" class="form-control" value="{{ student[2] }}" placeholder="e.g. CSE / IT / ECE" required>
                         </div>
                         <div class="mb-4">
-                            <label class="form-label fw-semibold small text-secondary">SEMESTER</label>
+                            <label class="form-label fw-semibold small text-muted">SEMESTER</label>
                             <input type="number" name="semester" class="form-control" value="{{ student[3] }}" min="1" max="8" placeholder="e.g. 2" required>
                         </div>
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary flex-grow-1 py-2">
+                            <button type="submit" class="btn btn-primary flex-grow-1 py-3">
                                 <i class="bi bi-check-circle me-1"></i> Save Changes
                             </button>
-                            <a href="/students" class="btn btn-outline-secondary px-4 py-2">
+                            <a href="/students" class="btn btn-outline-secondary px-4 py-3">
                                 Cancel
                             </a>
                         </div>

@@ -4,67 +4,68 @@
 
 {% block extra_css %}
 <style>
-    body {
-        background: radial-gradient(circle at 12% 18%, rgba(37, 99, 235, 0.22) 0%, transparent 45%),
-                    radial-gradient(circle at 88% 82%, rgba(14, 165, 233, 0.18) 0%, transparent 45%),
-                    linear-gradient(135deg, #090d16 0%, #0f172a 45%, #1e293b 100%) !important;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
     main {
-        flex: 1;
+        min-height: calc(100vh - 40px);
         display: flex;
         align-items: center;
-        padding-top: 2rem !important;
-        padding-bottom: 2rem !important;
+        justify-content: center;
     }
     .auth-container {
-        border-radius: 1.5rem;
-        box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+        border-radius: 1.75rem !important;
         overflow: hidden;
-        background-color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        background: rgba(15, 23, 42, 0.75) !important;
+        backdrop-filter: blur(24px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+        box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(56, 189, 248, 0.15) !important;
     }
     .auth-hero {
-        background: linear-gradient(145deg, #0f172a 0%, #1e3a8a 100%);
+        background: linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 58, 138, 0.6) 100%);
         color: #ffffff;
         position: relative;
-        padding: 3.25rem 3rem;
+        padding: 3.5rem 3rem;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
     }
     .auth-hero::before {
         content: "";
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.25) 0%, transparent 70%);
+        inset: 0;
+        background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.2) 0%, transparent 65%);
         pointer-events: none;
     }
     .feature-badge {
         display: flex;
         align-items: center;
         gap: 0.9rem;
-        padding: 0.8rem 1rem;
-        background: rgba(255, 255, 255, 0.07);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 0.85rem;
+        padding: 0.85rem 1.1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 1rem;
         font-size: 0.9rem;
         backdrop-filter: blur(8px);
-        margin-bottom: 0.85rem;
+        margin-bottom: 0.9rem;
+        transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+    .feature-badge:hover {
+        transform: translateX(4px);
+        background: rgba(56, 189, 248, 0.1);
+        border-color: rgba(56, 189, 248, 0.3);
     }
     .feature-badge i {
-        font-size: 1.3rem;
-        color: #60a5fa;
+        font-size: 1.4rem;
+        color: #38bdf8;
+        filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.5));
     }
     .auth-form-side {
         padding: 3.5rem 3rem;
-        background-color: #ffffff;
+        background: rgba(15, 23, 42, 0.82);
     }
     @media (max-width: 991px) {
         .auth-hero {
             padding: 2.25rem 1.75rem;
             text-align: center;
+            border-right: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
         .auth-form-side {
             padding: 2.5rem 1.75rem;
@@ -77,19 +78,19 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container py-3">
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-11 col-xl-10">
-            <div class="auth-container">
+        <div class="col-12 col-lg-11 col-xl-10 reveal-on-scroll">
+            <div class="auth-container tilt-card glow-border">
                 <div class="row g-0">
                     <!-- Left Side: Project Branding & Academic Features -->
                     <div class="col-12 col-lg-6 auth-hero d-flex flex-column justify-content-between">
                         <div>
-                            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-primary bg-opacity-25 rounded-pill border border-primary border-opacity-25 mb-4">
-                                <i class="bi bi-mortarboard-fill text-primary"></i>
-                                <span class="small fw-semibold text-white">Academic Analytics Portal</span>
+                            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-info bg-opacity-15 rounded-pill border border-info border-opacity-30 mb-4">
+                                <i class="bi bi-mortarboard-fill text-info"></i>
+                                <span class="small fw-semibold text-info">Academic Analytics Portal</span>
                             </div>
-                            <h2 class="display-6 fw-bold mb-3 text-white">EduPredict AI</h2>
+                            <h2 class="display-6 fw-bold mb-3 gradient-text">EduPredict AI</h2>
                             <p class="text-white-50 leading-relaxed mb-4">
                                 Intelligent student performance monitoring and machine learning predictive analytics system.
                             </p>
@@ -119,26 +120,27 @@
                             </div>
                         </div>
 
-                        <div class="pt-4 text-white-50 small border-top border-white border-opacity-10 mt-4">
-                            <i class="bi bi-lock-fill me-1"></i> Secure Institutional Access
+                        <div class="pt-4 text-white-50 small border-top border-white border-opacity-10 mt-4 d-flex align-items-center justify-content-between">
+                            <span><i class="bi bi-lock-fill me-1 text-info"></i> Secure Institutional Access</span>
+                            <span class="badge bg-white bg-opacity-10 text-white-50">v2.5 AI</span>
                         </div>
                     </div>
 
                     <!-- Right Side: Portal Sign In Form -->
                     <div class="col-12 col-lg-6 auth-form-side d-flex flex-column justify-content-center">
                         <div class="mb-4">
-                            <h3 class="fw-bold text-dark mb-1">Sign In</h3>
+                            <h3 class="fw-bold text-white mb-1">Sign In</h3>
                             <p class="text-muted small">Enter your credentials to access the portal</p>
                         </div>
 
                         {% if error %}
-                        <div class="alert alert-danger d-flex align-items-center rounded-3 mb-4 py-2 px-3" role="alert">
+                        <div class="alert alert-danger bg-danger bg-opacity-15 border border-danger border-opacity-30 text-danger d-flex align-items-center rounded-3 mb-4 py-2 px-3" role="alert">
                             <i class="bi bi-exclamation-triangle-fill fs-5 me-2 flex-shrink-0"></i>
                             <div class="small">{{ error }}</div>
                         </div>
                         {% endif %}
                         {% if success %}
-                        <div class="alert alert-success d-flex align-items-center rounded-3 mb-4 py-2 px-3" role="alert">
+                        <div class="alert alert-success bg-success bg-opacity-15 border border-success border-opacity-30 text-success d-flex align-items-center rounded-3 mb-4 py-2 px-3" role="alert">
                             <i class="bi bi-check-circle-fill fs-5 me-2 flex-shrink-0"></i>
                             <div class="small">{{ success }}</div>
                         </div>
@@ -146,26 +148,26 @@
 
                         <form method="post">
                             <div class="mb-3">
-                                <label class="form-label fw-semibold text-secondary small">USERNAME</label>
+                                <label class="form-label fw-semibold text-muted small">USERNAME</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-person"></i></span>
-                                    <input type="text" name="username" class="form-control border-start-0 ps-0" placeholder="Enter username" required autofocus>
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input type="text" name="username" class="form-control" placeholder="Enter username" required autofocus>
                                 </div>
                             </div>
                             <div class="mb-4">
-                                <label class="form-label fw-semibold text-secondary small">PASSWORD</label>
+                                <label class="form-label fw-semibold text-muted small">PASSWORD</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-lock"></i></span>
-                                    <input type="password" name="password" class="form-control border-start-0 ps-0" placeholder="Enter password" required>
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                    <input type="password" name="password" class="form-control" placeholder="Enter password" required>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold rounded-3 shadow-sm mb-3">
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold rounded-3 mb-3">
                                 Sign In <i class="bi bi-arrow-right ms-1"></i>
                             </button>
 
-                            <div class="text-center">
+                            <div class="text-center mt-2">
                                 <span class="text-muted small">Don't have an account?</span>
-                                <a href="{{ url_for('signup') }}" class="small fw-semibold text-primary text-decoration-none ms-1">Sign Up</a>
+                                <a href="{{ url_for('signup') }}" class="small fw-semibold text-info text-decoration-none ms-1">Sign Up</a>
                             </div>
                         </form>
                     </div>
