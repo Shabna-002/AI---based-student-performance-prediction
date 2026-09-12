@@ -5,12 +5,13 @@
 {% block extra_css %}
 <style>
     body {
-        background: radial-gradient(circle at 12% 18%, rgba(37, 99, 235, 0.22) 0%, transparent 45%),
-                    radial-gradient(circle at 88% 82%, rgba(14, 165, 233, 0.18) 0%, transparent 45%),
-                    linear-gradient(135deg, #090d16 0%, #0f172a 45%, #1e293b 100%) !important;
+        background: #090d16 !important;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+        position: relative;
+        overflow-x: hidden;
+        perspective: 1200px;
     }
     main {
         flex: 1;
@@ -18,18 +19,133 @@
         align-items: center;
         padding-top: 2rem !important;
         padding-bottom: 2rem !important;
+        position: relative;
+        z-index: 2;
     }
+
+    /* 1. Animated 3D Aurora Mesh Background */
+    .bg-aurora {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .aurora-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(85px);
+        opacity: 0.42;
+        animation: floatOrb 14s infinite alternate ease-in-out;
+    }
+    .orb-1 {
+        width: 520px;
+        height: 520px;
+        background: radial-gradient(circle, #2563eb 0%, rgba(37,99,235,0) 70%);
+        top: -120px;
+        left: -100px;
+        animation-duration: 13s;
+    }
+    .orb-2 {
+        width: 560px;
+        height: 560px;
+        background: radial-gradient(circle, #06b6d4 0%, rgba(6,182,212,0) 70%);
+        bottom: -140px;
+        right: -100px;
+        animation-duration: 16s;
+    }
+    .orb-3 {
+        width: 440px;
+        height: 440px;
+        background: radial-gradient(circle, #7c3aed 0%, rgba(124,58,237,0) 70%);
+        top: 35%;
+        left: 40%;
+        animation-duration: 18s;
+        opacity: 0.32;
+    }
+    @keyframes floatOrb {
+        0% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(50px, -40px) scale(1.15); }
+        100% { transform: translate(-40px, 45px) scale(0.92); }
+    }
+
+    /* 2. Floating 3D Education Badges in the Background */
+    .floating-edu-badge {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 0.75rem 1.25rem;
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 1.1rem;
+        color: #f8fafc;
+        font-size: 0.85rem;
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.2);
+        pointer-events: none;
+        z-index: 1;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        transform-style: preserve-3d;
+    }
+    .floating-edu-badge .badge-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.35rem;
+        flex-shrink: 0;
+    }
+    .badge-pos-1 {
+        top: 8%;
+        left: 3%;
+        animation: levitate3D 6.5s ease-in-out infinite;
+    }
+    .badge-pos-2 {
+        bottom: 8%;
+        left: 4%;
+        animation: levitate3D 7.5s ease-in-out infinite reverse;
+    }
+    .badge-pos-3 {
+        top: 10%;
+        right: 4%;
+        animation: levitate3D 8s ease-in-out infinite 0.7s;
+    }
+    .badge-pos-4 {
+        bottom: 10%;
+        right: 5%;
+        animation: levitate3D 7s ease-in-out infinite 1.2s reverse;
+    }
+    @keyframes levitate3D {
+        0%, 100% {
+            transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+        }
+        50% {
+            transform: translateY(-20px) rotateX(10deg) rotateY(-10deg);
+        }
+    }
+
+    /* 3. Main Auth Container with 3D Depth */
     .auth-container {
-        border-radius: 1.5rem;
-        box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+        border-radius: 1.75rem;
+        box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.12), 0 0 35px rgba(37, 99, 235, 0.25);
         overflow: hidden;
         background-color: #ffffff;
+        transform-style: preserve-3d;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
     }
     .auth-hero {
-        background: linear-gradient(145deg, #0f172a 0%, #1e3a8a 100%);
+        background: linear-gradient(145deg, #090e1a 0%, #0f1d3a 50%, #1e3a8a 100%);
         color: #ffffff;
         position: relative;
-        padding: 3.25rem 3rem;
+        padding: 3rem 2.5rem;
+        overflow: hidden;
     }
     .auth-hero::before {
         content: "";
@@ -38,20 +154,63 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.25) 0%, transparent 70%);
+        background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.28) 0%, transparent 65%);
         pointer-events: none;
     }
+
+    /* 4. 3D Interactive Education Hologram Scene */
+    .edu-3d-scene {
+        perspective: 900px;
+        margin: 1.25rem 0;
+    }
+    .edu-3d-hologram {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        backdrop-filter: blur(14px);
+        transform-style: preserve-3d;
+        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(56, 189, 248, 0.08);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: floatScene3D 6s ease-in-out infinite;
+        position: relative;
+    }
+    @keyframes floatScene3D {
+        0%, 100% {
+            transform: translateY(0) rotateX(0deg) rotateY(0deg);
+        }
+        50% {
+            transform: translateY(-8px) rotateX(5deg) rotateY(-5deg);
+        }
+    }
+    .edu-3d-svg {
+        width: 100%;
+        max-height: 155px;
+        filter: drop-shadow(0 12px 24px rgba(37, 99, 235, 0.4));
+        animation: pulse3DSvg 5s ease-in-out infinite alternate;
+    }
+    @keyframes pulse3DSvg {
+        0% { transform: scale(0.98) translateY(0); }
+        100% { transform: scale(1.02) translateY(-4px); }
+    }
+
     .feature-badge {
         display: flex;
         align-items: center;
         gap: 0.9rem;
-        padding: 0.8rem 1rem;
-        background: rgba(255, 255, 255, 0.07);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 0.85rem;
         font-size: 0.9rem;
         backdrop-filter: blur(8px);
-        margin-bottom: 0.85rem;
+        margin-bottom: 0.75rem;
+        transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+    .feature-badge:hover {
+        transform: translateX(5px) translateY(-2px);
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(96, 165, 250, 0.4);
     }
     .feature-badge i {
         font-size: 1.3rem;
@@ -62,6 +221,9 @@
         background-color: #ffffff;
     }
     @media (max-width: 991px) {
+        .floating-edu-badge {
+            display: none !important;
+        }
         .auth-hero {
             padding: 2.25rem 1.75rem;
             text-align: center;
@@ -77,22 +239,130 @@
 {% endblock %}
 
 {% block content %}
+<!-- Ambient 3D Aurora Mesh Background -->
+<div class="bg-aurora">
+    <div class="aurora-orb orb-1"></div>
+    <div class="aurora-orb orb-2"></div>
+    <div class="aurora-orb orb-3"></div>
+</div>
+
+<!-- Floating 3D Education Badges in Space -->
+<div class="floating-edu-badge badge-pos-1" id="badge1">
+    <div class="badge-icon bg-primary bg-opacity-25 text-primary">
+        <i class="bi bi-mortarboard-fill"></i>
+    </div>
+    <div>
+        <strong class="d-block text-white">AI Academic Model</strong>
+        <small class="text-white-50">Predictive Forecasting</small>
+    </div>
+</div>
+
+<div class="floating-edu-badge badge-pos-2" id="badge2">
+    <div class="badge-icon bg-warning bg-opacity-25 text-warning">
+        <i class="bi bi-award-fill"></i>
+    </div>
+    <div>
+        <strong class="d-block text-white">Academic Excellence</strong>
+        <small class="text-white-50">Grade A+ Trajectory</small>
+    </div>
+</div>
+
+<div class="floating-edu-badge badge-pos-3" id="badge3">
+    <div class="badge-icon bg-info bg-opacity-25 text-info">
+        <i class="bi bi-cpu-fill"></i>
+    </div>
+    <div>
+        <strong class="d-block text-white">Neural Analytics</strong>
+        <small class="text-white-50">98.4% Accuracy</small>
+    </div>
+</div>
+
+<div class="floating-edu-badge badge-pos-4" id="badge4">
+    <div class="badge-icon bg-success bg-opacity-25 text-success">
+        <i class="bi bi-journal-check"></i>
+    </div>
+    <div>
+        <strong class="d-block text-white">Smart Evaluation</strong>
+        <small class="text-white-50">Continuous Mentoring</small>
+    </div>
+</div>
+
 <div class="container reveal-section">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-11 col-xl-10">
-            <div class="auth-container glow-border">
+            <div class="auth-container glow-border" id="authBox">
                 <div class="row g-0">
-                    <!-- Left Side: Project Branding & Academic Features -->
+                    <!-- Left Side: Project Branding & 3D Education Scene -->
                     <div class="col-12 col-lg-6 auth-hero d-flex flex-column justify-content-between">
                         <div>
-                            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-primary bg-opacity-25 rounded-pill border border-primary border-opacity-25 mb-4">
+                            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-primary bg-opacity-25 rounded-pill border border-primary border-opacity-25 mb-3">
                                 <i class="bi bi-mortarboard-fill text-primary"></i>
                                 <span class="small fw-semibold text-white">Academic Analytics Portal</span>
                             </div>
-                            <h2 class="display-6 fw-bold mb-3 text-white"><span class="gradient-text-accent">EduPredict AI</span></h2>
-                            <p class="text-white-50 leading-relaxed mb-4">
+                            <h2 class="display-6 fw-bold mb-2 text-white"><span class="gradient-text-accent">EduPredict AI</span></h2>
+                            <p class="text-white-50 small leading-relaxed mb-3">
                                 Intelligent student performance monitoring and machine learning predictive analytics system.
                             </p>
+                        </div>
+
+                        <!-- 3D Animated Education Hologram Scene -->
+                        <div class="edu-3d-scene">
+                            <div class="edu-3d-hologram" id="eduHologram">
+                                <svg class="edu-3d-svg" viewBox="0 0 380 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="capGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#3b82f6" />
+                                            <stop offset="50%" stop-color="#1d4ed8" />
+                                            <stop offset="100%" stop-color="#0f172a" />
+                                        </linearGradient>
+                                        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#fbbf24" />
+                                            <stop offset="100%" stop-color="#d97706" />
+                                        </linearGradient>
+                                        <linearGradient id="glowRings" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.8" />
+                                            <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.2" />
+                                        </linearGradient>
+                                        <linearGradient id="bookGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+                                            <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0.75" />
+                                        </linearGradient>
+                                    </defs>
+
+                                    <!-- Isometric 3D Platform Ground -->
+                                    <ellipse cx="190" cy="130" rx="140" ry="24" fill="rgba(37,99,235,0.18)" />
+                                    <ellipse cx="190" cy="130" rx="100" ry="16" fill="rgba(6,182,212,0.25)" />
+                                    <ellipse cx="190" cy="130" rx="60" ry="9" stroke="url(#glowRings)" stroke-width="2" stroke-dasharray="4 4" />
+
+                                    <!-- 3D Open Digital Book Base -->
+                                    <path d="M 120 120 Q 190 135 260 120 L 255 135 Q 190 148 125 135 Z" fill="url(#bookGrad)" />
+                                    <path d="M 120 120 Q 190 110 260 120 L 260 124 Q 190 114 120 124 Z" fill="#93c5fd" opacity="0.6" />
+
+                                    <!-- 3D Mortarboard / Graduation Cap Top Rhombus -->
+                                    <polygon points="190,35 285,68 190,98 95,68" fill="url(#capGrad)" stroke="#60a5fa" stroke-width="1.8" />
+                                    
+                                    <!-- 3D Cap Skull Cap Body -->
+                                    <path d="M 140 76 Q 190 96 240 76 L 240 92 Q 190 112 140 92 Z" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+
+                                    <!-- 3D Golden Button & Tassel -->
+                                    <ellipse cx="190" cy="65" rx="5" ry="3" fill="url(#goldGrad)" />
+                                    <path d="M 190 65 Q 225 78 248 95" stroke="url(#goldGrad)" stroke-width="2.2" fill="none" stroke-linecap="round" />
+                                    <rect x="246" y="93" width="7" height="14" rx="2" fill="url(#goldGrad)" />
+
+                                    <!-- Floating 3D Glowing Shield: Grade A+ -->
+                                    <g transform="translate(45, 30)">
+                                        <rect x="0" y="0" width="75" height="32" rx="10" fill="rgba(15,23,42,0.85)" stroke="url(#goldGrad)" stroke-width="1.5" />
+                                        <text x="37" y="21" font-size="12" font-weight="bold" fill="#fbbf24" text-anchor="middle" font-family="sans-serif">★ GRADE A+</text>
+                                    </g>
+
+                                    <!-- Floating 3D Neural Accuracy Badge -->
+                                    <g transform="translate(260, 25)">
+                                        <rect x="0" y="0" width="80" height="32" rx="10" fill="rgba(15,23,42,0.85)" stroke="#38bdf8" stroke-width="1.5" />
+                                        <circle cx="15" cy="16" r="4" fill="#10b981" />
+                                        <text x="47" y="21" font-size="11" font-weight="bold" fill="#38bdf8" text-anchor="middle" font-family="sans-serif">98.4% AI</text>
+                                    </g>
+                                </svg>
+                            </div>
                         </div>
 
                         <div class="my-2">
@@ -119,7 +389,7 @@
                             </div>
                         </div>
 
-                        <div class="pt-4 text-white-50 small border-top border-white border-opacity-10 mt-4">
+                        <div class="pt-3 text-white-50 small border-top border-white border-opacity-10 mt-3">
                             <i class="bi bi-lock-fill me-1"></i> Secure Institutional Access
                         </div>
                     </div>
@@ -174,4 +444,48 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 3D Mouse Parallax & Dynamic Perspective Tilt
+    document.addEventListener('DOMContentLoaded', () => {
+        const authBox = document.getElementById('authBox');
+        const hologram = document.getElementById('eduHologram');
+        const b1 = document.getElementById('badge1');
+        const b2 = document.getElementById('badge2');
+        const b3 = document.getElementById('badge3');
+        const b4 = document.getElementById('badge4');
+
+        if (window.innerWidth > 992) {
+            window.addEventListener('mousemove', (e) => {
+                const cx = window.innerWidth / 2;
+                const cy = window.innerHeight / 2;
+                const dx = (e.clientX - cx) / cx;
+                const dy = (e.clientY - cy) / cy;
+
+                // Gentle 3D tilt for main auth container
+                if (authBox) {
+                    authBox.style.transform = `rotateY(${dx * 4}deg) rotateX(${-dy * 4}deg)`;
+                }
+
+                // Accentuated 3D tilt for education hologram card
+                if (hologram) {
+                    hologram.style.transform = `rotateY(${dx * 12}deg) rotateX(${-dy * 12}deg) translateY(-4px)`;
+                }
+
+                // Parallax depth for background floating badges
+                if (b1) b1.style.transform = `translate(${dx * 18}px, ${dy * 18}px) rotateX(${dy * 8}deg) rotateY(${dx * 8}deg)`;
+                if (b2) b2.style.transform = `translate(${dx * -22}px, ${dy * -22}px) rotateX(${dy * -8}deg) rotateY(${dx * -8}deg)`;
+                if (b3) b3.style.transform = `translate(${dx * 20}px, ${dy * -18}px) rotateX(${dy * 8}deg) rotateY(${dx * -8}deg)`;
+                if (b4) b4.style.transform = `translate(${dx * -16}px, ${dy * 20}px) rotateX(${dy * -8}deg) rotateY(${dx * 8}deg)`;
+            });
+
+            window.addEventListener('mouseleave', () => {
+                if (authBox) authBox.style.transform = 'rotateY(0deg) rotateX(0deg)';
+                if (hologram) hologram.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            });
+        }
+    });
+</script>
 {% endblock %}
