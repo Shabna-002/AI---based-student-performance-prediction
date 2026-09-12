@@ -68,6 +68,29 @@
     }
 
 
+    /* ⚡ AI Student Performance Branding Logo */
+    .brand-logo-box {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.28) 0%, rgba(99, 102, 241, 0.3) 100%);
+        border: 1px solid rgba(245, 158, 11, 0.55);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 22px rgba(245, 158, 11, 0.35);
+        flex-shrink: 0;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .brand-logo-box:hover {
+        transform: scale(1.08) rotate(4deg);
+        box-shadow: 0 0 30px rgba(245, 158, 11, 0.6);
+    }
+    .brand-logo-box i {
+        font-size: 1.65rem;
+        color: #fbbf24;
+        filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.8));
+    }
 
     /* Feature Badges */
     .feature-badge {
@@ -222,16 +245,23 @@
             <!-- 🪟 Glassmorphism Card -->
             <div class="auth-container glow-border">
                 <div class="row g-0">
-                    <!-- Left Side: AI Student Performance Branding & 🤖 AI/ML Illustration -->
+                    <!-- Left Side: ⚡ AI Student Performance Branding/Logo -->
                     <div class="col-12 col-lg-6 auth-hero d-flex flex-column justify-content-between">
                         <div>
-                            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-primary bg-opacity-25 rounded-pill border border-primary border-opacity-30 mb-3">
-                                <i class="bi bi-cpu text-info"></i>
-                                <span class="small fw-semibold text-white">AI Student Performance</span>
+                            <!-- ⚡ Branding / Logo Badge -->
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="brand-logo-box">
+                                    <i class="bi bi-lightning-charge-fill"></i>
+                                </div>
+                                <div>
+                                    <div class="d-inline-flex align-items-center gap-1 px-2 py-0.5 bg-warning bg-opacity-10 rounded-pill border border-warning border-opacity-30 mb-1">
+                                        <span class="text-warning small fw-bold" style="font-size: 0.75rem;">⚡ AI Student Performance</span>
+                                    </div>
+                                    <h2 class="display-6 fw-bold mb-0 text-white">
+                                        <span class="gradient-text-accent">AI Student Performance</span>
+                                    </h2>
+                                </div>
                             </div>
-                            <h2 class="display-6 fw-bold mb-2 text-white">
-                                <span class="gradient-text-accent">AI Student Performance</span>
-                            </h2>
                             <p class="text-white-50 small leading-relaxed mb-2">
                                 Join the predictive student performance analytics and early intervention platform.
                             </p>
@@ -270,6 +300,10 @@
                     <!-- Right Side: Registration Form -->
                     <div class="col-12 col-lg-6 auth-form-side d-flex flex-column justify-content-center">
                         <div class="mb-4">
+                            <div class="d-inline-flex align-items-center gap-2 mb-2 px-2.5 py-1 bg-primary bg-opacity-10 rounded-pill">
+                                <i class="bi bi-lightning-charge-fill text-warning"></i>
+                                <span class="fw-bold small text-primary" style="letter-spacing: 0.03em;">AI Student Performance</span>
+                            </div>
                             <h3 class="fw-bold text-dark mb-1"><span class="gradient-text">Create Account</span></h3>
                             <p class="text-muted small">Sign up to get access to AI student performance portal</p>
                         </div>
