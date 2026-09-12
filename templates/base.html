@@ -34,7 +34,9 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
+            background: radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.12) 0%, transparent 45%),
+                        radial-gradient(circle at 85% 85%, rgba(129, 140, 248, 0.1) 0%, transparent 45%),
+                        #090d16;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -66,19 +68,7 @@
             transition: width 0.1s ease-out;
         }
 
-        /* 2 & 3. Neural-network & Floating Particles Canvas */
-        #neural-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.85;
-        }
-
-        /* 14. Website Open Loading Animation (Preloader) */
+        /* Loading Animation (Preloader) */
         #app-preloader {
             position: fixed;
             inset: 0;
@@ -87,7 +77,7 @@
             align-items: center;
             justify-content: center;
             z-index: 99999;
-            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s ease;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s ease;
         }
         #app-preloader.fade-out {
             opacity: 0;
@@ -98,39 +88,26 @@
             text-align: center;
             position: relative;
         }
-        .neural-spinner {
-            width: 90px;
-            height: 90px;
+        .modern-spinner {
+            width: 80px;
+            height: 80px;
             margin: 0 auto 1.5rem;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .neural-ring {
+        .spinner-ring {
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            border: 2px solid transparent;
-        }
-        .ring-1 {
+            border: 3px solid rgba(56, 189, 248, 0.15);
             border-top-color: #38bdf8;
             border-right-color: #818cf8;
-            animation: spinRing 1.2s linear infinite;
-        }
-        .ring-2 {
-            inset: 8px;
-            border-bottom-color: #c084fc;
-            border-left-color: #ec4899;
-            animation: spinRingReverse 1.6s linear infinite;
-        }
-        .ring-3 {
-            inset: 16px;
-            border-top-color: #34d399;
-            animation: spinRing 2s linear infinite;
+            animation: spinRing 1s linear infinite;
         }
         .preloader-icon {
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: #38bdf8;
             filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.7));
             animation: pulseGlow 1.5s ease-in-out infinite alternate;
@@ -152,16 +129,12 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        @keyframes spinRingReverse {
-            from { transform: rotate(360deg); }
-            to { transform: rotate(0deg); }
-        }
         @keyframes pulseGlow {
             from { transform: scale(0.95); opacity: 0.8; }
-            to { transform: scale(1.1); opacity: 1; }
+            to { transform: scale(1.08); opacity: 1; }
         }
 
-        /* 4. Glassmorphism Utilities */
+        /* Glassmorphism Utilities */
         .glass-panel, .card {
             background: var(--bg-card) !important;
             backdrop-filter: blur(16px) saturate(180%);
@@ -170,7 +143,7 @@
             border-radius: 1.25rem !important;
             box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
             color: var(--text-main);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
         .card-header {
             background: rgba(255, 255, 255, 0.03) !important;
@@ -180,7 +153,7 @@
             border-radius: 1.25rem 1.25rem 0 0 !important;
         }
 
-        /* 5. Gradient Text */
+        /* Gradient Text */
         .gradient-text {
             background: var(--ai-gradient);
             -webkit-background-clip: text;
@@ -206,57 +179,42 @@
             display: inline-block;
         }
 
-        /* 6. Soft Glowing Borders */
+        /* Soft Glowing Borders */
         .glow-border {
             position: relative;
             border-color: rgba(56, 189, 248, 0.35) !important;
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.15), inset 0 0 15px rgba(129, 140, 248, 0.05);
         }
         .glow-border:hover, .card:hover {
-            border-color: rgba(56, 189, 248, 0.6) !important;
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.25), inset 0 0 15px rgba(129, 140, 248, 0.1) !important;
+            border-color: rgba(56, 189, 248, 0.55) !important;
+            box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.2), inset 0 0 15px rgba(129, 140, 248, 0.08) !important;
         }
 
-        /* 8 & 9. 3D Hover Cards & Tilt Effects */
+        /* Clean Card Hover (No 3D Tilt, No Parallax) */
         .tilt-card {
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.15s ease-out, box-shadow 0.25s ease;
-            will-change: transform;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
-        .tilt-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            pointer-events: none;
-            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.12) 0%, transparent 65%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .tilt-card:hover::after {
-            opacity: 1;
+        .tilt-card:hover {
+            transform: translateY(-3px);
         }
 
-        /* 10. Smooth Section Transitions (Reveal on scroll) */
+        /* Smooth Section Transitions (Reveal on scroll) */
         .reveal-on-scroll {
             opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(24px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .reveal-on-scroll.revealed {
             opacity: 1;
             transform: translateY(0);
         }
-        .stagger-1 { transition-delay: 0.1s; }
-        .stagger-2 { transition-delay: 0.2s; }
-        .stagger-3 { transition-delay: 0.3s; }
-        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-1 { transition-delay: 0.08s; }
+        .stagger-2 { transition-delay: 0.16s; }
+        .stagger-3 { transition-delay: 0.24s; }
+        .stagger-4 { transition-delay: 0.32s; }
 
-        /* 12. Micro-interactions & Buttons */
+        /* Micro-interactions & Buttons */
         .btn {
             position: relative;
             overflow: hidden;
@@ -390,7 +348,7 @@
 
         /* Navbar */
         .navbar-custom {
-            background: rgba(11, 15, 25, 0.82) !important;
+            background: rgba(11, 15, 25, 0.88) !important;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -419,7 +377,7 @@
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
         }
 
-        /* 13. Back to Top Button */
+        /* Back to Top Button */
         .back-to-top-btn {
             position: fixed;
             bottom: 2rem;
@@ -494,26 +452,21 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- 1. Scroll Progress Indicator -->
+    <!-- Scroll Progress Indicator -->
     <div id="scroll-progress-container">
         <div id="scroll-progress-bar"></div>
     </div>
 
-    <!-- 2 & 3. Neural-network & Floating Particles Canvas -->
-    <canvas id="neural-canvas"></canvas>
-
-    <!-- 14. Website Open Loading Animation -->
+    <!-- Website Open Loading Animation -->
     <div id="app-preloader">
         <div class="preloader-content">
-            <div class="neural-spinner">
-                <div class="neural-ring ring-1"></div>
-                <div class="neural-ring ring-2"></div>
-                <div class="neural-ring ring-3"></div>
-                <i class="bi bi-cpu-fill preloader-icon"></i>
+            <div class="modern-spinner">
+                <div class="spinner-ring"></div>
+                <i class="bi bi-mortarboard-fill preloader-icon"></i>
             </div>
             <div class="preloader-title gradient-text">EduPredict AI</div>
             <div class="preloader-status">
-                <span class="pulse-dot"></span> Initializing Neural Engine...
+                <span class="pulse-dot"></span> Loading Application...
             </div>
         </div>
     </div>
@@ -546,10 +499,7 @@
                         </a>
                     </li>
                 </ul>
-                <div class="d-flex align-items-center gap-3">
-                    <span class="badge bg-secondary bg-opacity-25 text-light px-3 py-2 border border-secondary border-opacity-25 rounded-pill d-none d-md-inline-flex align-items-center">
-                        <span class="pulse-dot"></span> {{ session.get('user') }}
-                    </span>
+                <div class="d-flex align-items-center">
                     <a href="/logout" class="btn btn-outline-danger btn-sm px-3 rounded-pill">
                         <i class="bi bi-box-arrow-right me-1"></i> Logout
                     </a>
@@ -563,7 +513,7 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- 13. Back to Top Button with Circular Progress -->
+    <!-- Back to Top Button with Circular Progress -->
     <button id="backToTop" class="back-to-top-btn" title="Back to Top" aria-label="Back to Top">
         <svg class="progress-ring" width="48" height="48">
             <circle class="progress-ring-bg" cx="24" cy="24" r="20"></circle>
@@ -575,21 +525,21 @@
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core Interactive Engine: Neural Canvas, 3D Tilt, Parallax, Progress & Micro-interactions -->
+    <!-- Core Interactive Engine: Progress, Counter, Reveal & Micro-interactions -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- 14. Website Open Loading Animation Dismissal ---
+            // --- Website Open Loading Animation Dismissal ---
             const preloader = document.getElementById('app-preloader');
             const dismissPreloader = () => {
                 if (preloader && !preloader.classList.contains('fade-out')) {
                     preloader.classList.add('fade-out');
-                    setTimeout(() => preloader.remove(), 650);
+                    setTimeout(() => preloader.remove(), 550);
                 }
             };
             window.addEventListener('load', dismissPreloader);
             setTimeout(dismissPreloader, 750); // Fallback so user never waits
 
-            // --- 1. Scroll Progress Indicator & 13. Back To Top Ring ---
+            // --- Scroll Progress Indicator & Back To Top Ring ---
             const progressBar = document.getElementById('scroll-progress-bar');
             const backToTopBtn = document.getElementById('backToTop');
             const progressCircle = document.getElementById('progressRingCircle');
@@ -632,160 +582,7 @@
                 });
             }
 
-            // --- 2 & 3. Neural-Network & Floating Particles Canvas Simulation ---
-            const canvas = document.getElementById('neural-canvas');
-            if (canvas) {
-                const ctx = canvas.getContext('2d');
-                let width = canvas.width = window.innerWidth;
-                let height = canvas.height = window.innerHeight;
-                let mouse = { x: -1000, y: -1000, active: false };
-
-                window.addEventListener('resize', () => {
-                    width = canvas.width = window.innerWidth;
-                    height = canvas.height = window.innerHeight;
-                    initParticles();
-                });
-
-                window.addEventListener('mousemove', (e) => {
-                    mouse.x = e.clientX;
-                    mouse.y = e.clientY;
-                    mouse.active = true;
-                });
-
-                window.addEventListener('mouseleave', () => {
-                    mouse.active = false;
-                });
-
-                // Particle / Node generation
-                const particles = [];
-                const particleCount = Math.min(Math.floor((width * height) / 16000), 75);
-
-                class Particle {
-                    constructor() {
-                        this.x = Math.random() * width;
-                        this.y = Math.random() * height;
-                        this.vx = (Math.random() - 0.5) * 0.75;
-                        this.vy = (Math.random() - 0.5) * 0.75;
-                        this.radius = Math.random() * 2 + 1.2;
-                        this.baseRadius = this.radius;
-                        // Floating particle color variety (Cyan, Indigo, Purple, Emerald)
-                        const colors = ['#38bdf8', '#818cf8', '#c084fc', '#34d399'];
-                        this.color = colors[Math.floor(Math.random() * colors.length)];
-                        this.glow = Math.random() * 8 + 4;
-                    }
-
-                    update() {
-                        this.x += this.vx;
-                        this.y += this.vy;
-
-                        if (this.x < 0 || this.x > width) this.vx *= -1;
-                        if (this.y < 0 || this.y > height) this.vy *= -1;
-
-                        // Mouse interaction / Parallax push
-                        if (mouse.active) {
-                            const dx = mouse.x - this.x;
-                            const dy = mouse.y - this.y;
-                            const dist = Math.sqrt(dx * dx + dy * dy);
-                            if (dist < 120) {
-                                const angle = Math.atan2(dy, dx);
-                                this.x -= Math.cos(angle) * 1.5;
-                                this.y -= Math.sin(angle) * 1.5;
-                                this.radius = this.baseRadius * 1.6;
-                            } else {
-                                this.radius = this.baseRadius;
-                            }
-                        }
-                    }
-
-                    draw() {
-                        ctx.beginPath();
-                        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                        ctx.fillStyle = this.color;
-                        ctx.shadowBlur = this.glow;
-                        ctx.shadowColor = this.color;
-                        ctx.fill();
-                        ctx.shadowBlur = 0;
-                    }
-                }
-
-                function initParticles() {
-                    particles.length = 0;
-                    for (let i = 0; i < particleCount; i++) {
-                        particles.push(new Particle());
-                    }
-                }
-                initParticles();
-
-                function animate() {
-                    ctx.clearRect(0, 0, width, height);
-
-                    // Connect lines between nearby neural nodes
-                    for (let i = 0; i < particles.length; i++) {
-                        for (let j = i + 1; j < particles.length; j++) {
-                            const dx = particles[i].x - particles[j].x;
-                            const dy = particles[i].y - particles[j].y;
-                            const dist = Math.sqrt(dx * dx + dy * dy);
-
-                            if (dist < 130) {
-                                const alpha = (1 - dist / 130) * 0.22;
-                                ctx.beginPath();
-                                ctx.moveTo(particles[i].x, particles[i].y);
-                                ctx.lineTo(particles[j].x, particles[j].y);
-                                ctx.strokeStyle = `rgba(129, 140, 248, ${alpha})`;
-                                ctx.lineWidth = 0.9;
-                                ctx.stroke();
-                            }
-                        }
-
-                        // Connect lines to mouse cursor
-                        if (mouse.active) {
-                            const dx = mouse.x - particles[i].x;
-                            const dy = mouse.y - particles[i].y;
-                            const dist = Math.sqrt(dx * dx + dy * dy);
-                            if (dist < 150) {
-                                const alpha = (1 - dist / 150) * 0.45;
-                                ctx.beginPath();
-                                ctx.moveTo(particles[i].x, particles[i].y);
-                                ctx.lineTo(mouse.x, mouse.y);
-                                ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
-                                ctx.lineWidth = 1.2;
-                                ctx.stroke();
-                            }
-                        }
-
-                        particles[i].update();
-                        particles[i].draw();
-                    }
-
-                    requestAnimationFrame(animate);
-                }
-                animate();
-            }
-
-            // --- 8 & 9. 3D Hover Cards & Tilt Parallax ---
-            const tiltCards = document.querySelectorAll('.tilt-card');
-            tiltCards.forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-
-                    const rotateX = ((y - centerY) / centerY) * -10; // Max tilt 10deg
-                    const rotateY = ((x - centerX) / centerX) * 10;
-
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
-                    card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
-                    card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
-                });
-            });
-
-            // --- 10. Smooth Section Transitions (IntersectionObserver) ---
+            // --- Smooth Section Transitions (IntersectionObserver) ---
             const revealElements = document.querySelectorAll('.reveal-on-scroll');
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver((entries) => {
@@ -801,7 +598,7 @@
                 revealElements.forEach(el => el.classList.add('revealed'));
             }
 
-            // --- 7. Animated Statistics (Counters) ---
+            // --- Animated Statistics (Counters) ---
             const counters = document.querySelectorAll('.counter');
             const animateCounter = (el) => {
                 const target = parseFloat(el.getAttribute('data-target'));
@@ -841,7 +638,7 @@
                 counters.forEach(animateCounter);
             }
 
-            // --- 12. Micro-interactions: Button Ripple Effect ---
+            // --- Micro-interactions: Button Ripple Effect ---
             document.querySelectorAll('.btn').forEach(button => {
                 button.addEventListener('click', function(e) {
                     const rect = this.getBoundingClientRect();
