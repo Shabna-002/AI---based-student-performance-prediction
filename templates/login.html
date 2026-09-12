@@ -1,150 +1,99 @@
 {% extends "base.html" %}
 
-{% block title %}Sign In - EduPredict AI{% endblock %}
+{% block title %}Sign In - AI Student Performance{% endblock %}
 
 {% block extra_css %}
 <style>
+    /* 1. 🌌 Dark Blue / Purple Gradient Background */
     body {
-        background: #090d16 !important;
+        background: radial-gradient(circle at 15% 18%, rgba(79, 70, 229, 0.38) 0%, transparent 45%),
+                    radial-gradient(circle at 85% 82%, rgba(147, 51, 234, 0.35) 0%, transparent 48%),
+                    radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.22) 0%, transparent 60%),
+                    linear-gradient(135deg, #070913 0%, #0f172a 30%, #1e1b4b 68%, #2e1065 100%) !important;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
         position: relative;
         overflow-x: hidden;
-        perspective: 1200px;
     }
     main {
         flex: 1;
         display: flex;
         align-items: center;
-        padding-top: 2rem !important;
-        padding-bottom: 2rem !important;
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
         position: relative;
         z-index: 2;
     }
 
-    /* 1. Animated 3D Aurora Mesh Background */
-    .bg-aurora {
+    /* 2. ✨ Subtle Animated Floating Academic Particles */
+    .academic-particles-container {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         pointer-events: none;
-        z-index: 0;
+        z-index: 1;
         overflow: hidden;
     }
-    .aurora-orb {
+    .academic-particle {
         position: absolute;
-        border-radius: 50%;
-        filter: blur(85px);
-        opacity: 0.42;
-        animation: floatOrb 14s infinite alternate ease-in-out;
+        color: rgba(165, 180, 252, 0.28);
+        filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.45));
+        animation: floatAcademicParticle 14s linear infinite;
+        user-select: none;
     }
-    .orb-1 {
-        width: 520px;
-        height: 520px;
-        background: radial-gradient(circle, #2563eb 0%, rgba(37,99,235,0) 70%);
-        top: -120px;
-        left: -100px;
-        animation-duration: 13s;
-    }
-    .orb-2 {
-        width: 560px;
-        height: 560px;
-        background: radial-gradient(circle, #06b6d4 0%, rgba(6,182,212,0) 70%);
-        bottom: -140px;
-        right: -100px;
-        animation-duration: 16s;
-    }
-    .orb-3 {
-        width: 440px;
-        height: 440px;
-        background: radial-gradient(circle, #7c3aed 0%, rgba(124,58,237,0) 70%);
-        top: 35%;
-        left: 40%;
-        animation-duration: 18s;
-        opacity: 0.32;
-    }
-    @keyframes floatOrb {
-        0% { transform: translate(0, 0) scale(1); }
-        50% { transform: translate(50px, -40px) scale(1.15); }
-        100% { transform: translate(-40px, 45px) scale(0.92); }
-    }
+    .particle-1 { top: 12%; left: 8%; font-size: 2rem; animation-duration: 12s; animation-delay: 0s; }
+    .particle-2 { top: 75%; left: 6%; font-size: 1.6rem; animation-duration: 16s; animation-delay: -3s; }
+    .particle-3 { top: 20%; right: 9%; font-size: 2.2rem; animation-duration: 15s; animation-delay: -5s; }
+    .particle-4 { top: 80%; right: 7%; font-size: 1.7rem; animation-duration: 13s; animation-delay: -2s; }
+    .particle-5 { top: 48%; left: 3%; font-size: 1.4rem; animation-duration: 18s; animation-delay: -7s; }
+    .particle-6 { top: 50%; right: 3%; font-size: 1.5rem; animation-duration: 17s; animation-delay: -9s; }
 
-    /* 2. Floating 3D Education Badges in the Background */
-    .floating-edu-badge {
-        position: fixed;
-        display: flex;
-        align-items: center;
-        gap: 0.85rem;
-        padding: 0.75rem 1.25rem;
-        background: rgba(15, 23, 42, 0.75);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        border-radius: 1.1rem;
-        color: #f8fafc;
-        font-size: 0.85rem;
-        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.2);
-        pointer-events: none;
-        z-index: 1;
-        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        transform-style: preserve-3d;
-    }
-    .floating-edu-badge .badge-icon {
-        width: 42px;
-        height: 42px;
-        border-radius: 0.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.35rem;
-        flex-shrink: 0;
-    }
-    .badge-pos-1 {
-        top: 8%;
-        left: 3%;
-        animation: levitate3D 6.5s ease-in-out infinite;
-    }
-    .badge-pos-2 {
-        bottom: 8%;
-        left: 4%;
-        animation: levitate3D 7.5s ease-in-out infinite reverse;
-    }
-    .badge-pos-3 {
-        top: 10%;
-        right: 4%;
-        animation: levitate3D 8s ease-in-out infinite 0.7s;
-    }
-    .badge-pos-4 {
-        bottom: 10%;
-        right: 5%;
-        animation: levitate3D 7s ease-in-out infinite 1.2s reverse;
-    }
-    @keyframes levitate3D {
-        0%, 100% {
-            transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+    @keyframes floatAcademicParticle {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 0.25;
         }
         50% {
-            transform: translateY(-20px) rotateX(10deg) rotateY(-10deg);
+            transform: translateY(-28px) rotate(12deg);
+            opacity: 0.6;
+        }
+        100% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 0.25;
         }
     }
 
-    /* 3. Main Auth Container with 3D Depth */
+    /* 3. 🪟 Glassmorphism Login Card & 🔄 Smooth Page Transitions */
     .auth-container {
         border-radius: 1.75rem;
-        box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.12), 0 0 35px rgba(37, 99, 235, 0.25);
+        background: rgba(255, 255, 255, 0.94) !important;
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.7), 0 0 35px rgba(99, 102, 241, 0.28);
         overflow: hidden;
-        background-color: #ffffff;
-        transform-style: preserve-3d;
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        animation: cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
+    @keyframes cardEntrance {
+        from {
+            opacity: 0;
+            transform: translateY(24px) scale(0.98);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Left Hero Panel */
     .auth-hero {
-        background: linear-gradient(145deg, #090e1a 0%, #0f1d3a 50%, #1e3a8a 100%);
+        background: linear-gradient(145deg, #090e1a 0%, #171c38 45%, #1e1b4b 100%);
         color: #ffffff;
         position: relative;
-        padding: 3rem 2.5rem;
+        padding: 3.25rem 2.75rem;
         overflow: hidden;
     }
     .auth-hero::before {
@@ -154,74 +103,149 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.28) 0%, transparent 65%);
+        background: radial-gradient(circle at top right, rgba(129, 140, 248, 0.28) 0%, transparent 65%);
         pointer-events: none;
     }
 
-    /* 4. 3D Interactive Education Hologram Scene */
-    .edu-3d-scene {
-        perspective: 900px;
-        margin: 1.25rem 0;
-    }
-    .edu-3d-hologram {
+    /* 🤖 Small AI/ML Illustration Card */
+    .ai-ml-graphic-card {
         background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 1.25rem;
-        padding: 1.5rem;
-        backdrop-filter: blur(14px);
-        transform-style: preserve-3d;
-        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(56, 189, 248, 0.08);
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        animation: floatScene3D 6s ease-in-out infinite;
-        position: relative;
+        padding: 1.25rem;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.5), inset 0 0 25px rgba(99, 102, 241, 0.1);
+        margin: 1.25rem 0;
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
     }
-    @keyframes floatScene3D {
-        0%, 100% {
-            transform: translateY(0) rotateX(0deg) rotateY(0deg);
-        }
-        50% {
-            transform: translateY(-8px) rotateX(5deg) rotateY(-5deg);
-        }
+    .ai-ml-graphic-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 22px 42px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(129, 140, 248, 0.25);
     }
-    .edu-3d-svg {
+    .ai-svg-illustration {
         width: 100%;
-        max-height: 155px;
-        filter: drop-shadow(0 12px 24px rgba(37, 99, 235, 0.4));
-        animation: pulse3DSvg 5s ease-in-out infinite alternate;
-    }
-    @keyframes pulse3DSvg {
-        0% { transform: scale(0.98) translateY(0); }
-        100% { transform: scale(1.02) translateY(-4px); }
+        max-height: 145px;
+        filter: drop-shadow(0 10px 20px rgba(79, 70, 229, 0.45));
     }
 
+    /* Feature Badges */
     .feature-badge {
         display: flex;
         align-items: center;
-        gap: 0.9rem;
-        padding: 0.75rem 1rem;
+        gap: 0.85rem;
+        padding: 0.7rem 0.95rem;
         background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 0.85rem;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
         backdrop-filter: blur(8px);
         margin-bottom: 0.75rem;
-        transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+        transition: transform 0.22s ease, background 0.22s ease;
     }
     .feature-badge:hover {
-        transform: translateX(5px) translateY(-2px);
-        background: rgba(255, 255, 255, 0.12);
-        border-color: rgba(96, 165, 250, 0.4);
+        transform: translateX(4px);
+        background: rgba(255, 255, 255, 0.11);
     }
     .feature-badge i {
-        font-size: 1.3rem;
-        color: #60a5fa;
+        font-size: 1.25rem;
+        color: #818cf8;
     }
+
+    /* Right Form Side */
     .auth-form-side {
         padding: 3.5rem 3rem;
+        background-color: transparent;
+    }
+
+    /* 👤 🔒 Animated Username & Password Inputs */
+    .input-group-animated {
+        border-radius: 0.65rem;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        border: 1px solid #cbd5e1;
+        overflow: hidden;
         background-color: #ffffff;
     }
+    .input-group-animated:focus-within {
+        border-color: #6366f1 !important;
+        box-shadow: 0 0 0 3.5px rgba(99, 102, 241, 0.2), 0 0 15px rgba(99, 102, 241, 0.25) !important;
+    }
+    .input-group-animated .input-group-text {
+        background-color: transparent;
+        border: none;
+        color: #94a3b8;
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
+    .input-group-animated:focus-within .input-group-text i {
+        color: #6366f1 !important;
+        transform: scale(1.18);
+    }
+    .input-group-animated .form-control {
+        border: none;
+        box-shadow: none !important;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    /* Password Show/Hide Toggle Button */
+    .btn-toggle-pwd {
+        border: none;
+        background: transparent;
+        color: #94a3b8;
+        cursor: pointer;
+        transition: color 0.2s ease, transform 0.2s ease;
+        padding-right: 0.9rem;
+    }
+    .btn-toggle-pwd:hover {
+        color: #4f46e5;
+        transform: scale(1.1);
+    }
+
+    /* 🚀 Modern Sign In Button with Hover Animation */
+    .btn-modern-signin {
+        background: linear-gradient(135deg, #4f46e5 0%, #2563eb 50%, #06b6d4 100%);
+        color: #ffffff;
+        border: none;
+        padding: 0.75rem 1.25rem;
+        font-weight: 600;
+        font-size: 1rem;
+        border-radius: 0.65rem;
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-modern-signin::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+        transition: left 0.6s ease;
+    }
+    .btn-modern-signin:hover {
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(79, 70, 229, 0.5);
+    }
+    .btn-modern-signin:hover::before {
+        left: 100%;
+    }
+    .btn-modern-signin:hover .signin-icon {
+        transform: translateX(4px) translateY(-1px);
+    }
+    .signin-icon {
+        transition: transform 0.25s ease;
+    }
+
+    /* 📱 Fully Responsive For Mobile */
     @media (max-width: 991px) {
-        .floating-edu-badge {
+        .academic-particle {
             display: none !important;
         }
         .auth-hero {
@@ -235,137 +259,108 @@
             text-align: left;
         }
     }
+    @media (max-width: 575px) {
+        main {
+            padding-top: 1.5rem !important;
+            padding-bottom: 1.5rem !important;
+        }
+        .auth-container {
+            border-radius: 1.25rem;
+        }
+        .auth-hero {
+            padding: 1.75rem 1.25rem;
+        }
+        .auth-form-side {
+            padding: 2rem 1.25rem;
+        }
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Ambient 3D Aurora Mesh Background -->
-<div class="bg-aurora">
-    <div class="aurora-orb orb-1"></div>
-    <div class="aurora-orb orb-2"></div>
-    <div class="aurora-orb orb-3"></div>
+<!-- ✨ Subtle Animated Floating Academic Particles -->
+<div class="academic-particles-container">
+    <div class="academic-particle particle-1"><i class="bi bi-mortarboard-fill"></i></div>
+    <div class="academic-particle particle-2"><i class="bi bi-book-half"></i></div>
+    <div class="academic-particle particle-3"><i class="bi bi-award-fill"></i></div>
+    <div class="academic-particle particle-4"><i class="bi bi-cpu-fill"></i></div>
+    <div class="academic-particle particle-5"><i class="bi bi-pencil-fill"></i></div>
+    <div class="academic-particle particle-6"><i class="bi bi-lightbulb-fill"></i></div>
 </div>
 
-<!-- Floating 3D Education Badges in Space -->
-<div class="floating-edu-badge badge-pos-1" id="badge1">
-    <div class="badge-icon bg-primary bg-opacity-25 text-primary">
-        <i class="bi bi-mortarboard-fill"></i>
-    </div>
-    <div>
-        <strong class="d-block text-white">AI Academic Model</strong>
-        <small class="text-white-50">Predictive Forecasting</small>
-    </div>
-</div>
-
-<div class="floating-edu-badge badge-pos-2" id="badge2">
-    <div class="badge-icon bg-warning bg-opacity-25 text-warning">
-        <i class="bi bi-award-fill"></i>
-    </div>
-    <div>
-        <strong class="d-block text-white">Academic Excellence</strong>
-        <small class="text-white-50">Grade A+ Trajectory</small>
-    </div>
-</div>
-
-<div class="floating-edu-badge badge-pos-3" id="badge3">
-    <div class="badge-icon bg-info bg-opacity-25 text-info">
-        <i class="bi bi-cpu-fill"></i>
-    </div>
-    <div>
-        <strong class="d-block text-white">Neural Analytics</strong>
-        <small class="text-white-50">98.4% Accuracy</small>
-    </div>
-</div>
-
-<div class="floating-edu-badge badge-pos-4" id="badge4">
-    <div class="badge-icon bg-success bg-opacity-25 text-success">
-        <i class="bi bi-journal-check"></i>
-    </div>
-    <div>
-        <strong class="d-block text-white">Smart Evaluation</strong>
-        <small class="text-white-50">Continuous Mentoring</small>
-    </div>
-</div>
-
-<div class="container reveal-section">
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-11 col-xl-10">
-            <div class="auth-container glow-border" id="authBox">
+            <!-- 🪟 Glassmorphism Login Card -->
+            <div class="auth-container glow-border">
                 <div class="row g-0">
-                    <!-- Left Side: Project Branding & 3D Education Scene -->
+                    <!-- Left Side: 🎓 AI Student Performance Branding & 🤖 AI/ML Illustration -->
                     <div class="col-12 col-lg-6 auth-hero d-flex flex-column justify-content-between">
                         <div>
-                            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-primary bg-opacity-25 rounded-pill border border-primary border-opacity-25 mb-3">
-                                <i class="bi bi-mortarboard-fill text-primary"></i>
-                                <span class="small fw-semibold text-white">Academic Analytics Portal</span>
+                            <!-- 🎓 Branding / Logo Badge -->
+                            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-primary bg-opacity-25 rounded-pill border border-primary border-opacity-30 mb-3">
+                                <i class="bi bi-mortarboard-fill text-info"></i>
+                                <span class="small fw-semibold text-white">🎓 AI Student Performance</span>
                             </div>
-                            <h2 class="display-6 fw-bold mb-2 text-white"><span class="gradient-text-accent">EduPredict AI</span></h2>
-                            <p class="text-white-50 small leading-relaxed mb-3">
-                                Intelligent student performance monitoring and machine learning predictive analytics system.
+                            <h2 class="display-6 fw-bold mb-2 text-white">
+                                <span class="gradient-text-accent">AI Student Performance</span>
+                            </h2>
+                            <p class="text-white-50 small leading-relaxed mb-2">
+                                Intelligent predictive analytics and machine learning academic trajectory monitoring.
                             </p>
                         </div>
 
-                        <!-- 3D Animated Education Hologram Scene -->
-                        <div class="edu-3d-scene">
-                            <div class="edu-3d-hologram" id="eduHologram">
-                                <svg class="edu-3d-svg" viewBox="0 0 380 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <linearGradient id="capGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#3b82f6" />
-                                            <stop offset="50%" stop-color="#1d4ed8" />
-                                            <stop offset="100%" stop-color="#0f172a" />
-                                        </linearGradient>
-                                        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#fbbf24" />
-                                            <stop offset="100%" stop-color="#d97706" />
-                                        </linearGradient>
-                                        <linearGradient id="glowRings" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.8" />
-                                            <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.2" />
-                                        </linearGradient>
-                                        <linearGradient id="bookGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
-                                            <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0.75" />
-                                        </linearGradient>
-                                    </defs>
-
-                                    <!-- Isometric 3D Platform Ground -->
-                                    <ellipse cx="190" cy="130" rx="140" ry="24" fill="rgba(37,99,235,0.18)" />
-                                    <ellipse cx="190" cy="130" rx="100" ry="16" fill="rgba(6,182,212,0.25)" />
-                                    <ellipse cx="190" cy="130" rx="60" ry="9" stroke="url(#glowRings)" stroke-width="2" stroke-dasharray="4 4" />
-
-                                    <!-- 3D Open Digital Book Base -->
-                                    <path d="M 120 120 Q 190 135 260 120 L 255 135 Q 190 148 125 135 Z" fill="url(#bookGrad)" />
-                                    <path d="M 120 120 Q 190 110 260 120 L 260 124 Q 190 114 120 124 Z" fill="#93c5fd" opacity="0.6" />
-
-                                    <!-- 3D Mortarboard / Graduation Cap Top Rhombus -->
-                                    <polygon points="190,35 285,68 190,98 95,68" fill="url(#capGrad)" stroke="#60a5fa" stroke-width="1.8" />
-                                    
-                                    <!-- 3D Cap Skull Cap Body -->
-                                    <path d="M 140 76 Q 190 96 240 76 L 240 92 Q 190 112 140 92 Z" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
-
-                                    <!-- 3D Golden Button & Tassel -->
-                                    <ellipse cx="190" cy="65" rx="5" ry="3" fill="url(#goldGrad)" />
-                                    <path d="M 190 65 Q 225 78 248 95" stroke="url(#goldGrad)" stroke-width="2.2" fill="none" stroke-linecap="round" />
-                                    <rect x="246" y="93" width="7" height="14" rx="2" fill="url(#goldGrad)" />
-
-                                    <!-- Floating 3D Glowing Shield: Grade A+ -->
-                                    <g transform="translate(45, 30)">
-                                        <rect x="0" y="0" width="75" height="32" rx="10" fill="rgba(15,23,42,0.85)" stroke="url(#goldGrad)" stroke-width="1.5" />
-                                        <text x="37" y="21" font-size="12" font-weight="bold" fill="#fbbf24" text-anchor="middle" font-family="sans-serif">★ GRADE A+</text>
-                                    </g>
-
-                                    <!-- Floating 3D Neural Accuracy Badge -->
-                                    <g transform="translate(260, 25)">
-                                        <rect x="0" y="0" width="80" height="32" rx="10" fill="rgba(15,23,42,0.85)" stroke="#38bdf8" stroke-width="1.5" />
-                                        <circle cx="15" cy="16" r="4" fill="#10b981" />
-                                        <text x="47" y="21" font-size="11" font-weight="bold" fill="#38bdf8" text-anchor="middle" font-family="sans-serif">98.4% AI</text>
-                                    </g>
-                                </svg>
+                        <!-- 🤖 Small AI/ML Illustration -->
+                        <div class="ai-ml-graphic-card">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="badge bg-success bg-opacity-20 text-success rounded-pill px-2 py-1 small">
+                                    <i class="bi bi-record-circle-fill me-1"></i> AI Engine Active
+                                </span>
+                                <span class="badge bg-primary bg-opacity-25 text-info rounded-pill px-2 py-1 small">
+                                    Random Forest ML
+                                </span>
                             </div>
+                            <svg class="ai-svg-illustration" viewBox="0 0 360 135" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="aiGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#818cf8" />
+                                        <stop offset="100%" stop-color="#2563eb" />
+                                    </linearGradient>
+                                    <linearGradient id="goldCapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#fbbf24" />
+                                        <stop offset="100%" stop-color="#f59e0b" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Neural Node Grid Connections -->
+                                <line x1="60" y1="40" x2="180" y2="25" stroke="rgba(99,102,241,0.3)" stroke-width="1.5" stroke-dasharray="3 3" />
+                                <line x1="180" y1="25" x2="300" y2="40" stroke="rgba(99,102,241,0.3)" stroke-width="1.5" stroke-dasharray="3 3" />
+                                <line x1="60" y1="95" x2="180" y2="110" stroke="rgba(99,102,241,0.3)" stroke-width="1.5" stroke-dasharray="3 3" />
+                                <line x1="180" y1="110" x2="300" y2="95" stroke="rgba(99,102,241,0.3)" stroke-width="1.5" stroke-dasharray="3 3" />
+
+                                <!-- Floating 3D Graduation Cap Center -->
+                                <polygon points="180,28 245,48 180,68 115,48" fill="url(#aiGrad1)" stroke="#a5b4fc" stroke-width="1.5" />
+                                <path d="M 145 56 Q 180 72 215 56 L 215 68 Q 180 84 145 68 Z" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.2" />
+                                <circle cx="180" cy="48" r="3.5" fill="url(#goldCapGrad)" />
+                                <path d="M 180 48 Q 205 56 220 70" stroke="url(#goldCapGrad)" stroke-width="1.8" fill="none" />
+                                <rect x="218" y="68" width="5" height="10" rx="1.5" fill="url(#goldCapGrad)" />
+
+                                <!-- AI Neural Nodes -->
+                                <circle cx="60" cy="40" r="14" fill="rgba(15,23,42,0.8)" stroke="#38bdf8" stroke-width="1.5" />
+                                <text x="60" y="44" font-size="9" font-weight="bold" fill="#38bdf8" text-anchor="middle" font-family="sans-serif">DATA</text>
+
+                                <circle cx="300" cy="40" r="14" fill="rgba(15,23,42,0.8)" stroke="#10b981" stroke-width="1.5" />
+                                <text x="300" y="44" font-size="9" font-weight="bold" fill="#10b981" text-anchor="middle" font-family="sans-serif">98.4%</text>
+
+                                <circle cx="60" cy="95" r="14" fill="rgba(15,23,42,0.8)" stroke="#f59e0b" stroke-width="1.5" />
+                                <text x="60" y="99" font-size="9" font-weight="bold" fill="#f59e0b" text-anchor="middle" font-family="sans-serif">GPA</text>
+
+                                <circle cx="300" cy="95" r="14" fill="rgba(15,23,42,0.8)" stroke="#818cf8" stroke-width="1.5" />
+                                <text x="300" y="99" font-size="9" font-weight="bold" fill="#818cf8" text-anchor="middle" font-family="sans-serif">RISK</text>
+                            </svg>
                         </div>
 
-                        <div class="my-2">
+                        <!-- Highlights -->
+                        <div class="my-1">
                             <div class="feature-badge">
                                 <i class="bi bi-cpu-fill"></i>
                                 <div>
@@ -373,24 +368,17 @@
                                     <small class="text-white-50">Accurate machine learning forecasting</small>
                                 </div>
                             </div>
-                            <div class="feature-badge">
-                                <i class="bi bi-database-fill-check"></i>
-                                <div>
-                                    <strong class="d-block text-white">Database Management</strong>
-                                    <small class="text-white-50">Student record tracking & CRUD management</small>
-                                </div>
-                            </div>
                             <div class="feature-badge mb-0">
                                 <i class="bi bi-shield-check"></i>
                                 <div>
                                     <strong class="d-block text-white">Early Academic Intervention</strong>
-                                    <small class="text-white-50">Risk classification for timely mentoring</small>
+                                    <small class="text-white-50">Timely student guidance & mentoring</small>
                                 </div>
                             </div>
                         </div>
 
                         <div class="pt-3 text-white-50 small border-top border-white border-opacity-10 mt-3">
-                            <i class="bi bi-lock-fill me-1"></i> Secure Institutional Access
+                            <i class="bi bi-lock-fill me-1"></i> Institutional Role-Based Access
                         </div>
                     </div>
 
@@ -398,7 +386,7 @@
                     <div class="col-12 col-lg-6 auth-form-side d-flex flex-column justify-content-center">
                         <div class="mb-4">
                             <h3 class="fw-bold text-dark mb-1"><span class="gradient-text">Sign In</span></h3>
-                            <p class="text-muted small">Enter your credentials to access the portal</p>
+                            <p class="text-muted small">Enter your credentials to access the AI performance portal</p>
                         </div>
 
                         {% if error %}
@@ -415,27 +403,50 @@
                         {% endif %}
 
                         <form method="post">
+                            <!-- 👤 Animated Username / Email Field -->
                             <div class="mb-3">
-                                <label class="form-label fw-semibold text-secondary small">USERNAME</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-person"></i></span>
-                                    <input type="text" name="username" class="form-control border-start-0 ps-0" placeholder="Enter username" required autofocus>
+                                <label class="form-label fw-semibold text-secondary small">USERNAME OR EMAIL</label>
+                                <div class="input-group input-group-animated">
+                                    <span class="input-group-text ps-3"><i class="bi bi-person-fill"></i></span>
+                                    <input type="text" name="username" class="form-control ps-2" placeholder="Enter username or institutional email" required autofocus>
                                 </div>
                             </div>
-                            <div class="mb-4">
+
+                            <!-- 🔒 Password Field + Show/Hide Icon -->
+                            <div class="mb-3">
                                 <label class="form-label fw-semibold text-secondary small">PASSWORD</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-lock"></i></span>
-                                    <input type="password" name="password" class="form-control border-start-0 ps-0" placeholder="Enter password" required>
+                                <div class="input-group input-group-animated">
+                                    <span class="input-group-text ps-3"><i class="bi bi-lock-fill"></i></span>
+                                    <input type="password" name="password" id="passwordInput" class="form-control ps-2" placeholder="Enter your password" required>
+                                    <button type="button" class="btn-toggle-pwd" id="togglePasswordBtn" title="Show or hide password" aria-label="Toggle password visibility">
+                                        <i class="bi bi-eye-fill" id="togglePasswordIcon"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold rounded-3 shadow-sm mb-3">
-                                Sign In <i class="bi bi-arrow-right ms-1"></i>
+
+                            <!-- ☑️ Remember Me & 🔑 Forgot Password -->
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
+                                    <label class="form-check-label text-muted small user-select-none" for="rememberMe">
+                                        Remember Me
+                                    </label>
+                                </div>
+                                <a href="javascript:void(0)" onclick="alert('Please contact your department administrator to reset your credentials.');" class="small text-decoration-none text-primary fw-semibold">
+                                    Forgot Password?
+                                </a>
+                            </div>
+
+                            <!-- 🚀 Modern Sign In Button with Hover Animation -->
+                            <button type="submit" class="btn-modern-signin w-100 mb-4">
+                                <span>Sign In</span>
+                                <i class="bi bi-arrow-right signin-icon fs-5"></i>
                             </button>
 
-                            <div class="text-center">
-                                <span class="text-muted small">Don't have an account?</span>
-                                <a href="{{ url_for('signup') }}" class="small fw-semibold text-primary text-decoration-none ms-1">Sign Up</a>
+                            <!-- 📝 “Don’t have an account? Create Account” -->
+                            <div class="text-center pt-2 border-top">
+                                <span class="text-muted small">Don’t have an account?</span>
+                                <a href="{{ url_for('signup') }}" class="small fw-semibold text-primary text-decoration-none ms-1">Create Account</a>
                             </div>
                         </form>
                     </div>
@@ -448,42 +459,18 @@
 
 {% block extra_js %}
 <script>
-    // 3D Mouse Parallax & Dynamic Perspective Tilt
+    // 🔒 Password Show/Hide Toggle
     document.addEventListener('DOMContentLoaded', () => {
-        const authBox = document.getElementById('authBox');
-        const hologram = document.getElementById('eduHologram');
-        const b1 = document.getElementById('badge1');
-        const b2 = document.getElementById('badge2');
-        const b3 = document.getElementById('badge3');
-        const b4 = document.getElementById('badge4');
+        const toggleBtn = document.getElementById('togglePasswordBtn');
+        const passwordInput = document.getElementById('passwordInput');
+        const toggleIcon = document.getElementById('togglePasswordIcon');
 
-        if (window.innerWidth > 992) {
-            window.addEventListener('mousemove', (e) => {
-                const cx = window.innerWidth / 2;
-                const cy = window.innerHeight / 2;
-                const dx = (e.clientX - cx) / cx;
-                const dy = (e.clientY - cy) / cy;
-
-                // Gentle 3D tilt for main auth container
-                if (authBox) {
-                    authBox.style.transform = `rotateY(${dx * 4}deg) rotateX(${-dy * 4}deg)`;
-                }
-
-                // Accentuated 3D tilt for education hologram card
-                if (hologram) {
-                    hologram.style.transform = `rotateY(${dx * 12}deg) rotateX(${-dy * 12}deg) translateY(-4px)`;
-                }
-
-                // Parallax depth for background floating badges
-                if (b1) b1.style.transform = `translate(${dx * 18}px, ${dy * 18}px) rotateX(${dy * 8}deg) rotateY(${dx * 8}deg)`;
-                if (b2) b2.style.transform = `translate(${dx * -22}px, ${dy * -22}px) rotateX(${dy * -8}deg) rotateY(${dx * -8}deg)`;
-                if (b3) b3.style.transform = `translate(${dx * 20}px, ${dy * -18}px) rotateX(${dy * 8}deg) rotateY(${dx * -8}deg)`;
-                if (b4) b4.style.transform = `translate(${dx * -16}px, ${dy * 20}px) rotateX(${dy * -8}deg) rotateY(${dx * 8}deg)`;
-            });
-
-            window.addEventListener('mouseleave', () => {
-                if (authBox) authBox.style.transform = 'rotateY(0deg) rotateX(0deg)';
-                if (hologram) hologram.style.transform = 'rotateY(0deg) rotateX(0deg)';
+        if (toggleBtn && passwordInput && toggleIcon) {
+            toggleBtn.addEventListener('click', () => {
+                const isPassword = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                toggleIcon.classList.toggle('bi-eye-fill', !isPassword);
+                toggleIcon.classList.toggle('bi-eye-slash-fill', isPassword);
             });
         }
     });
