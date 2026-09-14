@@ -899,3 +899,66 @@
     box-shadow: 0 28px 55px -10px rgba(0, 0, 0, 0.8), 0 0 40px rgba(56, 189, 248, 0.25) !important;
 }
 
+/* ==========================================================================
+   9. 🪟 GLASSMORPHISM TABLE & STUDENT RECORDS
+   ========================================================================== */
+.table-glass {
+    color: #f8fafc !important;
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.table-glass thead th {
+    background: rgba(255, 255, 255, 0.04) !important;
+    color: #94a3b8 !important;
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    border-top: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 1.05rem 1.15rem !important;
+}
+
+.table-glass tbody tr {
+    transition: background 0.2s ease, transform 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.table-glass tbody tr:hover {
+    background: rgba(56, 189, 248, 0.06) !important;
+}
+
+.table-glass tbody td {
+    color: #e2e8f0 !important;
+    padding: 1rem 1.15rem !important;
+    vertical-align: middle !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.badge-student-id {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+    font-weight: 700;
+    font-size: 0.8rem;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+}
+
+.badge-department {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.7rem;
+    border-radius: 0.5rem;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #c084fc;
+    font-weight: 600;
+    font-size: 0.78rem;
+}
+
+

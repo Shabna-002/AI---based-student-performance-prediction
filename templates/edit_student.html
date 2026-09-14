@@ -2,47 +2,101 @@
 
 {% block title %}Edit Student - EduPredict AI{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ai_futuristic_theme.css') }}">
+<style>
+    body {
+        background-color: #070a14 !important;
+        background-image: 
+            radial-gradient(circle at 12% 18%, rgba(56, 189, 248, 0.14) 0%, transparent 45%),
+            radial-gradient(circle at 88% 82%, rgba(168, 85, 247, 0.16) 0%, transparent 50%),
+            radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.10) 0%, transparent 65%),
+            linear-gradient(145deg, #070a14 0%, #0c1224 45%, #150d2b 100%) !important;
+        color: #e2e8f0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+    }
+    main {
+        position: relative;
+        z-index: 10;
+        flex: 1;
+        padding-top: 2rem !important;
+        padding-bottom: 3.5rem !important;
+    }
+    .navbar-custom {
+        background: rgba(11, 17, 34, 0.85) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container">
+<!-- Ambient Glow Orbs -->
+<div class="ambient-glow-wrapper">
+    <div class="blue-glow-circle blue-glow-circle-1"></div>
+    <div class="blue-glow-circle blue-glow-circle-2"></div>
+</div>
+
+<div class="cyber-grid-bg"></div>
+<canvas id="ai-neural-canvas"></canvas>
+
+<div class="container position-relative" style="z-index: 20;">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
-            <!-- Header breadcrumb -->
-            <div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom">
-                <div>
-                    <h2 class="fw-bold mb-1">Edit Student Record</h2>
-                    <p class="text-muted mb-0">Update information in the MySQL database for Student #{{ student[0] }}.</p>
+            <!-- Header Card -->
+            <div class="predict-glass-header mb-4 fade-in-up py-3 px-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="badge-ai-glass mb-1">
+                            <i class="bi bi-pencil-square text-warning"></i>
+                            <span>Record Editor</span>
+                        </div>
+                        <h4 class="fw-bold mb-0 text-white">Edit Student Profile</h4>
+                    </div>
+                    <a href="/students" class="btn btn-outline-light rounded-pill px-3 py-1.5 border-opacity-25" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);">
+                        <i class="bi bi-arrow-left me-1"></i> Back
+                    </a>
                 </div>
-                <a href="/students" class="btn btn-outline-secondary btn-sm">
-                    <i class="bi bi-arrow-left me-1"></i> Back to Students
-                </a>
             </div>
 
-            <div class="card shadow-sm">
-                <div class="card-header bg-white py-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <span class="fw-bold"><i class="bi bi-pencil-square text-warning me-2"></i>Update Details</span>
-                        <span class="badge bg-secondary rounded-pill px-3 py-1">Student ID: #{{ student[0] }}</span>
-                    </div>
+            <!-- Glass Card Form -->
+            <div class="predict-glass-card fade-in-up fade-in-delay-1">
+                <div class="card-header d-flex align-items-center justify-content-between py-3">
+                    <span class="fw-bold text-white"><i class="bi bi-person-lines-fill text-info me-2"></i>Update Details</span>
+                    <span class="badge-student-id">Student ID: #{{ student[0] }}</span>
                 </div>
                 <div class="card-body p-4">
                     <form method="post">
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small text-secondary">STUDENT NAME</label>
-                            <input type="text" name="name" class="form-control" value="{{ student[1] }}" placeholder="e.g. John Doe" required autofocus>
+                            <label class="form-label fw-semibold small text-light text-opacity-75">STUDENT NAME</label>
+                            <div class="input-group glass-input-group">
+                                <span class="input-group-text glass-input-icon"><i class="bi bi-person-badge"></i></span>
+                                <input type="text" name="name" class="form-control glass-input-control" value="{{ student[1] }}" placeholder="e.g. John Doe" required autofocus>
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small text-secondary">DEPARTMENT</label>
-                            <input type="text" name="department" class="form-control" value="{{ student[2] }}" placeholder="e.g. CSE / IT / ECE" required>
+                            <label class="form-label fw-semibold small text-light text-opacity-75">DEPARTMENT</label>
+                            <div class="input-group glass-input-group">
+                                <span class="input-group-text glass-input-icon"><i class="bi bi-building"></i></span>
+                                <input type="text" name="department" class="form-control glass-input-control" value="{{ student[2] }}" placeholder="e.g. CSE / IT / ECE" required>
+                            </div>
                         </div>
                         <div class="mb-4">
-                            <label class="form-label fw-semibold small text-secondary">SEMESTER</label>
-                            <input type="number" name="semester" class="form-control" value="{{ student[3] }}" min="1" max="8" placeholder="e.g. 2" required>
+                            <label class="form-label fw-semibold small text-light text-opacity-75">SEMESTER (1 - 8)</label>
+                            <div class="input-group glass-input-group">
+                                <span class="input-group-text glass-input-icon"><i class="bi bi-calendar3"></i></span>
+                                <input type="number" name="semester" class="form-control glass-input-control" value="{{ student[3] }}" min="1" max="8" placeholder="e.g. 2" required>
+                            </div>
                         </div>
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary flex-grow-1 py-2">
+                            <button type="submit" class="btn btn-ai-gradient flex-grow-1 py-3">
                                 <i class="bi bi-check-circle me-1"></i> Save Changes
                             </button>
-                            <a href="/students" class="btn btn-outline-secondary px-4 py-2">
+                            <a href="/students" class="btn btn-outline-light px-4 py-3 rounded-3 border-opacity-25" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(8px);">
                                 Cancel
                             </a>
                         </div>
@@ -52,4 +106,20 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- AI Ambient Effects Engine -->
+<script src="{{ url_for('static', filename='js/ai_ambient_effects.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.initAiAmbientEffects) {
+            window.initAiAmbientEffects({
+                canvasId: 'ai-neural-canvas',
+                particleCount: window.innerWidth < 768 ? 20 : 35,
+                maxDistance: window.innerWidth < 768 ? 90 : 120
+            });
+        }
+    });
+</script>
 {% endblock %}
