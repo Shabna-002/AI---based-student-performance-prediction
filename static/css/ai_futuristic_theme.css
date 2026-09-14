@@ -1,0 +1,684 @@
+/* ==========================================================================
+   EduPredict AI - Futuristic AI & Academic Glassmorphism Stylesheet
+   Features:
+   - Blue-Purple Glowing Gradients & Mesh Aura
+   - 🌟 Glassmorphism Cards & Panels (Frosted Blur, Neon Rim Light)
+   - 🎓 Floating Education Icons (Graduation Cap, Book, Laptop)
+   - 📊 Floating Charts & Real-time Graph Lines
+   - 🧠 Subtle AI Circuit Board Animations & Vector Traces
+   - 📚 Small Floating Mathematical Symbols (∑, π, ∫, √x, f(x), Δ)
+   - 💫 Buttery Smooth Transitions & Staggered Animations
+   ========================================================================== */
+
+:root {
+    --ai-bg-dark: #070a14;
+    --ai-bg-deep: #0d1224;
+    --ai-primary-cyan: #38bdf8;
+    --ai-primary-blue: #3b82f6;
+    --ai-primary-indigo: #6366f1;
+    --ai-primary-purple: #8b5cf6;
+    --ai-primary-violet: #a855f7;
+    --ai-accent-fuchsia: #d946ef;
+
+    --ai-glow-blue: 0 0 25px rgba(59, 130, 246, 0.45);
+    --ai-glow-purple: 0 0 30px rgba(168, 85, 247, 0.45);
+    --ai-glow-cyan: 0 0 25px rgba(56, 189, 248, 0.4);
+
+    --glass-bg-dark: rgba(13, 19, 36, 0.72);
+    --glass-bg-card: rgba(15, 23, 42, 0.75);
+    --glass-bg-light: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-border-glow: rgba(168, 85, 247, 0.35);
+    --glass-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(99, 102, 241, 0.15);
+    --glass-blur: blur(20px) saturate(190%);
+}
+
+/* ==========================================================================
+   1. GLOBAL CANVAS & GLOW BACKGROUND
+   ========================================================================== */
+.ai-page-body {
+    background-color: var(--ai-bg-dark) !important;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.18) 0%, transparent 50%),
+        radial-gradient(circle at 50% 40%, rgba(99, 102, 241, 0.12) 0%, transparent 65%),
+        linear-gradient(145deg, #060913 0%, #0b1122 45%, #150d2b 100%) !important;
+    color: #e2e8f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated Ambient Glow Orbs */
+.ambient-glow-wrapper {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    opacity: 0.45;
+    animation: orbFloat 14s ease-in-out infinite alternate;
+}
+
+.ambient-orb-1 {
+    width: 520px;
+    height: 520px;
+    top: -100px;
+    left: -100px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.6) 0%, rgba(59, 130, 246, 0.2) 60%, transparent 80%);
+    animation-duration: 16s;
+}
+
+.ambient-orb-2 {
+    width: 580px;
+    height: 580px;
+    bottom: -120px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.55) 0%, rgba(217, 70, 239, 0.2) 60%, transparent 80%);
+    animation-duration: 18s;
+    animation-delay: -6s;
+}
+
+.ambient-orb-3 {
+    width: 440px;
+    height: 440px;
+    top: 45%;
+    left: 60%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.45) 0%, transparent 70%);
+    animation-duration: 20s;
+    animation-delay: -10s;
+}
+
+@keyframes orbFloat {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(45px, -35px) scale(1.12); }
+    100% { transform: translate(-30px, 40px) scale(0.95); }
+}
+
+/* Neural Network Interactive Canvas */
+#ai-neural-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: auto;
+}
+
+/* ==========================================================================
+   2. 🧠 SUBTLE AI CIRCUIT ANIMATION
+   ========================================================================== */
+.ai-circuit-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.38;
+}
+
+.circuit-path {
+    fill: none;
+    stroke: url(#circuitGradient);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.circuit-pulse {
+    fill: none;
+    stroke: #38bdf8;
+    stroke-width: 2.5;
+    stroke-dasharray: 20, 320;
+    stroke-linecap: round;
+    animation: pulseTravel 6s linear infinite;
+    filter: drop-shadow(0 0 6px #38bdf8);
+}
+
+.circuit-pulse-purple {
+    fill: none;
+    stroke: #c084fc;
+    stroke-width: 2.5;
+    stroke-dasharray: 25, 280;
+    stroke-linecap: round;
+    animation: pulseTravelReverse 7s linear infinite;
+    filter: drop-shadow(0 0 6px #c084fc);
+}
+
+.circuit-node {
+    fill: #38bdf8;
+    filter: drop-shadow(0 0 5px #38bdf8);
+    animation: nodeBlink 3s ease-in-out infinite alternate;
+}
+
+.circuit-node-purple {
+    fill: #c084fc;
+    filter: drop-shadow(0 0 5px #c084fc);
+    animation: nodeBlink 3s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes pulseTravel {
+    0% { stroke-dashoffset: 680; }
+    100% { stroke-dashoffset: 0; }
+}
+
+@keyframes pulseTravelReverse {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 600; }
+}
+
+@keyframes nodeBlink {
+    0% { opacity: 0.3; transform: scale(0.85); }
+    100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ==========================================================================
+   3. 📚 SMALL FLOATING MATHEMATICAL SYMBOLS
+   ========================================================================== */
+.floating-math-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    overflow: hidden;
+}
+
+.math-symbol {
+    position: absolute;
+    font-family: 'Times New Roman', Cambria, Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    user-select: none;
+    pointer-events: none;
+    color: rgba(165, 180, 252, 0.4);
+    text-shadow: 0 0 16px rgba(139, 92, 246, 0.4);
+    will-change: transform, opacity;
+    animation: floatMath 12s ease-in-out infinite alternate;
+}
+
+.math-symbol.math-cyan {
+    color: rgba(56, 189, 248, 0.45);
+    text-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+}
+
+.math-symbol.math-purple {
+    color: rgba(192, 132, 252, 0.45);
+    text-shadow: 0 0 16px rgba(192, 132, 252, 0.45);
+}
+
+.math-symbol.math-emerald {
+    color: rgba(52, 211, 153, 0.4);
+    text-shadow: 0 0 16px rgba(52, 211, 153, 0.4);
+}
+
+@keyframes floatMath {
+    0% { transform: translateY(0) rotate(0deg) scale(0.95); }
+    50% { transform: translateY(-30px) rotate(6deg) scale(1.05); }
+    100% { transform: translateY(20px) rotate(-6deg) scale(0.95); }
+}
+
+/* ==========================================================================
+   4. 🎓 FLOATING EDUCATION ICONS & 📊 FLOATING CHARTS
+   ========================================================================== */
+.floating-elements-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+    overflow: hidden;
+}
+
+.floating-glass-pill {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 1.15rem;
+    border-radius: 9999px;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(99, 102, 241, 0.25);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    pointer-events: none;
+    animation: floatGentle 8s ease-in-out infinite alternate;
+    transition: transform 0.4s ease;
+}
+
+.floating-glass-pill i {
+    font-size: 1.25rem;
+}
+
+.pill-cap {
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(56, 189, 248, 0.35);
+}
+.pill-cap i { color: #38bdf8; }
+
+.pill-book {
+    border-color: rgba(168, 85, 247, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(168, 85, 247, 0.35);
+    animation-duration: 10s;
+    animation-delay: -3s;
+}
+.pill-book i { color: #c084fc; }
+
+.pill-laptop {
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(99, 102, 241, 0.35);
+    animation-duration: 9s;
+    animation-delay: -5s;
+}
+.pill-laptop i { color: #818cf8; }
+
+/* 📊 Floating Mini Chart Widget */
+.floating-chart-card {
+    position: absolute;
+    width: 210px;
+    padding: 1rem;
+    border-radius: 1.15rem;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.2);
+    animation: floatGentle 11s ease-in-out infinite alternate-reverse;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.floating-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.floating-chart-value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #38bdf8, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.floating-chart-svg {
+    width: 100%;
+    height: 48px;
+    overflow: visible;
+}
+
+.chart-sparkline {
+    fill: none;
+    stroke: url(#chartGradient);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.7));
+}
+
+.chart-area {
+    fill: url(#chartAreaGradient);
+    opacity: 0.35;
+}
+
+.chart-point-pulse {
+    fill: #38bdf8;
+    filter: drop-shadow(0 0 6px #38bdf8);
+    animation: nodeBlink 2s infinite alternate;
+}
+
+@keyframes floatGentle {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-22px) rotate(2deg); }
+    100% { transform: translateY(14px) rotate(-1.5deg); }
+}
+
+/* ==========================================================================
+   5. 🌟 GLASSMORPHISM CARDS & PANELS
+   ========================================================================== */
+.glass-container {
+    border-radius: 1.75rem;
+    background: var(--glass-bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-top: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.glass-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.15) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.glass-container:hover {
+    box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.85), 0 0 50px rgba(168, 85, 247, 0.25);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Glass Hero / Branding Section */
+.glass-hero-side {
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.88) 0%, rgba(30, 27, 75, 0.85) 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    padding: 3.25rem 2.75rem;
+}
+
+/* Glass Feature Item */
+.glass-feature-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 1.15rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 1rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    margin-bottom: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-feature-badge:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(168, 85, 247, 0.4);
+    transform: translateX(5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+}
+
+.glass-feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.25));
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #38bdf8;
+    flex-shrink: 0;
+}
+
+/* Glass Form Side */
+.glass-form-side {
+    background: rgba(10, 15, 30, 0.75);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    padding: 3.5rem 3rem;
+    position: relative;
+}
+
+/* Glass Inputs & Interactive Controls */
+.glass-input-group {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.85rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.glass-input-group:focus-within {
+    border-color: #a855f7;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.2), 0 0 20px rgba(56, 189, 248, 0.25);
+    transform: translateY(-1px);
+}
+
+.glass-input-icon {
+    background: transparent !important;
+    border: none !important;
+    color: #94a3b8;
+    padding-left: 1.15rem;
+    font-size: 1.15rem;
+}
+
+.glass-input-control {
+    background: transparent !important;
+    border: none !important;
+    color: #f8fafc !important;
+    padding: 0.85rem 1rem 0.85rem 0.5rem;
+    font-size: 0.95rem;
+}
+
+.glass-input-control::placeholder {
+    color: #64748b !important;
+}
+
+.glass-input-control:focus {
+    box-shadow: none !important;
+}
+
+/* Glass Buttons with Glowing Gradients */
+.btn-ai-gradient {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #c026d3 100%);
+    background-size: 200% 200%;
+    color: #ffffff;
+    border: none;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 0.85rem 1.5rem;
+    border-radius: 0.85rem;
+    box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.5), 0 0 20px rgba(56, 189, 248, 0.3);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ai-gradient::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transform: rotate(30deg);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.7s;
+}
+
+.btn-ai-gradient:hover {
+    background-position: 100% 0;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px -5px rgba(124, 58, 237, 0.65), 0 0 30px rgba(56, 189, 248, 0.5);
+}
+
+.btn-ai-gradient:hover::after {
+    opacity: 1;
+    transform: rotate(30deg) translate(20%, -20%);
+}
+
+.btn-ai-gradient:active {
+    transform: translateY(1px);
+}
+
+/* Glass Badge / Tag */
+.badge-ai-glass {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: 9999px;
+    background: rgba(99, 102, 241, 0.18);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: #e0e7ff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.25);
+}
+
+/* ==========================================================================
+   6. 🔮 PREDICTION PAGE ENHANCEMENTS
+   ========================================================================== */
+.predict-glass-header {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.85) 0%, rgba(88, 28, 135, 0.85) 100%);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 35px rgba(99, 102, 241, 0.25);
+    padding: 2.25rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.predict-glass-header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 350px;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.predict-glass-card {
+    background: var(--glass-bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 1.5rem;
+    box-shadow: var(--glass-shadow);
+    color: #f8fafc;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.predict-glass-card .card-header {
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    padding: 1.25rem 1.75rem;
+}
+
+/* Outcome Glow Cards */
+.outcome-glow-high {
+    border: 1px solid rgba(34, 197, 94, 0.45) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(34, 197, 94, 0.3) !important;
+}
+
+.outcome-glow-average {
+    border: 1px solid rgba(234, 179, 8, 0.45) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(234, 179, 8, 0.3) !important;
+}
+
+.outcome-glow-low {
+    border: 1px solid rgba(239, 68, 68, 0.45) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(239, 68, 68, 0.3) !important;
+}
+
+/* Pulsing Outcome Badge */
+.pulse-outcome-badge {
+    animation: outcomePulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes outcomePulse {
+    0% { transform: scale(1); filter: brightness(1); }
+    100% { transform: scale(1.04); filter: brightness(1.2); }
+}
+
+/* Confidence Meter Progress Bar */
+.glow-progress-bar {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    height: 12px;
+    overflow: hidden;
+    padding: 2px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.glow-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+.glow-progress-fill.high {
+    background: linear-gradient(90deg, #10b981, #34d399);
+    box-shadow: 0 0 15px rgba(52, 211, 153, 0.7);
+}
+
+.glow-progress-fill.average {
+    background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.7);
+}
+
+.glow-progress-fill.low {
+    background: linear-gradient(90deg, #ef4444, #f87171);
+    box-shadow: 0 0 15px rgba(248, 113, 113, 0.7);
+}
+
+/* ==========================================================================
+   7. ⚡ SMOOTH ENTRANCE & HOVER MICRO-ANIMATIONS
+   ========================================================================== */
+.fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.fade-in-delay-1 { animation-delay: 0.15s; }
+.fade-in-delay-2 { animation-delay: 0.3s; }
+.fade-in-delay-3 { animation-delay: 0.45s; }
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(28px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Subtle Shimmer for High-Tech Borders */
+@keyframes borderShimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Responsive Tweaks */
+@media (max-width: 991px) {
+    .floating-chart-card,
+    .floating-glass-pill {
+        display: none !important; /* Keep mobile clean and uncluttered */
+    }
+    .glass-hero-side {
+        padding: 2.25rem 1.75rem;
+        text-align: center;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-form-side {
+        padding: 2.5rem 1.75rem;
+    }
+}

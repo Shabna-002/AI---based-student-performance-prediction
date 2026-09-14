@@ -3,175 +3,223 @@
 {% block title %}Sign Up - EduPredict AI{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ai_futuristic_theme.css') }}">
 <style>
     body {
-        background: radial-gradient(circle at 12% 18%, rgba(37, 99, 235, 0.22) 0%, transparent 45%),
-                    radial-gradient(circle at 88% 82%, rgba(14, 165, 233, 0.18) 0%, transparent 45%),
-                    linear-gradient(135deg, #090d16 0%, #0f172a 45%, #1e293b 100%) !important;
+        background-color: #070a14 !important;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+        overflow-x: hidden;
     }
     main {
+        position: relative;
+        z-index: 10;
         flex: 1;
         display: flex;
         align-items: center;
-        padding-top: 2rem !important;
-        padding-bottom: 2rem !important;
-    }
-    .auth-container {
-        border-radius: 1.5rem;
-        box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
-        overflow: hidden;
-        background-color: #ffffff;
-    }
-    .auth-hero {
-        background: linear-gradient(145deg, #0f172a 0%, #1e3a8a 100%);
-        color: #ffffff;
-        position: relative;
-        padding: 3.25rem 3rem;
-    }
-    .auth-hero::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at top right, rgba(96, 165, 250, 0.25) 0%, transparent 70%);
-        pointer-events: none;
-    }
-    .feature-badge {
-        display: flex;
-        align-items: center;
-        gap: 0.9rem;
-        padding: 0.8rem 1rem;
-        background: rgba(255, 255, 255, 0.07);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 0.85rem;
-        font-size: 0.9rem;
-        backdrop-filter: blur(8px);
-        margin-bottom: 0.85rem;
-    }
-    .feature-badge i {
-        font-size: 1.3rem;
-        color: #60a5fa;
-    }
-    .auth-form-side {
-        padding: 3.5rem 3rem;
-        background-color: #ffffff;
-    }
-    @media (max-width: 991px) {
-        .auth-hero {
-            padding: 2.25rem 1.75rem;
-            text-align: center;
-        }
-        .auth-form-side {
-            padding: 2.5rem 1.75rem;
-        }
-        .feature-badge {
-            text-align: left;
-        }
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<!-- =========================================================================
+     1. ✨ BLUE-PURPLE GLOWING GRADIENT & AMBIENT ORBS
+     ========================================================================= -->
+<div class="ambient-glow-wrapper">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+    <div class="ambient-orb ambient-orb-3"></div>
+</div>
+
+<!-- =========================================================================
+     2. 🤖 AI NEURAL-NETWORK PARTICLES (Canvas Engine)
+     ========================================================================= -->
+<canvas id="ai-neural-canvas"></canvas>
+
+<!-- =========================================================================
+     3. 🧠 SUBTLE AI CIRCUIT ANIMATION
+     ========================================================================= -->
+<svg class="ai-circuit-overlay" viewBox="0 0 1920 1080" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="circuitGradSignup" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
+            <stop offset="50%" stop-color="#818cf8" stop-opacity="0.30" />
+            <stop offset="100%" stop-color="#c084fc" stop-opacity="0.20" />
+        </linearGradient>
+    </defs>
+    <path class="circuit-path" stroke="url(#circuitGradSignup)" d="M -50,260 H 250 L 370,380 H 550 V 620 L 450,720 H -50" />
+    <path class="circuit-pulse" d="M -50,260 H 250 L 370,380 H 550 V 620 L 450,720 H -50" />
+    <circle class="circuit-node" cx="250" cy="260" r="4.5" />
+    <circle class="circuit-node" cx="370" cy="380" r="4" />
+    <circle class="circuit-node" cx="550" cy="620" r="4.5" />
+
+    <path class="circuit-path" stroke="url(#circuitGradSignup)" d="M 1970,220 H 1650 L 1520,350 H 1350 V 580 L 1450,680 H 1970" />
+    <path class="circuit-pulse-purple" d="M 1970,220 H 1650 L 1520,350 H 1350 V 580 L 1450,680 H 1970" />
+    <circle class="circuit-node-purple" cx="1650" cy="220" r="5" />
+    <circle class="circuit-node-purple" cx="1520" cy="350" r="4" />
+    <circle class="circuit-node-purple" cx="1350" cy="580" r="4.5" />
+</svg>
+
+<!-- =========================================================================
+     4. 📚 SMALL FLOATING MATHEMATICAL SYMBOLS
+     ========================================================================= -->
+<div class="floating-math-container">
+    <span class="math-symbol math-cyan" style="top: 15%; left: 7%; font-size: 2.2rem; animation-delay: 0s;">&sum;</span>
+    <span class="math-symbol math-purple" style="top: 25%; left: 90%; font-size: 2.1rem; animation-delay: -3s;">&pi;</span>
+    <span class="math-symbol math-cyan" style="top: 75%; left: 8%; font-size: 2.5rem; animation-delay: -5s;">&int;</span>
+    <span class="math-symbol math-purple" style="top: 80%; left: 89%; font-size: 1.8rem; animation-delay: -2s;">&Delta;</span>
+    <span class="math-symbol math-emerald" style="top: 35%; left: 5%; font-size: 1.7rem; animation-delay: -7s;">f(x)</span>
+    <span class="math-symbol math-cyan" style="top: 10%; left: 80%; font-size: 1.9rem; animation-delay: -4s;">&radic;x</span>
+    <span class="math-symbol math-purple" style="top: 65%; left: 86%; font-size: 2.2rem; animation-delay: -8s;">&infin;</span>
+</div>
+
+<!-- =========================================================================
+     5. 🎓 FLOATING EDUCATION ICONS & 📊 FLOATING CHARTS
+     ========================================================================= -->
+<div class="floating-elements-layer d-none d-lg-block">
+    <!-- 🎓 Graduation Cap Floating Badge -->
+    <div class="floating-glass-pill pill-cap" style="top: 17%; left: 6%;">
+        <i class="bi bi-mortarboard-fill"></i>
+        <span>Student Onboarding</span>
+    </div>
+
+    <!-- 📖 Book Floating Badge -->
+    <div class="floating-glass-pill pill-book" style="bottom: 20%; left: 8%;">
+        <i class="bi bi-journal-check"></i>
+        <span>Academic Records</span>
+    </div>
+
+    <!-- 💻 Laptop Floating Badge -->
+    <div class="floating-glass-pill pill-laptop" style="top: 18%; right: 7%;">
+        <i class="bi bi-laptop-fill"></i>
+        <span>Cloud Platform</span>
+    </div>
+
+    <!-- 📊 Floating Mini Chart Widget -->
+    <div class="floating-chart-card" style="bottom: 16%; right: 6%;">
+        <div class="floating-chart-header">
+            <span>REGISTERED USERS</span>
+            <span class="text-info"><i class="bi bi-shield-check"></i> Verified</span>
+        </div>
+        <div class="floating-chart-value">Secure Portal</div>
+        <svg class="floating-chart-svg" viewBox="0 0 200 48" preserveAspectRatio="none">
+            <polygon class="chart-area" fill="url(#chartAreaGradient)" points="0,48 0,38 30,30 65,36 100,18 140,24 175,10 200,14 200,48" />
+            <polyline class="chart-sparkline" stroke="url(#chartGradient)" points="0,38 30,30 65,36 100,18 140,24 175,10 200,14" />
+            <circle class="chart-point-pulse" cx="175" cy="10" r="4.5" />
+        </svg>
+    </div>
+</div>
+
+<!-- =========================================================================
+     6. 🌟 GLASSMORPHISM CARDS (Smooth Animation & Frosted Depth)
+     ========================================================================= -->
+<div class="container position-relative" style="z-index: 20;">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-11 col-xl-10">
-            <div class="auth-container">
+            <div class="glass-container fade-in-up">
                 <div class="row g-0">
-                    <!-- Left Side: Project Branding & Academic Features -->
-                    <div class="col-12 col-lg-6 auth-hero d-flex flex-column justify-content-between">
+                    <!-- Left Side: Futuristic Hero & Academic Capabilities -->
+                    <div class="col-12 col-lg-6 glass-hero-side d-flex flex-column justify-content-between">
                         <div>
-                            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-primary bg-opacity-25 rounded-pill border border-primary border-opacity-25 mb-4">
-                                <i class="bi bi-mortarboard-fill text-primary"></i>
-                                <span class="small fw-semibold text-white">Academic Analytics Portal</span>
+                            <div class="badge-ai-glass mb-4">
+                                <i class="bi bi-person-plus-fill text-info"></i>
+                                <span>Institutional Registration</span>
                             </div>
-                            <h2 class="display-6 fw-bold mb-3 text-white">EduPredict AI</h2>
+                            <h2 class="display-6 fw-bold mb-3 text-white">
+                                EduPredict <span style="background: linear-gradient(135deg, #38bdf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI</span>
+                            </h2>
                             <p class="text-white-50 leading-relaxed mb-4">
-                                Join the student performance monitoring and machine learning predictive analytics system.
+                                Join the intelligent academic predictive monitoring environment. Empowering teachers, advisors, and administrators with actionable ML forecasting.
                             </p>
                         </div>
 
                         <div class="my-2">
-                            <div class="feature-badge">
-                                <i class="bi bi-person-check-fill"></i>
+                            <div class="glass-feature-badge">
+                                <div class="glass-feature-icon">
+                                    <i class="bi bi-person-badge-fill"></i>
+                                </div>
                                 <div>
-                                    <strong class="d-block text-white">Faculty & Staff Access</strong>
-                                    <small class="text-white-50">Manage student academic records securely</small>
+                                    <strong class="d-block text-white">Role-Based Access</strong>
+                                    <small class="text-white-50">Faculty, mentor, and admin authorization</small>
                                 </div>
                             </div>
-                            <div class="feature-badge">
-                                <i class="bi bi-cpu-fill"></i>
+                            <div class="glass-feature-badge">
+                                <div class="glass-feature-icon" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(217, 70, 239, 0.25)); color: #c084fc;">
+                                    <i class="bi bi-graph-up-arrow"></i>
+                                </div>
                                 <div>
-                                    <strong class="d-block text-white">AI Performance Prediction</strong>
-                                    <small class="text-white-50">Accurate machine learning forecasting</small>
+                                    <strong class="d-block text-white">Continuous Analytics</strong>
+                                    <small class="text-white-50">Instant student tracking and predictions</small>
                                 </div>
                             </div>
-                            <div class="feature-badge mb-0">
-                                <i class="bi bi-graph-up-arrow"></i>
+                            <div class="glass-feature-badge mb-0">
+                                <div class="glass-feature-icon" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(56, 189, 248, 0.25)); color: #818cf8;">
+                                    <i class="bi bi-database-check"></i>
+                                </div>
                                 <div>
-                                    <strong class="d-block text-white">Performance Analytics</strong>
-                                    <small class="text-white-50">Comprehensive class GPA & attendance tracking</small>
+                                    <strong class="d-block text-white">Secure Cloud Database</strong>
+                                    <small class="text-white-50">Encrypted SQLite & PostgreSQL backends</small>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="pt-4 text-white-50 small border-top border-white border-opacity-10 mt-4">
-                            <i class="bi bi-shield-lock me-1"></i> Quick & Secure Registration
+                        <div class="pt-4 text-white-50 small border-top border-white border-opacity-10 mt-4 d-flex align-items-center justify-content-between">
+                            <span><i class="bi bi-shield-check text-info me-1"></i> Quick & Safe Registration</span>
+                            <span class="text-white-50">v2.4 Pro</span>
                         </div>
                     </div>
 
-                    <!-- Right Side: Registration Form -->
-                    <div class="col-12 col-lg-6 auth-form-side d-flex flex-column justify-content-center">
+                    <!-- Right Side: Frosted Glass Registration Form -->
+                    <div class="col-12 col-lg-6 glass-form-side d-flex flex-column justify-content-center">
                         <div class="mb-4">
-                            <h3 class="fw-bold text-dark mb-1">Create Account</h3>
-                            <p class="text-muted small">Sign up to get access to EduPredict AI portal</p>
+                            <h3 class="fw-bold text-white mb-1">Create Account</h3>
+                            <p class="text-white-50 small">Sign up to get access to EduPredict AI portal</p>
                         </div>
 
                         {% if error %}
-                        <div class="alert alert-danger d-flex align-items-center rounded-3 mb-4 py-2 px-3" role="alert">
+                        <div class="alert alert-danger d-flex align-items-center rounded-3 mb-4 py-2 px-3 border border-danger border-opacity-50" style="background: rgba(239, 68, 68, 0.15); color: #fca5a5;" role="alert">
                             <i class="bi bi-exclamation-triangle-fill fs-5 me-2 flex-shrink-0"></i>
-                            <div class="small">{{ error }}</div>
+                            <div class="small fw-semibold">{{ error }}</div>
                         </div>
                         {% endif %}
 
                         <form method="post" action="{{ url_for('signup') }}">
                             <div class="mb-3">
-                                <label class="form-label fw-semibold text-secondary small">USERNAME</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-person"></i></span>
-                                    <input type="text" name="username" class="form-control border-start-0 ps-0" placeholder="Choose a username" value="{{ username or '' }}" required autofocus minlength="3" maxlength="50">
+                                <label class="form-label fw-semibold text-light small text-opacity-75">USERNAME</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-person-fill"></i></span>
+                                    <input type="text" name="username" class="form-control glass-input-control" placeholder="Choose a username" value="{{ username or '' }}" required autofocus minlength="3" maxlength="50">
                                 </div>
-                                <div class="form-text text-muted small">At least 3 characters.</div>
+                                <div class="text-white-50 small mt-1" style="font-size: 0.75rem;">At least 3 characters.</div>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label fw-semibold text-secondary small">PASSWORD</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-lock"></i></span>
-                                    <input type="password" name="password" class="form-control border-start-0 ps-0" placeholder="Enter password" required minlength="4">
+                                <label class="form-label fw-semibold text-light small text-opacity-75">PASSWORD</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-shield-lock-fill"></i></span>
+                                    <input type="password" name="password" class="form-control glass-input-control" placeholder="Enter password" required minlength="4">
                                 </div>
-                                <div class="form-text text-muted small">At least 4 characters.</div>
+                                <div class="text-white-50 small mt-1" style="font-size: 0.75rem;">At least 4 characters.</div>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label fw-semibold text-secondary small">CONFIRM PASSWORD</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-shield-lock"></i></span>
-                                    <input type="password" name="confirm_password" class="form-control border-start-0 ps-0" placeholder="Confirm password" required minlength="4">
+                                <label class="form-label fw-semibold text-light small text-opacity-75">CONFIRM PASSWORD</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-check2-circle"></i></span>
+                                    <input type="password" name="confirm_password" class="form-control glass-input-control" placeholder="Confirm password" required minlength="4">
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold rounded-3 shadow-sm mb-3">
-                                <i class="bi bi-person-plus me-1"></i> Sign Up
+                            <button type="submit" class="btn btn-ai-gradient w-100 py-3 mb-3">
+                                Complete Registration <i class="bi bi-person-check ms-1 fs-5 align-middle"></i>
                             </button>
 
                             <div class="text-center">
-                                <span class="text-muted small">Already have an account?</span>
-                                <a href="{{ url_for('login') }}" class="small fw-semibold text-primary text-decoration-none ms-1">Sign In</a>
+                                <span class="text-white-50 small">Already have an account?</span>
+                                <a href="{{ url_for('login') }}" class="small fw-bold text-info text-decoration-none ms-1 hover-underline">Sign In</a>
                             </div>
                         </form>
                     </div>
@@ -180,4 +228,20 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- AI Ambient Effects Engine -->
+<script src="{{ url_for('static', filename='js/ai_ambient_effects.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.initAiAmbientEffects) {
+            window.initAiAmbientEffects({
+                canvasId: 'ai-neural-canvas',
+                particleCount: window.innerWidth < 768 ? 35 : 70,
+                maxDistance: window.innerWidth < 768 ? 100 : 145
+            });
+        }
+    });
+</script>
 {% endblock %}

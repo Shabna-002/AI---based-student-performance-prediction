@@ -2,111 +2,247 @@
 
 {% block title %}AI Prediction - EduPredict AI{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ai_futuristic_theme.css') }}">
+<style>
+    body {
+        background-color: #070a14 !important;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+    }
+    main {
+        position: relative;
+        z-index: 10;
+        flex: 1;
+        padding-top: 1.5rem !important;
+        padding-bottom: 3rem !important;
+    }
+    .navbar-custom {
+        background: rgba(11, 17, 34, 0.85) !important;
+        backdrop-filter: blur(16px) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container">
+<!-- =========================================================================
+     1. ✨ BLUE-PURPLE GLOWING GRADIENT & AMBIENT ORBS
+     ========================================================================= -->
+<div class="ambient-glow-wrapper">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+    <div class="ambient-orb ambient-orb-3"></div>
+</div>
+
+<!-- =========================================================================
+     2. 🤖 AI NEURAL-NETWORK PARTICLES (Canvas Engine)
+     ========================================================================= -->
+<canvas id="ai-neural-canvas"></canvas>
+
+<!-- =========================================================================
+     3. 🧠 SUBTLE AI CIRCUIT ANIMATION (Vector Cyber Traces)
+     ========================================================================= -->
+<svg class="ai-circuit-overlay" viewBox="0 0 1920 1080" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="circuitGradPredict" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
+            <stop offset="50%" stop-color="#818cf8" stop-opacity="0.30" />
+            <stop offset="100%" stop-color="#c084fc" stop-opacity="0.20" />
+        </linearGradient>
+    </defs>
+    <!-- Background Tech Grid Lines -->
+    <path class="circuit-path" stroke="url(#circuitGradPredict)" d="M -50,150 H 300 L 450,300 H 700 V 850 L 850,1000 H 1950" />
+    <path class="circuit-pulse" d="M -50,150 H 300 L 450,300 H 700 V 850 L 850,1000 H 1950" />
+    <circle class="circuit-node" cx="300" cy="150" r="4.5" />
+    <circle class="circuit-node" cx="450" cy="300" r="4" />
+    <circle class="circuit-node" cx="700" cy="850" r="4.5" />
+
+    <path class="circuit-path" stroke="url(#circuitGradPredict)" d="M 1970,250 H 1600 L 1450,400 H 1250 V 700 L 1100,850 H 200" />
+    <path class="circuit-pulse-purple" d="M 1970,250 H 1600 L 1450,400 H 1250 V 700 L 1100,850 H 200" />
+    <circle class="circuit-node-purple" cx="1600" cy="250" r="5" />
+    <circle class="circuit-node-purple" cx="1450" cy="400" r="4" />
+    <circle class="circuit-node-purple" cx="1250" cy="700" r="4.5" />
+</svg>
+
+<!-- =========================================================================
+     4. 📚 SMALL FLOATING MATHEMATICAL SYMBOLS
+     ========================================================================= -->
+<div class="floating-math-container">
+    <span class="math-symbol math-cyan" style="top: 10%; left: 4%; font-size: 2.2rem; animation-delay: 0s;">&sum;</span>
+    <span class="math-symbol math-purple" style="top: 28%; left: 93%; font-size: 2.3rem; animation-delay: -2s;">&pi;</span>
+    <span class="math-symbol math-cyan" style="top: 60%; left: 3%; font-size: 2.6rem; animation-delay: -5s;">&int;</span>
+    <span class="math-symbol math-purple" style="top: 78%; left: 94%; font-size: 2rem; animation-delay: -3s;">&Delta;</span>
+    <span class="math-symbol math-emerald" style="top: 42%; left: 95%; font-size: 1.8rem; animation-delay: -6s;">&radic;x</span>
+    <span class="math-symbol math-cyan" style="top: 85%; left: 6%; font-size: 1.8rem; animation-delay: -4s;">f(x)</span>
+    <span class="math-symbol math-purple" style="top: 15%; left: 90%; font-size: 2rem; animation-delay: -7s;">&infin;</span>
+    <span class="math-symbol math-emerald" style="top: 92%; left: 40%; font-size: 1.6rem; animation-delay: -1s;">&mu;</span>
+</div>
+
+<!-- =========================================================================
+     5. 🎓 FLOATING EDUCATION ICONS & 📊 FLOATING CHARTS (Ambient Layer)
+     ========================================================================= -->
+<div class="floating-elements-layer d-none d-xl-block">
+    <!-- 🎓 Graduation Cap Floating Badge -->
+    <div class="floating-glass-pill pill-cap" style="top: 13%; left: 2%;">
+        <i class="bi bi-mortarboard-fill"></i>
+        <span>AI Classifier</span>
+    </div>
+
+    <!-- 📖 Book Floating Badge -->
+    <div class="floating-glass-pill pill-book" style="top: 52%; left: 1.5%;">
+        <i class="bi bi-journal-check"></i>
+        <span>Academic Metrics</span>
+    </div>
+
+    <!-- 💻 Laptop Floating Badge -->
+    <div class="floating-glass-pill pill-laptop" style="top: 13%; right: 2%;">
+        <i class="bi bi-laptop-fill"></i>
+        <span>95% Confidence</span>
+    </div>
+
+    <!-- 📊 Floating Mini Chart Widget -->
+    <div class="floating-chart-card" style="bottom: 12%; right: 2.5%;">
+        <div class="floating-chart-header">
+            <span>PERFORMANCE TREND</span>
+            <span class="text-success"><i class="bi bi-graph-up-arrow"></i> Live</span>
+        </div>
+        <div class="floating-chart-value">GPA vs Marks</div>
+        <svg class="floating-chart-svg" viewBox="0 0 200 48" preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="chartGradPred" x1="0%" y1="0%" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#38bdf8" />
+                    <stop offset="100%" stop-color="#c084fc" />
+                </linearGradient>
+                <linearGradient id="chartAreaGradPred" x1="0%" y1="0%" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.5" />
+                    <stop offset="100%" stop-color="#818cf8" stop-opacity="0.0" />
+                </linearGradient>
+            </defs>
+            <polygon class="chart-area" fill="url(#chartAreaGradPred)" points="0,48 0,35 35,28 75,32 110,16 150,22 180,8 200,12 200,48" />
+            <polyline class="chart-sparkline" stroke="url(#chartGradPred)" points="0,35 35,28 75,32 110,16 150,22 180,8 200,12" />
+            <circle class="chart-point-pulse" cx="180" cy="8" r="4.5" />
+        </svg>
+    </div>
+</div>
+
+<!-- =========================================================================
+     6. 🌟 MAIN INTERFACE WITH GLASSMORPHISM CARDS
+     ========================================================================= -->
+<div class="container position-relative" style="z-index: 20;">
     <!-- AI Performance Prediction Header Card -->
-    <div class="card shadow-sm border-0 mb-4 text-white" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);">
-        <div class="card-body p-4">
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-                <div>
-                    <span class="badge bg-white bg-opacity-25 text-white px-3 py-1 rounded-pill mb-2 fw-semibold">
-                        <i class="bi bi-cpu-fill me-1"></i> Machine Learning Predictive System
-                    </span>
-                    <h2 class="fw-bold mb-1">AI Performance Prediction</h2>
-                    <p class="text-white-50 mb-0">Multi-factor academic evaluation using Random Forest classification model.</p>
+    <div class="predict-glass-header mb-4 fade-in-up">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+                <div class="badge-ai-glass mb-2">
+                    <i class="bi bi-cpu-fill text-info"></i>
+                    <span>Multi-Factor AI Evaluation Engine</span>
                 </div>
-                <a href="/dashboard" class="btn btn-light btn-sm px-3 rounded-pill fw-semibold">
-                    <i class="bi bi-arrow-left me-1"></i> Back to Overview
-                </a>
+                <h2 class="fw-bold mb-1 text-white">
+                    Student Performance <span style="background: linear-gradient(135deg, #38bdf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Predictor</span>
+                </h2>
+                <p class="text-white-50 mb-0">
+                    Real-time academic trajectory forecasting powered by Random Forest multi-class classification.
+                </p>
             </div>
+            <a href="/dashboard" class="btn btn-outline-light rounded-pill px-4 py-2 border-opacity-25" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);">
+                <i class="bi bi-arrow-left me-1"></i> Dashboard Overview
+            </a>
         </div>
     </div>
 
     <div class="row g-4">
-        <!-- Prediction Form -->
+        <!-- 🌟 Left Column: Glassmorphism Prediction Form -->
         <div class="col-12 col-lg-7">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h5 class="mb-0 fw-bold"><i class="bi bi-sliders text-primary me-2"></i>Student Academic Parameters</h5>
+            <div class="predict-glass-card fade-in-up fade-in-delay-1">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 fw-bold text-white d-flex align-items-center gap-2">
+                        <i class="bi bi-sliders2 text-info fs-5"></i> Academic Parameters
+                    </h5>
+                    <span class="badge bg-primary bg-opacity-25 text-info border border-primary border-opacity-25 rounded-pill px-3 py-1">
+                        Form v2.4
+                    </span>
                 </div>
                 <div class="card-body p-4">
                     <form method="post">
                         <div class="row g-3">
                             <div class="col-12">
-                                <label class="form-label fw-semibold small text-secondary">STUDENT ID</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-hash"></i></span>
-                                    <input type="number" name="student_id" class="form-control" placeholder="Enter Student ID (e.g. 1)" value="{{ request.args.get('student_id', '') }}" required>
+                                <label class="form-label fw-semibold small text-light text-opacity-75">STUDENT ID</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-hash"></i></span>
+                                    <input type="number" name="student_id" class="form-control glass-input-control" placeholder="Enter Student ID (e.g. 1)" value="{{ request.args.get('student_id', '') }}" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-secondary">INTERNAL MARKS</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-clipboard2-check"></i></span>
-                                    <input type="number" step="0.1" name="internal" class="form-control" placeholder="0 - 100" min="0" max="100" required>
+                                <label class="form-label fw-semibold small text-light text-opacity-75">INTERNAL MARKS (0 - 100)</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-clipboard2-check-fill text-info"></i></span>
+                                    <input type="number" step="0.1" name="internal" class="form-control glass-input-control" placeholder="e.g. 85" min="0" max="100" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-secondary">ASSIGNMENT MARKS</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-journal-text"></i></span>
-                                    <input type="number" step="0.1" name="assignment" class="form-control" placeholder="0 - 100" min="0" max="100" required>
+                                <label class="form-label fw-semibold small text-light text-opacity-75">ASSIGNMENT MARKS (0 - 100)</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-journal-code text-primary"></i></span>
+                                    <input type="number" step="0.1" name="assignment" class="form-control glass-input-control" placeholder="e.g. 88" min="0" max="100" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-secondary">PREVIOUS EXAM MARKS</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-file-earmark-text"></i></span>
-                                    <input type="number" step="0.1" name="previous_exam" class="form-control" placeholder="0 - 100 (e.g. 75)" min="0" max="100">
+                                <label class="form-label fw-semibold small text-light text-opacity-75">PREVIOUS EXAM MARKS</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-file-earmark-bar-graph-fill text-warning"></i></span>
+                                    <input type="number" step="0.1" name="previous_exam" class="form-control glass-input-control" placeholder="e.g. 75" min="0" max="100">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-secondary">LAB / PRACTICAL MARKS</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-flask"></i></span>
-                                    <input type="number" step="0.1" name="lab_marks" class="form-control" placeholder="0 - 100 (e.g. 80)" min="0" max="100">
+                                <label class="form-label fw-semibold small text-light text-opacity-75">LAB / PRACTICAL MARKS</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-flask-fill text-success"></i></span>
+                                    <input type="number" step="0.1" name="lab_marks" class="form-control glass-input-control" placeholder="e.g. 80" min="0" max="100">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-secondary">PROJECT MARKS</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-laptop"></i></span>
-                                    <input type="number" step="0.1" name="project_marks" class="form-control" placeholder="0 - 100 (e.g. 85)" min="0" max="100">
+                                <label class="form-label fw-semibold small text-light text-opacity-75">PROJECT MARKS</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-laptop text-info"></i></span>
+                                    <input type="number" step="0.1" name="project_marks" class="form-control glass-input-control" placeholder="e.g. 85" min="0" max="100">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-secondary">PREVIOUS ACADEMIC PERFORMANCE (GPA)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-star"></i></span>
-                                    <input type="number" step="0.01" name="gpa" class="form-control" placeholder="0.00 - 10.00" min="0" max="10" required>
+                                <label class="form-label fw-semibold small text-light text-opacity-75">PREVIOUS PERFORMANCE (GPA: 0 - 10)</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-star-fill text-warning"></i></span>
+                                    <input type="number" step="0.01" name="gpa" class="form-control glass-input-control" placeholder="e.g. 8.4" min="0" max="10" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-secondary">ATTENDANCE (%)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-calendar-check"></i></span>
-                                    <input type="number" step="0.1" name="attendance" class="form-control" placeholder="0 - 100" min="0" max="100" required>
+                                <label class="form-label fw-semibold small text-light text-opacity-75">ATTENDANCE (%)</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-calendar-check-fill text-info"></i></span>
+                                    <input type="number" step="0.1" name="attendance" class="form-control glass-input-control" placeholder="e.g. 90" min="0" max="100" required>
                                 </div>
                             </div>
 
-                            <div class="col-12">
-                                <label class="form-label fw-semibold small text-secondary">PREVIOUS FAILURES / BACKLOGS</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-exclamation-octagon"></i></span>
-                                    <input type="number" name="failures" class="form-control" placeholder="0, 1, 2..." min="0" value="0" required>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-light text-opacity-75">PREVIOUS FAILURES / BACKLOGS</label>
+                                <div class="input-group glass-input-group">
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-exclamation-octagon-fill text-danger"></i></span>
+                                    <input type="number" name="failures" class="form-control glass-input-control" placeholder="0, 1, 2..." min="0" value="0" required>
                                 </div>
                             </div>
 
-                            <div class="col-12 pt-2">
-                                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
-                                    <i class="bi bi-magic me-1"></i> Analyze & Predict Performance
+                            <div class="col-12 pt-3">
+                                <button type="submit" class="btn btn-ai-gradient w-100 py-3 fs-6">
+                                    <i class="bi bi-magic me-2"></i> Compute AI Prediction
                                 </button>
                             </div>
                         </div>
@@ -115,67 +251,95 @@
             </div>
         </div>
 
-        <!-- Result Card / Guidance -->
+        <!-- 🌟 Right Column: Glassmorphism Result Card / Guidance -->
         <div class="col-12 col-lg-5">
             {% if result %}
-            <div class="card shadow-sm border-0 overflow-hidden">
-                <div class="card-header py-3 text-white text-center {% if result[0] == 'High' %}bg-success{% elif result[0] == 'Average' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
-                    <h5 class="mb-0 fw-bold"><i class="bi bi-check2-circle me-1"></i> Prediction Outcome</h5>
+            <div class="predict-glass-card fade-in-up {% if result[0] == 'High' %}outcome-glow-high{% elif result[0] == 'Average' %}outcome-glow-average{% else %}outcome-glow-low{% endif %}">
+                <div class="card-header py-3 text-center" style="background: rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <div class="d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-check2-circle fs-5 {% if result[0] == 'High' %}text-success{% elif result[0] == 'Average' %}text-warning{% else %}text-danger{% endif %}"></i>
+                        <span class="fw-bold text-white">Prediction Outcome</span>
+                    </div>
                 </div>
                 <div class="card-body p-4 text-center">
-                    <small class="text-uppercase fw-semibold text-muted">Predicted Performance Level</small>
-                    <h1 class="display-5 fw-bold my-2 {% if result[0] == 'High' %}text-success{% elif result[0] == 'Average' %}text-warning{% else %}text-danger{% endif %}">
+                    <span class="text-uppercase fw-semibold small text-white-50 letter-spacing">Classification Result</span>
+                    
+                    <!-- Pulsing Outcome Label -->
+                    <h1 class="display-4 fw-extrabold my-3 pulse-outcome-badge {% if result[0] == 'High' %}text-success{% elif result[0] == 'Average' %}text-warning{% else %}text-danger{% endif %}" style="text-shadow: 0 0 25px currentColor;">
                         {{ result[0] }}
                     </h1>
 
-                    <div class="my-4 p-3 bg-light rounded-3 border">
-                        <div class="d-flex justify-content-between mb-1 small fw-semibold">
-                            <span>Model Confidence</span>
-                            <span>{{ result[1] }}%</span>
+                    <!-- High-Tech Model Confidence Bar -->
+                    <div class="my-4 p-3 rounded-3" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div class="d-flex justify-content-between mb-2 small fw-semibold">
+                            <span class="text-white-50"><i class="bi bi-shield-check text-info me-1"></i> Model Confidence</span>
+                            <span class="text-white fw-bold">{{ result[1] }}%</span>
                         </div>
-                        <div class="progress" style="height: 10px;">
-                            <div class="progress-bar {% if result[0] == 'High' %}bg-success{% elif result[0] == 'Average' %}bg-warning{% else %}bg-danger{% endif %} progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ result[1] }}%;"></div>
+                        <div class="glow-progress-bar">
+                            <div class="glow-progress-fill {% if result[0] == 'High' %}high{% elif result[0] == 'Average' %}average{% else %}low{% endif %}" style="width: {{ result[1] }}%;"></div>
                         </div>
                     </div>
 
-                    <div class="text-start p-3 rounded-3 border {% if result[0] == 'High' %}bg-success bg-opacity-10 border-success{% elif result[0] == 'Average' %}bg-warning bg-opacity-10 border-warning{% else %}bg-danger bg-opacity-10 border-danger{% endif %}">
-                        <strong class="d-block mb-1">
-                            <i class="bi bi-info-circle-fill me-1"></i>
-                            {% if result[0] == 'High' %}Excellent Student Trajectory
-                            {% elif result[0] == 'Average' %}Stable Student Trajectory
-                            {% else %}At-Risk Academic Warning
+                    <!-- AI Diagnostic Recommendation -->
+                    <div class="text-start p-3 rounded-3 mb-4" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12);">
+                        <strong class="d-block mb-1 text-white">
+                            <i class="bi bi-lightbulb-fill text-warning me-1"></i>
+                            {% if result[0] == 'High' %}High Academic Trajectory
+                            {% elif result[0] == 'Average' %}Moderate Academic Stability
+                            {% else %}At-Risk Performance Warning
                             {% endif %}
                         </strong>
-                        <p class="small mb-0">
+                        <p class="small text-white-50 mb-0 leading-relaxed">
                             {% if result[0] == 'High' %}
-                            Student demonstrates high consistency and strong foundational scores. Recommended for honors projects and peer-tutoring.
+                            Student shows robust consistency and strong conceptual understanding across modules. Recommended for honors projects, research internships, and peer tutoring.
                             {% elif result[0] == 'Average' %}
-                            Student is performing steadily. Regular monitoring of assignment completion and attendance will help them progress to higher grades.
+                            Student is performing steadily. Additional problem-solving tutorials, continuous assignment follow-up, and attendance consistency will promote transition to higher grades.
                             {% else %}
-                            Student is falling in the low performance bracket. Immediate remedial mentorship, attendance intervention, and assignment support recommended.
+                            Student indicates potential risk of backlogs. Priority faculty mentoring, remedial coaching, and active attendance intervention are strongly advised.
                             {% endif %}
                         </p>
                     </div>
 
-                    <div class="mt-4">
-                        <a href="/predict" class="btn btn-outline-secondary w-100 btn-sm">
-                            <i class="bi bi-arrow-repeat me-1"></i> Perform Another Prediction
-                        </a>
-                    </div>
+                    <a href="/predict" class="btn btn-outline-light w-100 py-2 rounded-3 border-opacity-25" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(8px);">
+                        <i class="bi bi-arrow-repeat me-1"></i> Run Another Prediction
+                    </a>
                 </div>
             </div>
             {% else %}
-            <div class="card shadow-sm border-dashed text-center p-5 h-100 d-flex flex-column justify-content-center">
-                <div class="text-muted mb-3">
-                    <i class="bi bi-cpu fs-1 text-primary"></i>
+            <!-- Standby / Waiting Glass State -->
+            <div class="predict-glass-card text-center p-5 h-100 d-flex flex-column justify-content-center align-items-center fade-in-up fade-in-delay-2" style="min-height: 480px;">
+                <div class="mb-4 position-relative">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, rgba(56, 189, 248, 0.25), transparent 70%); display: flex; align-items: center; justify-content: center; margin: auto; box-shadow: 0 0 35px rgba(56, 189, 248, 0.3);">
+                        <i class="bi bi-cpu fs-1 text-info"></i>
+                    </div>
                 </div>
-                <h5 class="fw-bold text-dark">Ready for Prediction</h5>
-                <p class="text-muted small mb-0">
-                    Fill out the student's academic metrics on the left and click <strong>Analyze & Predict Performance</strong> to view real-time ML evaluation.
+                <h4 class="fw-bold text-white mb-2">Awaiting Parameters</h4>
+                <p class="text-white-50 small mb-4" style="max-width: 320px;">
+                    Fill out the student's marks and attendance in the form on the left and trigger the AI model to calculate performance forecasts.
                 </p>
+                <div class="badge-ai-glass">
+                    <i class="bi bi-robot text-info"></i>
+                    <span>Ready for Inference</span>
+                </div>
             </div>
             {% endif %}
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- AI Ambient Effects Engine (Neural Particles & Synapses) -->
+<script src="{{ url_for('static', filename='js/ai_ambient_effects.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.initAiAmbientEffects) {
+            window.initAiAmbientEffects({
+                canvasId: 'ai-neural-canvas',
+                particleCount: window.innerWidth < 768 ? 30 : 65,
+                maxDistance: window.innerWidth < 768 ? 95 : 140
+            });
+        }
+    });
+</script>
 {% endblock %}

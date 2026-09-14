@@ -221,6 +221,10 @@ def predict():
         result = (pred, round(prob * 100, 2))
     return render_template("predict.html", result=result)
 
+@app.route("/hero-preview")
+def hero_preview():
+    return app.send_static_file("hero_background_preview.html")
+
 @app.route("/logout")
 def logout():
     session.clear()
