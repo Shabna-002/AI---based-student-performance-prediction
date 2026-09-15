@@ -194,6 +194,260 @@
         </div>
     </div>
 
+    <!-- =========================================================================
+         🔔 EARLY WARNING SYSTEM (Automated Academic Triage Matrix)
+         ========================================================================= -->
+    <div class="card predict-glass-card mb-4 fade-in-up">
+        <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-3 py-3">
+            <div class="d-flex align-items-center gap-2">
+                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);">
+                    <i class="bi bi-bell-fill fs-5"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-0 text-white">Early Warning System 🔔</h5>
+                    <small class="text-white-50">Automated multi-factor risk triage across all enrolled students</small>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="/what-if" class="btn btn-sm btn-outline-info rounded-pill px-3 py-1.5" style="background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.35);">
+                    <i class="bi bi-sliders me-1"></i> What-If Simulation Studio
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <!-- 3 Triage Status KPI Cards -->
+            <div class="row g-3 mb-4">
+                <!-- 🔴 Immediate Attention (At Risk) -->
+                <div class="col-12 col-md-4">
+                    <div class="p-3 rounded-4 h-100 cursor-pointer triage-card triage-card-risk" onclick="filterTriage('at-risk')" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.35); transition: all 0.25s ease; cursor: pointer;">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="text-danger fw-bold small text-uppercase letter-spacing">
+                                <i class="bi bi-exclamation-octagon-fill me-1"></i> Immediate Attention
+                            </span>
+                            <span class="badge bg-danger text-white rounded-pill px-2 py-0.5 small">At Risk</span>
+                        </div>
+                        <div class="d-flex align-items-baseline gap-2">
+                            <h2 class="display-6 fw-extrabold text-danger mb-0" style="text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);">
+                                {{ early_warning.counts.at_risk }}
+                            </h2>
+                            <span class="text-white-50 small">students</span>
+                        </div>
+                        <p class="text-white-50 small mb-0 mt-2">
+                            Low attendance (&lt;75%), continuous internal weakness, or active backlogs requiring priority intervention.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 🟠 Needs Monitoring (Average) -->
+                <div class="col-12 col-md-4">
+                    <div class="p-3 rounded-4 h-100 cursor-pointer triage-card triage-card-monitoring" onclick="filterTriage('monitoring')" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.35); transition: all 0.25s ease; cursor: pointer;">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="text-warning fw-bold small text-uppercase letter-spacing">
+                                <i class="bi bi-eye-fill me-1"></i> Needs Monitoring
+                            </span>
+                            <span class="badge bg-warning text-dark rounded-pill px-2 py-0.5 small">Average</span>
+                        </div>
+                        <div class="d-flex align-items-baseline gap-2">
+                            <h2 class="display-6 fw-extrabold text-warning mb-0" style="text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);">
+                                {{ early_warning.counts.monitoring }}
+                            </h2>
+                            <span class="text-white-50 small">students</span>
+                        </div>
+                        <p class="text-white-50 small mb-0 mt-2">
+                            Borderline performance (5.5 - 6.9 GPA). Needs assignment follow-up and attendance consistency.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 🟢 Performing Well (Good / Excellent) -->
+                <div class="col-12 col-md-4">
+                    <div class="p-3 rounded-4 h-100 cursor-pointer triage-card triage-card-well" onclick="filterTriage('well')" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); transition: all 0.25s ease; cursor: pointer;">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="text-success fw-bold small text-uppercase letter-spacing">
+                                <i class="bi bi-check-circle-fill me-1"></i> Performing Well
+                            </span>
+                            <span class="badge bg-success text-white rounded-pill px-2 py-0.5 small">Good / High</span>
+                        </div>
+                        <div class="d-flex align-items-baseline gap-2">
+                            <h2 class="display-6 fw-extrabold text-success mb-0" style="text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);">
+                                {{ early_warning.counts.performing_well }}
+                            </h2>
+                            <span class="text-white-50 small">students</span>
+                        </div>
+                        <p class="text-white-50 small mb-0 mt-2">
+                            Strong academic trajectory (&ge; 7.0 GPA), high attendance, and consistent conceptual mastery.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Triage Filter Pills / Tabs -->
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                <div class="d-flex flex-wrap gap-2" id="triageTabs">
+                    <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 active triage-filter-btn" data-filter="all" onclick="filterTriage('all')">
+                        All Records ({{ early_warning.counts.total }})
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3 triage-filter-btn" data-filter="at-risk" onclick="filterTriage('at-risk')">
+                        🔴 Immediate Attention ({{ early_warning.counts.at_risk }})
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-warning rounded-pill px-3 triage-filter-btn" data-filter="monitoring" onclick="filterTriage('monitoring')">
+                        🟠 Needs Monitoring ({{ early_warning.counts.monitoring }})
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 triage-filter-btn" data-filter="well" onclick="filterTriage('well')">
+                        🟢 Performing Well ({{ early_warning.counts.performing_well }})
+                    </button>
+                </div>
+                <small class="text-white-50">Click any student to view comprehensive profile or run What-If simulation</small>
+            </div>
+
+            <!-- Triage Enriched Student Table -->
+            <div class="table-responsive rounded-3" style="border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(0, 0, 0, 0.25);">
+                <table class="table table-glass align-middle mb-0" id="triageStudentsTable">
+                    <thead>
+                        <tr>
+                            <th class="ps-3">Student</th>
+                            <th>Department</th>
+                            <th>Attendance</th>
+                            <th>Current GPA</th>
+                            <th>AI Predicted GPA</th>
+                            <th>Status Category</th>
+                            <th>Risks</th>
+                            <th class="text-end pe-3">Direct Interventions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in early_warning.at_risk_list %}
+                        <tr class="triage-row tier-at-risk">
+                            <td class="ps-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(239, 68, 68, 0.2); color: #f87171; font-weight: bold; font-size: 0.85rem;">
+                                        {{ s.name[:1] }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-white">{{ s.name }}</div>
+                                        <small class="text-white-50">#{{ s.student_id }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge-department">{{ s.department }} (S{{ s.semester }})</span></td>
+                            <td>
+                                <span class="fw-bold text-danger"><i class="bi bi-exclamation-triangle me-1"></i>{{ s.attendance }}%</span>
+                            </td>
+                            <td class="fw-bold text-white">{{ "%.2f"|format(s.gpa) }}</td>
+                            <td>
+                                <span class="fw-extrabold text-danger fs-6">{{ "%.2f"|format(s.predicted_gpa) }}</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-40 rounded-pill px-2.5 py-1">
+                                    <i class="bi bi-exclamation-octagon-fill me-1"></i> {{ s.category }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-danger text-white rounded-pill px-2 py-0.5 small">{{ s.risks_count }} Flagged</span>
+                            </td>
+                            <td class="text-end pe-3">
+                                <div class="d-inline-flex gap-2">
+                                    <a href="/student/{{ s.student_id }}" class="btn btn-sm btn-outline-info rounded-pill px-2.5" style="background: rgba(56, 189, 248, 0.1);">
+                                        <i class="bi bi-person-badge me-1"></i> Profile
+                                    </a>
+                                    <a href="/what-if?student_id={{ s.student_id }}" class="btn btn-sm btn-outline-warning rounded-pill px-2.5" style="background: rgba(251, 191, 36, 0.1);">
+                                        <i class="bi bi-sliders me-1"></i> What-If
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        {% for s in early_warning.monitoring_list %}
+                        <tr class="triage-row tier-monitoring">
+                            <td class="ps-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(245, 158, 11, 0.2); color: #fbbf24; font-weight: bold; font-size: 0.85rem;">
+                                        {{ s.name[:1] }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-white">{{ s.name }}</div>
+                                        <small class="text-white-50">#{{ s.student_id }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge-department">{{ s.department }} (S{{ s.semester }})</span></td>
+                            <td>
+                                <span class="fw-bold text-warning">{{ s.attendance }}%</span>
+                            </td>
+                            <td class="fw-bold text-white">{{ "%.2f"|format(s.gpa) }}</td>
+                            <td>
+                                <span class="fw-extrabold text-warning fs-6">{{ "%.2f"|format(s.predicted_gpa) }}</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-40 rounded-pill px-2.5 py-1">
+                                    {{ s.category }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-warning text-dark rounded-pill px-2 py-0.5 small">{{ s.risks_count }} Flagged</span>
+                            </td>
+                            <td class="text-end pe-3">
+                                <div class="d-inline-flex gap-2">
+                                    <a href="/student/{{ s.student_id }}" class="btn btn-sm btn-outline-info rounded-pill px-2.5" style="background: rgba(56, 189, 248, 0.1);">
+                                        <i class="bi bi-person-badge me-1"></i> Profile
+                                    </a>
+                                    <a href="/what-if?student_id={{ s.student_id }}" class="btn btn-sm btn-outline-warning rounded-pill px-2.5" style="background: rgba(251, 191, 36, 0.1);">
+                                        <i class="bi bi-sliders me-1"></i> What-If
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        {% for s in early_warning.performing_well_list %}
+                        <tr class="triage-row tier-well">
+                            <td class="ps-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: bold; font-size: 0.85rem;">
+                                        {{ s.name[:1] }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-white">{{ s.name }}</div>
+                                        <small class="text-white-50">#{{ s.student_id }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge-department">{{ s.department }} (S{{ s.semester }})</span></td>
+                            <td>
+                                <span class="fw-bold text-success">{{ s.attendance }}%</span>
+                            </td>
+                            <td class="fw-bold text-white">{{ "%.2f"|format(s.gpa) }}</td>
+                            <td>
+                                <span class="fw-extrabold text-success fs-6">{{ "%.2f"|format(s.predicted_gpa) }}</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-40 rounded-pill px-2.5 py-1">
+                                    <i class="bi bi-check-circle-fill me-1"></i> {{ s.category }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-success bg-opacity-35 text-success border border-success border-opacity-35 rounded-pill px-2 py-0.5 small">Optimal</span>
+                            </td>
+                            <td class="text-end pe-3">
+                                <div class="d-inline-flex gap-2">
+                                    <a href="/student/{{ s.student_id }}" class="btn btn-sm btn-outline-info rounded-pill px-2.5" style="background: rgba(56, 189, 248, 0.1);">
+                                        <i class="bi bi-person-badge me-1"></i> Profile
+                                    </a>
+                                    <a href="/what-if?student_id={{ s.student_id }}" class="btn btn-sm btn-outline-warning rounded-pill px-2.5" style="background: rgba(251, 191, 36, 0.1);">
+                                        <i class="bi bi-sliders me-1"></i> What-If
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <!-- 🪟 Quick Navigation & Management Cards (Glassmorphic Panels) -->
     <div class="row g-4 mb-4">
         <div class="col-12 col-lg-6">
@@ -286,5 +540,32 @@
             });
         }
     });
+
+    window.filterTriage = function(tier) {
+        const rows = document.querySelectorAll('.triage-row');
+        const buttons = document.querySelectorAll('.triage-filter-btn');
+        
+        buttons.forEach(b => {
+            if (b.dataset.filter === tier) {
+                b.classList.add('active');
+            } else {
+                b.classList.remove('active');
+            }
+        });
+
+        rows.forEach(r => {
+            if (tier === 'all') {
+                r.style.display = '';
+            } else if (tier === 'at-risk' && r.classList.contains('tier-at-risk')) {
+                r.style.display = '';
+            } else if (tier === 'monitoring' && r.classList.contains('tier-monitoring')) {
+                r.style.display = '';
+            } else if (tier === 'well' && r.classList.contains('tier-well')) {
+                r.style.display = '';
+            } else {
+                r.style.display = 'none';
+            }
+        });
+    };
 </script>
 {% endblock %}

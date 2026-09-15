@@ -1,0 +1,535 @@
+{% extends "base.html" %}
+
+{% block title %}What-If Simulation Studio ⭐ - EduPredict AI{% endblock %}
+
+{% block extra_css %}
+<style>
+    .slider-container {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 1rem;
+        padding: 1.25rem;
+        transition: all 0.3s ease;
+    }
+    .slider-container:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(168, 85, 247, 0.3);
+    }
+    .slider-glow-custom {
+        accent-color: #a855f7;
+        height: 8px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.15);
+    }
+    .kpi-comparison-box {
+        background: linear-gradient(145deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+        border-top: 1px solid rgba(168, 85, 247, 0.6);
+        border-radius: 1.25rem;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(168, 85, 247, 0.15);
+    }
+    .transition-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 1.1rem;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .preset-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #cbd5e1;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border-radius: 50px;
+        padding: 0.4rem 0.9rem;
+        transition: all 0.2s ease;
+    }
+    .preset-btn:hover {
+        background: rgba(168, 85, 247, 0.2);
+        border-color: rgba(168, 85, 247, 0.5);
+        color: #ffffff;
+        transform: translateY(-1px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Ambient Background & Cyber Grid -->
+<div class="ambient-glow-wrapper">
+    <div class="blue-glow-circle blue-glow-circle-1"></div>
+    <div class="blue-glow-circle blue-glow-circle-2"></div>
+</div>
+<div class="cyber-grid-bg"></div>
+<canvas id="ai-neural-canvas"></canvas>
+
+<div class="container position-relative" style="z-index: 20;">
+    <!-- =====================================================================
+         1. HEADER BANNER
+         ===================================================================== -->
+    <div class="predict-glass-header mb-4 fade-in-up">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+                <div class="badge-ai-glass mb-2">
+                    <i class="bi bi-stars text-warning"></i>
+                    <span>Super Feature &bull; Dynamic Interventions</span>
+                </div>
+                <h2 class="fw-bold mb-1 text-white">
+                    What-If AI <span style="background: linear-gradient(135deg, #38bdf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Simulation Studio</span>
+                </h2>
+                <p class="text-white-50 mb-0">
+                    Hypothetical academic simulation: adjust attendance, assignments, and internal marks to forecast live GPA improvements and category transitions.
+                </p>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="/dashboard" class="btn btn-outline-light rounded-pill px-3 py-2 border-opacity-25" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(8px);">
+                    <i class="bi bi-arrow-left me-1"></i> Dashboard
+                </a>
+                <a href="/students" class="btn btn-outline-light rounded-pill px-3 py-2 border-opacity-25" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(8px);">
+                    <i class="bi bi-people me-1"></i> Students
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         2. STUDENT SELECTOR BAR
+         ===================================================================== -->
+    <div class="card glass-kpi-card p-3 mb-4 fade-in-up fade-in-delay-1">
+        <form method="get" action="/what-if" class="row g-3 align-items-center">
+            <div class="col-12 col-md-5">
+                <label class="form-label text-white-50 small fw-bold text-uppercase mb-1">
+                    <i class="bi bi-person-check-fill text-info me-1"></i> Select Student Cohort Record
+                </label>
+                <select name="student_id" class="form-select glass-input-control" onchange="this.form.submit()">
+                    {% for s in all_students %}
+                    <option value="{{ s[0] }}" {% if selected_student and selected_student.student_id == s[0] %}selected{% endif %}>
+                        #{{ s[0] }} - {{ s[1] }} ({{ s[2] }}, Sem {{ s[3] }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12 col-md-7 d-flex flex-wrap align-items-center justify-content-md-end gap-2 pt-md-4">
+                {% if selected_student %}
+                <span class="badge bg-primary bg-opacity-25 text-info border border-primary border-opacity-25 rounded-pill px-3 py-2">
+                    <i class="bi bi-mortarboard me-1"></i> Active: {{ selected_student.name }}
+                </span>
+                <span class="badge bg-secondary bg-opacity-25 text-light border border-secondary border-opacity-25 rounded-pill px-3 py-2">
+                    Current GPA: {{ "%.2f"|format(selected_student.gpa) }}
+                </span>
+                <a href="/student/{{ selected_student.student_id }}" class="btn btn-sm btn-outline-info rounded-pill px-3 py-1.5" style="background: rgba(56, 189, 248, 0.1);">
+                    <i class="bi bi-person-badge me-1"></i> Full Profile
+                </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- =====================================================================
+         3. INTERACTIVE SIMULATION WORKSPACE
+         ===================================================================== -->
+    <div class="row g-4">
+        <!-- Left: Sliders and Interventions Panel -->
+        <div class="col-12 col-lg-6">
+            <div class="card predict-glass-card h-100 p-4 fade-in-up fade-in-delay-1">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom border-white border-opacity-10">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-sliders text-info fs-5"></i>
+                        <h5 class="fw-bold text-white mb-0">Intervention Controls</h5>
+                    </div>
+                    <button type="button" id="resetSimulatorBtn" class="btn btn-sm btn-outline-light rounded-pill px-3 border-opacity-25" style="background: rgba(255,255,255,0.06);">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+                    </button>
+                </div>
+
+                <!-- Quick Presets -->
+                <div class="mb-4">
+                    <label class="form-label text-white-50 small fw-bold text-uppercase d-block mb-2">
+                        <i class="bi bi-lightning-charge text-warning me-1"></i> One-Click Simulation Presets
+                    </label>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button" class="preset-btn" onclick="applyPreset(90, 85, 80)">
+                            🌟 Super Goal (90% Att, 85 Assign, 80 Int)
+                        </button>
+                        <button type="button" class="preset-btn" onclick="applyPreset(80, 75, 70)">
+                            🛡️ Safe Zone (80% Att, 75 Assign, 70 Int)
+                        </button>
+                        <button type="button" class="preset-btn" onclick="applyPreset(95, 95, 95)">
+                            🏆 Top Honors (95% Att, 95 Assign, 95 Int)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 1. Attendance Slider -->
+                <div class="slider-container mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label class="fw-bold text-white d-flex align-items-center gap-2 mb-0">
+                            <i class="bi bi-calendar-check text-info"></i> Attendance Target
+                        </label>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="small text-white-50">Current: {{ selected_student.attendance if selected_student else 70 }}%</span>
+                            <span id="attBadgeVal" class="badge bg-primary bg-opacity-35 text-info border border-primary border-opacity-40 rounded-pill px-2.5 py-1 fw-bold fs-6">
+                                90%
+                            </span>
+                        </div>
+                    </div>
+                    <input type="range" class="form-range slider-glow-custom w-100" id="studioAttSlider" min="50" max="100" step="1" value="90">
+                    <div class="d-flex justify-content-between text-white-50 small mt-1">
+                        <span>50% (Debarment)</span>
+                        <span>75% (Threshold)</span>
+                        <span>100% (Perfect)</span>
+                    </div>
+                </div>
+
+                <!-- 2. Assignment Marks Slider -->
+                <div class="slider-container mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label class="fw-bold text-white d-flex align-items-center gap-2 mb-0">
+                            <i class="bi bi-journal-code text-primary"></i> Assignment Score Target
+                        </label>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="small text-white-50">Current: {{ selected_student.assignment if selected_student else 60 }}</span>
+                            <span id="assignBadgeVal" class="badge bg-purple bg-opacity-35 text-warning border border-warning border-opacity-40 rounded-pill px-2.5 py-1 fw-bold fs-6">
+                                85
+                            </span>
+                        </div>
+                    </div>
+                    <input type="range" class="form-range slider-glow-custom w-100" id="studioAssignSlider" min="30" max="100" step="1" value="85">
+                    <div class="d-flex justify-content-between text-white-50 small mt-1">
+                        <span>30</span>
+                        <span>65 (Minimum)</span>
+                        <span>100</span>
+                    </div>
+                </div>
+
+                <!-- 3. Internal Exam Marks Slider -->
+                <div class="slider-container mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label class="fw-bold text-white d-flex align-items-center gap-2 mb-0">
+                            <i class="bi bi-clipboard2-check text-warning"></i> Continuous Internal Marks
+                        </label>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="small text-white-50">Current: {{ selected_student.internal if selected_student else 65 }}</span>
+                            <span id="internalBadgeVal" class="badge bg-success bg-opacity-35 text-success border border-success border-opacity-40 rounded-pill px-2.5 py-1 fw-bold fs-6">
+                                80
+                            </span>
+                        </div>
+                    </div>
+                    <input type="range" class="form-range slider-glow-custom w-100" id="studioInternalSlider" min="30" max="100" step="1" value="80">
+                    <div class="d-flex justify-content-between text-white-50 small mt-1">
+                        <span>30</span>
+                        <span>60 (Passing)</span>
+                        <span>100</span>
+                    </div>
+                </div>
+
+                <!-- 4. Backlogs Remediation Option -->
+                <div class="slider-container">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="fw-bold text-white mb-0 d-flex align-items-center gap-2">
+                                <i class="bi bi-shield-check text-success"></i> Remediate Active Backlogs
+                            </div>
+                            <small class="text-white-50">Clear all pending course backlogs through remedial clinics</small>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="clearBacklogsToggle" checked style="width: 2.75em; height: 1.4em; cursor: pointer;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Real-Time Results & Trajectory Comparison -->
+        <div class="col-12 col-lg-6">
+            <div class="card predict-glass-card h-100 p-4 fade-in-up fade-in-delay-2">
+                <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-white border-opacity-10">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-cpu-fill text-info fs-5"></i>
+                        <h5 class="fw-bold text-white mb-0">Predicted AI Trajectory</h5>
+                    </div>
+                    <span class="badge bg-primary bg-opacity-25 text-info border border-primary border-opacity-25 rounded-pill px-2.5 py-1 small">
+                        Real-Time ML Inference
+                    </span>
+                </div>
+
+                <!-- Comparative KPI Cards -->
+                <div class="row g-3 mb-4">
+                    <!-- Current Predicted GPA -->
+                    <div class="col-6">
+                        <div class="p-3 rounded-4" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <span class="text-white-50 small fw-bold text-uppercase d-block mb-1">Current Predicted GPA</span>
+                            <div class="display-6 fw-extrabold text-white mb-1" id="currentGpaDisplay">
+                                6.80
+                            </div>
+                            <span id="currentCategoryBadge" class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 rounded-pill px-2 py-0.5">
+                                Average
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Improved Predicted GPA -->
+                    <div class="col-6">
+                        <div class="p-3 rounded-4 kpi-comparison-box">
+                            <span class="text-white-50 small fw-bold text-uppercase d-block mb-1">Improved Predicted GPA</span>
+                            <div class="display-6 fw-extrabold text-success mb-1" id="improvedGpaDisplay" style="text-shadow: 0 0 25px rgba(16, 185, 129, 0.5);">
+                                7.60
+                            </div>
+                            <span id="improvedCategoryBadge" class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 rounded-pill px-2 py-0.5">
+                                Good
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expected Improvement Delta Banner -->
+                <div class="p-3 rounded-4 mb-4 text-center" style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(168, 85, 247, 0.18)); border: 1px solid rgba(168, 85, 247, 0.35);">
+                    <div class="text-white-50 small text-uppercase fw-bold mb-1">Expected Improvement Delta</div>
+                    <div class="display-5 fw-extrabold text-success mb-2" id="deltaGpaValDisplay">
+                        +0.80 GPA
+                    </div>
+                    <div class="transition-pill text-white" id="categoryTransitionPill">
+                        <span id="catFrom">Average</span>
+                        <i class="bi bi-arrow-right text-info"></i>
+                        <span id="catTo" class="text-success">Good</span>
+                    </div>
+                </div>
+
+                <!-- Visual Radar / Bar Comparison Chart -->
+                <div class="mb-3">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="text-white-50 small fw-bold text-uppercase">
+                            <i class="bi bi-bar-chart-fill text-info me-1"></i> Baseline vs Simulated Target
+                        </span>
+                        <span class="badge bg-white bg-opacity-10 text-white-50 rounded-pill px-2 py-0.5 small">
+                            Interactive Metric Comparison
+                        </span>
+                    </div>
+                    <div style="height: 220px; position: relative;">
+                        <canvas id="whatIfChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- AI Coaching Insight Box -->
+                <div class="p-3 rounded-3 mt-auto" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <i class="bi bi-lightbulb-fill text-warning"></i>
+                        <strong class="text-white small">AI Simulation Diagnostic</strong>
+                    </div>
+                    <p class="small text-white-50 mb-0" id="aiDiagnosticText">
+                        Adjusting attendance to 90% combined with 85+ assignment marks provides the highest incremental GPA lift and reliably transitions student away from academic risk.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- AI Ambient Effects Engine -->
+<script src="{{ url_for('static', filename='js/ai_ambient_effects.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.initAiAmbientEffects) {
+            window.initAiAmbientEffects({
+                canvasId: 'ai-neural-canvas',
+                particleCount: window.innerWidth < 768 ? 25 : 45,
+                maxDistance: window.innerWidth < 768 ? 90 : 125
+            });
+        }
+
+        // ==========================================
+        // BASELINE DATA FROM SELECTED STUDENT
+        // ==========================================
+        const baseAttendance = parseFloat("{{ selected_student.attendance if selected_student else 70.0 }}");
+        const baseAssignment = parseFloat("{{ selected_student.assignment if selected_student else 60.0 }}");
+        const baseInternal = parseFloat("{{ selected_student.internal if selected_student else 65.0 }}");
+        const baseGpa = parseFloat("{{ selected_student.gpa if selected_student else 6.5 }}");
+        const baseFailures = parseInt("{{ selected_student.failures if selected_student else 0 }}");
+
+        // Elements
+        const attSlider = document.getElementById('studioAttSlider');
+        const assignSlider = document.getElementById('studioAssignSlider');
+        const internalSlider = document.getElementById('studioInternalSlider');
+        const backlogsToggle = document.getElementById('clearBacklogsToggle');
+
+        const attBadge = document.getElementById('attBadgeVal');
+        const assignBadge = document.getElementById('assignBadgeVal');
+        const internalBadge = document.getElementById('internalBadgeVal');
+
+        const currentGpaDisplay = document.getElementById('currentGpaDisplay');
+        const currentCategoryBadge = document.getElementById('currentCategoryBadge');
+        const improvedGpaDisplay = document.getElementById('improvedGpaDisplay');
+        const improvedCategoryBadge = document.getElementById('improvedCategoryBadge');
+        const deltaGpaValDisplay = document.getElementById('deltaGpaValDisplay');
+        const catFrom = document.getElementById('catFrom');
+        const catTo = document.getElementById('catTo');
+        const aiDiagnosticText = document.getElementById('aiDiagnosticText');
+
+        // ==========================================
+        // CHART.JS COMPARISON BAR CHART
+        // ==========================================
+        const ctx = document.getElementById('whatIfChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Attendance %', 'Assignment', 'Internal Marks'],
+                datasets: [
+                    {
+                        label: 'Current Baseline',
+                        data: [baseAttendance, baseAssignment, baseInternal],
+                        backgroundColor: 'rgba(148, 163, 184, 0.4)',
+                        borderColor: '#94a3b8',
+                        borderWidth: 1.5,
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Simulated Target',
+                        data: [parseFloat(attSlider.value), parseFloat(assignSlider.value), parseFloat(internalSlider.value)],
+                        backgroundColor: 'rgba(56, 189, 248, 0.5)',
+                        borderColor: '#38bdf8',
+                        borderWidth: 1.5,
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#cbd5e1' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#e2e8f0', font: { size: 11 } }
+                    }
+                }
+            }
+        });
+
+        let simulateTimeout = null;
+
+        function runSimulation() {
+            const targetAtt = parseFloat(attSlider.value);
+            const targetAssign = parseFloat(assignSlider.value);
+            const targetInt = parseFloat(internalSlider.value);
+            const targetFailures = backlogsToggle.checked ? 0 : baseFailures;
+
+            attBadge.textContent = targetAtt + '%';
+            assignBadge.textContent = targetAssign;
+            internalBadge.textContent = targetInt;
+
+            // Update Chart target dataset
+            chart.data.datasets[1].data = [targetAtt, targetAssign, targetInt];
+            chart.update('none');
+
+            clearTimeout(simulateTimeout);
+            simulateTimeout = setTimeout(() => {
+                fetch('/api/what-if-simulate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        current_attendance: baseAttendance,
+                        current_internal: baseInternal,
+                        current_assignment: baseAssignment,
+                        gpa: baseGpa,
+                        failures: baseFailures,
+                        target_attendance: targetAtt,
+                        target_internal: targetInt,
+                        target_assignment: targetAssign,
+                        target_failures: targetFailures
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.simulation) {
+                        const sim = data.simulation;
+                        currentGpaDisplay.textContent = sim.current_gpa.toFixed(2);
+                        improvedGpaDisplay.textContent = sim.improved_gpa.toFixed(2);
+                        deltaGpaValDisplay.textContent = sim.expected_improvement + ' GPA';
+
+                        catFrom.textContent = sim.current_category;
+                        catTo.textContent = sim.improved_category;
+
+                        // Update Category badges
+                        updateBadge(currentCategoryBadge, sim.current_category);
+                        updateBadge(improvedCategoryBadge, sim.improved_category);
+
+                        // Delta coloring
+                        if (sim.delta_val > 0) {
+                            deltaGpaValDisplay.className = 'display-5 fw-extrabold text-success mb-2';
+                        } else if (sim.delta_val < 0) {
+                            deltaGpaValDisplay.className = 'display-5 fw-extrabold text-danger mb-2';
+                        } else {
+                            deltaGpaValDisplay.className = 'display-5 fw-extrabold text-white mb-2';
+                        }
+
+                        // Dynamic advice
+                        if (targetAtt >= 85 && targetInt >= 75) {
+                            aiDiagnosticText.textContent = `High-yield trajectory: Reaching ${targetAtt}% attendance and ${targetInt} internal marks shifts performance solidly to ${sim.improved_category} tier with a ${sim.expected_improvement} GPA boost.`;
+                        } else if (targetAtt < 75) {
+                            aiDiagnosticText.textContent = `Warning: Even with assignment improvements, keeping attendance below 75% (${targetAtt}%) keeps the student in eligibility risk. Elevate attendance first.`;
+                        } else {
+                            aiDiagnosticText.textContent = `Incremental improvement: This intervention produces a ${sim.expected_improvement} GPA change, sustaining positive momentum.`;
+                        }
+                    }
+                })
+                .catch(err => console.error('What-If simulation error:', err));
+            }, 80);
+        }
+
+        function updateBadge(el, cat) {
+            el.textContent = cat;
+            if (cat === 'Excellent') {
+                el.className = 'badge bg-primary bg-opacity-25 text-info border border-primary border-opacity-25 rounded-pill px-2.5 py-0.5';
+            } else if (cat === 'Good') {
+                el.className = 'badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 rounded-pill px-2.5 py-0.5';
+            } else if (cat === 'Average') {
+                el.className = 'badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 rounded-pill px-2.5 py-0.5';
+            } else {
+                el.className = 'badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25 rounded-pill px-2.5 py-0.5';
+            }
+        }
+
+        attSlider.addEventListener('input', runSimulation);
+        assignSlider.addEventListener('input', runSimulation);
+        internalSlider.addEventListener('input', runSimulation);
+        backlogsToggle.addEventListener('change', runSimulation);
+
+        window.applyPreset = function(att, assign, internal) {
+            attSlider.value = att;
+            assignSlider.value = assign;
+            internalSlider.value = internal;
+            runSimulation();
+        };
+
+        const resetBtn = document.getElementById('resetSimulatorBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function() {
+                attSlider.value = baseAttendance;
+                assignSlider.value = baseAssignment;
+                internalSlider.value = baseInternal;
+                backlogsToggle.checked = false;
+                runSimulation();
+            });
+        }
+
+        // Run initial simulation on load
+        runSimulation();
+    });
+</script>
+{% endblock %}

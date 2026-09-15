@@ -253,56 +253,102 @@
 
         <!-- 🌟 Right Column: Glassmorphism Result Card / Guidance -->
         <div class="col-12 col-lg-5">
-            {% if result %}
-            <div class="predict-glass-card fade-in-up {% if result[0] == 'High' %}outcome-glow-high{% elif result[0] == 'Average' %}outcome-glow-average{% else %}outcome-glow-low{% endif %}">
-                <div class="card-header py-3 text-center" style="background: rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.1);">
+            {% if ai %}
+            <div class="predict-glass-card fade-in-up {% if ai.category in ['Excellent', 'Good'] %}outcome-glow-high{% elif ai.category == 'Average' %}outcome-glow-average{% else %}outcome-glow-low{% endif %}">
+                <div class="card-header py-3 d-flex align-items-center justify-content-between" style="background: rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.1);">
                     <div class="d-inline-flex align-items-center gap-2">
-                        <i class="bi bi-check2-circle fs-5 {% if result[0] == 'High' %}text-success{% elif result[0] == 'Average' %}text-warning{% else %}text-danger{% endif %}"></i>
-                        <span class="fw-bold text-white">Prediction Outcome</span>
+                        <i class="bi bi-cpu-fill fs-5 {% if ai.category in ['Excellent', 'Good'] %}text-success{% elif ai.category == 'Average' %}text-warning{% else %}text-danger{% endif %}"></i>
+                        <span class="fw-bold text-white">AI Performance Prediction 🤖</span>
                     </div>
+                    <span class="badge bg-secondary bg-opacity-35 text-light border border-secondary border-opacity-35 rounded-pill px-2.5 py-1 small">
+                        {{ ai.model_name }}
+                    </span>
                 </div>
-                <div class="card-body p-4 text-center">
-                    <span class="text-uppercase fw-semibold small text-white-50 letter-spacing">Classification Result</span>
-                    
-                    <!-- Pulsing Outcome Label -->
-                    <h1 class="display-4 fw-extrabold my-3 pulse-outcome-badge {% if result[0] == 'High' %}text-success{% elif result[0] == 'Average' %}text-warning{% else %}text-danger{% endif %}" style="text-shadow: 0 0 25px currentColor;">
-                        {{ result[0] }}
-                    </h1>
+                <div class="card-body p-4">
+                    <!-- Predicted GPA & Category Banner -->
+                    <div class="text-center p-3 rounded-4 mb-4" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);">
+                        <span class="text-uppercase fw-semibold small text-white-50 letter-spacing d-block mb-1">Predicted GPA / Score</span>
+                        <div class="display-4 fw-extrabold mb-2" style="background: linear-gradient(135deg, {% if ai.category in ['Excellent', 'Good'] %}#34d399, #38bdf8{% elif ai.category == 'Average' %}#fbbf24, #f59e0b{% else %}#f87171, #ef4444{% endif %}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                            {{ "%.2f"|format(ai.predicted_gpa) }} <span class="fs-5 text-white-50">/ 10.0</span>
+                        </div>
+                        
+                        <div class="d-inline-flex align-items-center gap-2">
+                            <span class="badge {% if ai.category == 'Excellent' %}bg-primary text-info border-primary{% elif ai.category == 'Good' %}bg-success text-success border-success{% elif ai.category == 'Average' %}bg-warning text-warning border-warning{% else %}bg-danger text-danger border-danger{% endif %} bg-opacity-25 border border-opacity-40 rounded-pill px-3 py-1.5 fw-bold fs-6">
+                                Category: {{ ai.category }}
+                            </span>
+                        </div>
+                    </div>
 
-                    <!-- High-Tech Model Confidence Bar -->
-                    <div class="my-4 p-3 rounded-3" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <!-- Model Confidence Progress Bar -->
+                    <div class="mb-4 p-3 rounded-3" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);">
                         <div class="d-flex justify-content-between mb-2 small fw-semibold">
-                            <span class="text-white-50"><i class="bi bi-shield-check text-info me-1"></i> Model Confidence</span>
-                            <span class="text-white fw-bold">{{ result[1] }}%</span>
+                            <span class="text-white-50"><i class="bi bi-shield-check text-info me-1"></i> Prediction Confidence</span>
+                            <span class="text-white fw-bold">{{ ai.confidence }}%</span>
                         </div>
                         <div class="glow-progress-bar">
-                            <div class="glow-progress-fill {% if result[0] == 'High' %}high{% elif result[0] == 'Average' %}average{% else %}low{% endif %}" style="width: {{ result[1] }}%;"></div>
+                            <div class="glow-progress-fill {% if ai.category in ['Excellent', 'Good'] %}high{% elif ai.category == 'Average' %}average{% else %}low{% endif %}" style="width: {{ ai.confidence }}%;"></div>
                         </div>
                     </div>
 
-                    <!-- AI Diagnostic Recommendation -->
-                    <div class="text-start p-3 rounded-3 mb-4" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12);">
-                        <strong class="d-block mb-1 text-white">
-                            <i class="bi bi-lightbulb-fill text-warning me-1"></i>
-                            {% if result[0] == 'High' %}High Academic Trajectory
-                            {% elif result[0] == 'Average' %}Moderate Academic Stability
-                            {% else %}At-Risk Performance Warning
-                            {% endif %}
-                        </strong>
-                        <p class="small text-white-50 mb-0 leading-relaxed">
-                            {% if result[0] == 'High' %}
-                            Student shows robust consistency and strong conceptual understanding across modules. Recommended for honors projects, research internships, and peer tutoring.
-                            {% elif result[0] == 'Average' %}
-                            Student is performing steadily. Additional problem-solving tutorials, continuous assignment follow-up, and attendance consistency will promote transition to higher grades.
-                            {% else %}
-                            Student indicates potential risk of backlogs. Priority faculty mentoring, remedial coaching, and active attendance intervention are strongly advised.
-                            {% endif %}
-                        </p>
+                    <!-- Risk Detection 🚨 -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="fw-bold text-white small text-uppercase">
+                                <i class="bi bi-exclamation-octagon-fill text-danger me-1"></i> Automated Risk Detection 🚨
+                            </span>
+                            <span class="badge {% if ai.risks %}bg-danger{% else %}bg-success{% endif %} bg-opacity-25 text-light rounded-pill px-2 py-0.5 small">
+                                {{ ai.risks|length }} Flagged
+                            </span>
+                        </div>
+                        {% if ai.risks %}
+                            <div class="d-flex flex-column gap-2">
+                                {% for r in ai.risks %}
+                                <div class="p-2.5 rounded-3 d-flex align-items-start gap-2.5" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);">
+                                    <i class="bi {{ r.icon }} text-danger fs-5 mt-0.5"></i>
+                                    <div>
+                                        <strong class="d-block text-danger small mb-0.5">{{ r.title }}</strong>
+                                        <p class="small text-white-50 mb-0 leading-snug">{{ r.message }}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="p-2.5 rounded-3 d-flex align-items-center gap-2" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);">
+                                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                                <span class="small text-success fw-semibold">No critical academic risks detected. Trajectory is healthy.</span>
+                            </div>
+                        {% endif %}
                     </div>
 
-                    <a href="/predict" class="btn btn-outline-light w-100 py-2 rounded-3 border-opacity-25" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(8px);">
-                        <i class="bi bi-arrow-repeat me-1"></i> Run Another Prediction
-                    </a>
+                    <!-- Personalized Recommendations 🎯 -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="fw-bold text-white small text-uppercase">
+                                <i class="bi bi-bullseye text-info me-1"></i> Personalized Recommendations 🎯
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column gap-2">
+                            {% for rec in ai.recommendations %}
+                            <div class="p-2.5 rounded-3" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.09);">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <i class="bi {{ rec.icon }}" style="color: {{ rec.color }};"></i>
+                                    <strong class="text-white small">{{ rec.title }}</strong>
+                                </div>
+                                <p class="small text-white-50 mb-0 leading-snug">{{ rec.detail }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Direct Action Buttons -->
+                    <div class="d-flex flex-column gap-2">
+                        <a href="/what-if?student_id={{ request.form.get('student_id', '1') }}" class="btn btn-outline-warning w-100 py-2 rounded-3" style="background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.35);">
+                            <i class="bi bi-sliders me-1"></i> Open in What-If Simulator ⭐
+                        </a>
+                        <a href="/predict" class="btn btn-outline-light w-100 py-2 rounded-3 border-opacity-25" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(8px);">
+                            <i class="bi bi-arrow-repeat me-1"></i> Run Another Prediction
+                        </a>
+                    </div>
                 </div>
             </div>
             {% else %}
