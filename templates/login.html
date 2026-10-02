@@ -1,177 +1,135 @@
 {% extends "base.html" %}
 
-{% block title %}Sign In - EduPredict AI{% endblock %}
+{% block title %}EduPredict AI - Intelligent Student Performance Prediction Platform{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ai_futuristic_theme.css') }}">
 <style>
-    body {
-        background-color: #070a14 !important;
-        background-image: 
-            radial-gradient(circle at 12% 18%, rgba(56, 189, 248, 0.14) 0%, transparent 45%),
-            radial-gradient(circle at 88% 82%, rgba(168, 85, 247, 0.16) 0%, transparent 50%),
-            radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.10) 0%, transparent 65%),
-            linear-gradient(145deg, #070a14 0%, #0c1224 45%, #150d2b 100%) !important;
-        background-attachment: fixed !important;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        overflow-x: hidden;
-    }
     main {
         position: relative;
         z-index: 10;
-        flex: 1;
+        min-height: calc(100vh - 120px);
         display: flex;
         align-items: center;
-        padding-top: 2.5rem !important;
+        padding-top: 2rem !important;
         padding-bottom: 2.5rem !important;
+    }
+    .hero-badge-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.45rem 1rem;
+        border-radius: 9999px;
+        background: rgba(59, 130, 246, 0.15);
+        border: 1px solid rgba(96, 165, 250, 0.35);
+        color: #93c5fd;
+        font-size: 0.825rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+    }
+    .demo-credentials-pill {
+        background: rgba(168, 85, 247, 0.12);
+        border: 1px dashed rgba(168, 85, 247, 0.4);
+        border-radius: 0.75rem;
+        padding: 0.65rem 0.95rem;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+    .demo-credentials-pill:hover {
+        background: rgba(168, 85, 247, 0.22);
+        border-color: rgba(168, 85, 247, 0.7);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+    }
+    .stat-pill-hero {
+        background: rgba(15, 23, 42, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 1rem;
+        padding: 0.85rem 1.15rem;
+        backdrop-filter: blur(16px);
+        transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    .stat-pill-hero:hover {
+        transform: translateY(-2px);
+        border-color: rgba(56, 189, 248, 0.4);
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- =========================================================================
-     1. ✨ BLUE-PURPLE GLOWING GRADIENT & AMBIENT ORBS
-     ========================================================================= -->
-<div class="ambient-glow-wrapper">
-    <div class="ambient-orb ambient-orb-1"></div>
-    <div class="ambient-orb ambient-orb-2"></div>
-    <div class="ambient-orb ambient-orb-3"></div>
-</div>
-
-<!-- =========================================================================
-     2. 🤖 AI NEURAL-NETWORK PARTICLES (Canvas Engine)
-     ========================================================================= -->
-<canvas id="ai-neural-canvas"></canvas>
-
-<!-- =========================================================================
-     3. 🧠 SUBTLE AI CIRCUIT ANIMATION (SVG Vector Cyber Traces)
-     ========================================================================= -->
-<svg class="ai-circuit-overlay" viewBox="0 0 1920 1080" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <linearGradient id="circuitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.28" />
-            <stop offset="50%" stop-color="#818cf8" stop-opacity="0.32" />
-            <stop offset="100%" stop-color="#c084fc" stop-opacity="0.22" />
-        </linearGradient>
-    </defs>
-    <!-- Left Circuit Network -->
-    <path class="circuit-path" d="M -50,220 H 220 L 320,320 H 520 V 580 L 420,680 H -50" />
-    <path class="circuit-pulse" d="M -50,220 H 220 L 320,320 H 520 V 580 L 420,680 H -50" />
-    <circle class="circuit-node" cx="220" cy="220" r="4.5" />
-    <circle class="circuit-node" cx="320" cy="320" r="3.5" />
-    <circle class="circuit-node" cx="520" cy="580" r="5" />
-    <circle class="circuit-node" cx="420" cy="680" r="4" />
-
-    <!-- Right Circuit Network -->
-    <path class="circuit-path" d="M 1970,180 H 1680 L 1560,300 H 1380 V 520 L 1480,620 H 1970" />
-    <path class="circuit-pulse-purple" d="M 1970,180 H 1680 L 1560,300 H 1380 V 520 L 1480,620 H 1970" />
-    <circle class="circuit-node-purple" cx="1680" cy="180" r="5" />
-    <circle class="circuit-node-purple" cx="1560" cy="300" r="4" />
-    <circle class="circuit-node-purple" cx="1380" cy="520" r="4.5" />
-    <circle class="circuit-node-purple" cx="1480" cy="620" r="4" />
-
-    <!-- Bottom Wave Circuit -->
-    <path class="circuit-path" d="M 150,1050 L 380,820 H 820 L 940,940 H 1550" />
-    <circle class="circuit-node" cx="380" cy="820" r="4" />
-    <circle class="circuit-node" cx="820" cy="820" r="4.5" />
-    <circle class="circuit-node-purple" cx="940" cy="940" r="4" />
-</svg>
-
-<!-- =========================================================================
-     4. 📚 SMALL FLOATING MATHEMATICAL SYMBOLS
-     ========================================================================= -->
-<div class="floating-math-container">
-    <span class="math-symbol math-cyan" style="top: 14%; left: 8%; font-size: 2.2rem; animation-delay: 0s;">&sum;</span>
-    <span class="math-symbol math-purple" style="top: 24%; left: 88%; font-size: 2rem; animation-delay: -3s;">&pi;</span>
-    <span class="math-symbol math-cyan" style="top: 72%; left: 6%; font-size: 2.5rem; animation-delay: -5s;">&int;</span>
-    <span class="math-symbol math-purple" style="top: 82%; left: 91%; font-size: 1.8rem; animation-delay: -2s;">&Delta;</span>
-    <span class="math-symbol math-emerald" style="top: 38%; left: 4%; font-size: 1.7rem; animation-delay: -7s;">f(x)</span>
-    <span class="math-symbol math-cyan" style="top: 12%; left: 78%; font-size: 1.9rem; animation-delay: -4s;">&radic;x</span>
-    <span class="math-symbol math-purple" style="top: 66%; left: 85%; font-size: 2.2rem; animation-delay: -8s;">&infin;</span>
-    <span class="math-symbol math-cyan" style="top: 88%; left: 16%; font-size: 1.6rem; animation-delay: -6s;">&lambda;</span>
-    <span class="math-symbol math-emerald" style="top: 48%; left: 94%; font-size: 1.6rem; animation-delay: -1s;">&sigma;</span>
-</div>
-
-<!-- =========================================================================
-     5. 🎓 FLOATING EDUCATION ICONS & 📊 FLOATING CHARTS
-     ========================================================================= -->
-<div class="floating-elements-layer d-none d-lg-block">
-    <!-- 🎓 Graduation Cap Floating Badge -->
-    <div class="floating-glass-pill pill-cap" style="top: 18%; left: 6%;">
-        <i class="bi bi-mortarboard-fill"></i>
-        <span>AI Academic Model</span>
-    </div>
-
-    <!-- 📖 Book Floating Badge -->
-    <div class="floating-glass-pill pill-book" style="bottom: 22%; left: 8%;">
-        <i class="bi bi-journal-bookmark-fill"></i>
-        <span>Smart Knowledge Base</span>
-    </div>
-
-    <!-- 💻 Laptop Floating Badge -->
-    <div class="floating-glass-pill pill-laptop" style="top: 20%; right: 7%;">
-        <i class="bi bi-laptop-fill"></i>
-        <span>Predictive Analytics</span>
-    </div>
-
-    <!-- 📊 Floating Interactive Mini Chart -->
-    <div class="floating-chart-card" style="bottom: 16%; right: 6%;">
-        <div class="floating-chart-header">
-            <span>MODEL ACCURACY</span>
-            <span class="text-success"><i class="bi bi-arrow-up-right"></i> +94.8%</span>
-        </div>
-        <div class="floating-chart-value">Random Forest</div>
-        <svg class="floating-chart-svg" viewBox="0 0 200 48" preserveAspectRatio="none">
-            <defs>
-                <linearGradient id="chartGradient" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stop-color="#38bdf8" />
-                    <stop offset="100%" stop-color="#c084fc" />
-                </linearGradient>
-                <linearGradient id="chartAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.6" />
-                    <stop offset="100%" stop-color="#818cf8" stop-opacity="0.0" />
-                </linearGradient>
-            </defs>
-            <polygon class="chart-area" points="0,48 0,38 30,30 65,36 100,18 140,24 175,10 200,14 200,48" />
-            <polyline class="chart-sparkline" points="0,38 30,30 65,36 100,18 140,24 175,10 200,14" />
-            <circle class="chart-point-pulse" cx="175" cy="10" r="4.5" />
-        </svg>
-    </div>
-</div>
-
-<!-- =========================================================================
-     6. 🌟 GLASSMORPHISM CARDS (Smooth Animation & Frosted Depth)
-     ========================================================================= -->
 <div class="container position-relative" style="z-index: 20;">
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-11 col-xl-10">
+        <div class="col-12 col-xl-11">
             <div class="glass-container fade-in-up">
                 <div class="row g-0">
-                    <!-- Left Side: Futuristic Hero & Academic Capabilities -->
-                    <div class="col-12 col-lg-6 glass-hero-side d-flex flex-column justify-content-between">
+                    <!-- Left Side: Hero Section & Academic AI Capabilities -->
+                    <div class="col-12 col-lg-7 glass-hero-side d-flex flex-column justify-content-between p-4 p-md-5">
                         <div>
-                            <div class="badge-ai-glass mb-4">
-                                <i class="bi bi-stars text-info"></i>
-                                <span>Next-Gen Academic Intelligence</span>
+                            <!-- Animated Badge -->
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <span class="hero-badge-pill">
+                                    <i class="bi bi-stars text-info"></i>
+                                    <span>Next-Gen Academic Intelligence</span>
+                                </span>
+                                <span class="badge bg-primary bg-opacity-25 text-info border border-primary border-opacity-30 rounded-pill px-2.5 py-1 small">
+                                    v2.4 Pro ML
+                                </span>
                             </div>
-                            <h2 class="display-6 fw-bold mb-3 text-white">
-                                EduPredict <span style="background: linear-gradient(135deg, #38bdf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI</span>
-                            </h2>
-                            <p class="text-white-50 leading-relaxed mb-4">
-                                High-precision machine learning platform designed to forecast student trajectories, analyze marks, and empower early institutional mentorship.
+
+                            <!-- Animated Main Heading -->
+                            <h1 class="hero-gradient-title display-5 fw-extrabold mb-3">
+                                AI-Powered Student Trajectory & Prediction
+                            </h1>
+                            <p class="hero-subtitle-lead mb-4">
+                                State-of-the-art predictive analytics platform utilizing Random Forest ensemble learning to forecast academic performance, identify at-risk scholars early, and deliver actionable intervention pathways.
                             </p>
+
+                            <!-- Subtle 3D-Style Academic/AI Visual Display Grid -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-6 col-sm-4">
+                                    <div class="stat-pill-hero h-100">
+                                        <div class="d-flex align-items-center gap-2 text-info mb-1">
+                                            <i class="bi bi-mortarboard-fill fs-5"></i>
+                                            <span class="small fw-bold">ML Precision</span>
+                                        </div>
+                                        <div class="h4 fw-bold text-white mb-0">94.8%</div>
+                                        <small class="text-white-50" style="font-size: 0.72rem;">Model Classification</small>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-4">
+                                    <div class="stat-pill-hero h-100">
+                                        <div class="d-flex align-items-center gap-2 text-warning mb-1">
+                                            <i class="bi bi-bell-fill fs-5"></i>
+                                            <span class="small fw-bold">Early Triage</span>
+                                        </div>
+                                        <div class="h4 fw-bold text-white mb-0">Real-Time</div>
+                                        <small class="text-white-50" style="font-size: 0.72rem;">Automated Risk Alerts</small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="stat-pill-hero h-100">
+                                        <div class="d-flex align-items-center gap-2 text-success mb-1">
+                                            <i class="bi bi-sliders fs-5"></i>
+                                            <span class="small fw-bold">What-If Studio</span>
+                                        </div>
+                                        <div class="h4 fw-bold text-white mb-0">&plusmn;10% Boost</div>
+                                        <small class="text-white-50" style="font-size: 0.72rem;">Trajectory Simulators</small>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
+                        <!-- Feature Badges -->
                         <div class="my-2">
                             <div class="glass-feature-badge">
                                 <div class="glass-feature-icon">
                                     <i class="bi bi-cpu-fill"></i>
                                 </div>
                                 <div>
-                                    <strong class="d-block text-white">AI Performance Prediction</strong>
-                                    <small class="text-white-50">Multi-parameter Random Forest classification</small>
+                                    <strong class="d-block text-white">Multi-Factor Predictive Inference</strong>
+                                    <small class="text-white-50">Attendance, internal marks, practical scores, and backlog historical weighting</small>
                                 </div>
                             </div>
                             <div class="glass-feature-badge">
@@ -179,32 +137,44 @@
                                     <i class="bi bi-graph-up-arrow"></i>
                                 </div>
                                 <div>
-                                    <strong class="d-block text-white">Real-Time Risk Monitoring</strong>
-                                    <small class="text-white-50">Instant academic warning & trend detection</small>
-                                </div>
-                            </div>
-                            <div class="glass-feature-badge mb-0">
-                                <div class="glass-feature-icon" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(56, 189, 248, 0.25)); color: #818cf8;">
-                                    <i class="bi bi-shield-check"></i>
-                                </div>
-                                <div>
-                                    <strong class="d-block text-white">Institutional Database</strong>
-                                    <small class="text-white-50">Secure multi-engine student records</small>
+                                    <strong class="d-block text-white">Continuous Institutional Diagnostics</strong>
+                                    <small class="text-white-50">Live cohort GPA distributions, department comparisons & mentorship triage</small>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="pt-4 text-white-50 small border-top border-white border-opacity-10 mt-4 d-flex align-items-center justify-content-between">
-                            <span><i class="bi bi-lock-fill text-info me-1"></i> End-to-End Encrypted</span>
-                            <span class="text-white-50">v2.4 Pro ML</span>
+                        <!-- Bottom Security Footer -->
+                        <div class="pt-3 text-white-50 small border-top border-white border-opacity-10 mt-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                            <span><i class="bi bi-shield-check text-info me-1"></i> Institutional Role-Based Authentication</span>
+                            <span class="text-white-50"><i class="bi bi-database me-1"></i> Multi-Engine SQLite / PostgreSQL</span>
                         </div>
                     </div>
 
                     <!-- Right Side: Frosted Glass Sign In Form -->
-                    <div class="col-12 col-lg-6 glass-form-side d-flex flex-column justify-content-center">
+                    <div class="col-12 col-lg-5 glass-form-side d-flex flex-column justify-content-center p-4 p-md-5">
                         <div class="mb-4">
-                            <h3 class="fw-bold text-white mb-1">Welcome Back</h3>
-                            <p class="text-white-50 small">Enter your credentials to enter the AI Portal</p>
+                            <div class="d-inline-flex align-items-center gap-2 mb-2">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4);">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                </div>
+                                <span class="text-info fw-bold small text-uppercase letter-spacing">Secure Access</span>
+                            </div>
+                            <h3 class="fw-bold text-white mb-1">Sign In to AI Portal</h3>
+                            <p class="text-white-50 small mb-0">Enter your institutional credentials to access performance analytics</p>
+                        </div>
+
+                        <!-- One-Click Demo Credentials Pill -->
+                        <div class="demo-credentials-pill mb-4 d-flex align-items-center justify-content-between" id="autofillDemoBtn" title="Click to autofill default administrator credentials">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-lightning-charge-fill text-warning fs-5"></i>
+                                <div>
+                                    <strong class="d-block text-white small">Demo Admin Credentials</strong>
+                                    <span class="text-white-50 small" style="font-size: 0.75rem;">Username: <code>admin</code> &bull; Password: <code>admin123</code></span>
+                                </div>
+                            </div>
+                            <span class="badge bg-warning bg-opacity-25 text-warning rounded-pill px-2.5 py-1 small">
+                                Auto-Fill <i class="bi bi-arrow-down-short"></i>
+                            </span>
                         </div>
 
                         {% if error %}
@@ -220,26 +190,29 @@
                         </div>
                         {% endif %}
 
-                        <form method="post">
+                        <form method="post" id="loginForm">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-light small text-opacity-75">USERNAME</label>
                                 <div class="input-group glass-input-group">
                                     <span class="input-group-text glass-input-icon"><i class="bi bi-person-fill"></i></span>
-                                    <input type="text" name="username" class="form-control glass-input-control" placeholder="Enter username" required autofocus>
+                                    <input type="text" name="username" id="usernameInput" class="form-control glass-input-control" placeholder="Enter username (e.g. admin)" required autofocus>
                                 </div>
                             </div>
                             <div class="mb-4">
-                                <label class="form-label fw-semibold text-light small text-opacity-75">PASSWORD</label>
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <label class="form-label fw-semibold text-light small text-opacity-75 mb-0">PASSWORD</label>
+                                </div>
                                 <div class="input-group glass-input-group">
                                     <span class="input-group-text glass-input-icon"><i class="bi bi-shield-lock-fill"></i></span>
-                                    <input type="password" name="password" class="form-control glass-input-control" placeholder="Enter password" required>
+                                    <input type="password" name="password" id="passwordInput" class="form-control glass-input-control" placeholder="Enter password (e.g. admin123)" required>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-ai-gradient w-100 py-3 mb-3">
-                                Access AI Portal <i class="bi bi-arrow-right-short ms-1 fs-5 align-middle"></i>
+                            <button type="submit" class="btn btn-ai-gradient w-100 py-3 mb-3 d-flex align-items-center justify-content-center gap-2">
+                                <span>Access AI Portal</span>
+                                <i class="bi bi-arrow-right-short fs-4"></i>
                             </button>
 
-                            <div class="text-center">
+                            <div class="text-center pt-2">
                                 <span class="text-white-50 small">New to EduPredict?</span>
                                 <a href="{{ url_for('signup') }}" class="small fw-bold text-info text-decoration-none ms-1 hover-underline">Create an Account</a>
                             </div>
@@ -253,15 +226,24 @@
 {% endblock %}
 
 {% block extra_js %}
-<!-- AI Ambient Effects Engine (Neural Particles & Synaptic Action Potentials) -->
-<script src="{{ url_for('static', filename='js/ai_ambient_effects.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        if (window.initAiAmbientEffects) {
-            window.initAiAmbientEffects({
-                canvasId: 'ai-neural-canvas',
-                particleCount: window.innerWidth < 768 ? 35 : 70,
-                maxDistance: window.innerWidth < 768 ? 100 : 145
+        // Quick Auto-Fill Demo Credentials handler
+        const demoBtn = document.getElementById('autofillDemoBtn');
+        const usernameInput = document.getElementById('usernameInput');
+        const passwordInput = document.getElementById('passwordInput');
+
+        if (demoBtn && usernameInput && passwordInput) {
+            demoBtn.addEventListener('click', function() {
+                usernameInput.value = 'admin';
+                passwordInput.value = 'admin123';
+                
+                // Visual feedback pulse
+                demoBtn.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    demoBtn.style.transform = '';
+                    usernameInput.focus();
+                }, 150);
             });
         }
     });

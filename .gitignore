@@ -42,3 +42,9 @@ public_url.txt
 *.sqlite
 *.sqlite3
 database/*.db
+
+# Other projects
+diabetes_prediction_system/
+
+# Unused heavy media
+static/videos/edupredict_hero_bg_15s.mp4

@@ -1,136 +1,39 @@
 {% extends "base.html" %}
 
-{% block title %}AI Prediction - EduPredict AI{% endblock %}
+{% block title %}AI Student Performance Prediction - EduPredict AI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ai_futuristic_theme.css') }}">
 <style>
-    body {
-        background-color: #070a14 !important;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        overflow-x: hidden;
-    }
     main {
         position: relative;
         z-index: 10;
-        flex: 1;
         padding-top: 1.5rem !important;
-        padding-bottom: 3rem !important;
+        padding-bottom: 3.5rem !important;
     }
-    .navbar-custom {
-        background: rgba(11, 17, 34, 0.85) !important;
-        backdrop-filter: blur(16px) !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    .preset-toolbar {
+        background: rgba(15, 23, 42, 0.65);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 1rem;
+        padding: 0.75rem 1rem;
+        backdrop-filter: blur(16px);
+        margin-bottom: 1.5rem;
+    }
+    .input-card-group {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 1rem;
+        padding: 1.15rem;
+        transition: all 0.3s ease;
+    }
+    .input-card-group:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(168, 85, 247, 0.35);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- =========================================================================
-     1. ✨ BLUE-PURPLE GLOWING GRADIENT & AMBIENT ORBS
-     ========================================================================= -->
-<div class="ambient-glow-wrapper">
-    <div class="ambient-orb ambient-orb-1"></div>
-    <div class="ambient-orb ambient-orb-2"></div>
-    <div class="ambient-orb ambient-orb-3"></div>
-</div>
-
-<!-- =========================================================================
-     2. 🤖 AI NEURAL-NETWORK PARTICLES (Canvas Engine)
-     ========================================================================= -->
-<canvas id="ai-neural-canvas"></canvas>
-
-<!-- =========================================================================
-     3. 🧠 SUBTLE AI CIRCUIT ANIMATION (Vector Cyber Traces)
-     ========================================================================= -->
-<svg class="ai-circuit-overlay" viewBox="0 0 1920 1080" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <linearGradient id="circuitGradPredict" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
-            <stop offset="50%" stop-color="#818cf8" stop-opacity="0.30" />
-            <stop offset="100%" stop-color="#c084fc" stop-opacity="0.20" />
-        </linearGradient>
-    </defs>
-    <!-- Background Tech Grid Lines -->
-    <path class="circuit-path" stroke="url(#circuitGradPredict)" d="M -50,150 H 300 L 450,300 H 700 V 850 L 850,1000 H 1950" />
-    <path class="circuit-pulse" d="M -50,150 H 300 L 450,300 H 700 V 850 L 850,1000 H 1950" />
-    <circle class="circuit-node" cx="300" cy="150" r="4.5" />
-    <circle class="circuit-node" cx="450" cy="300" r="4" />
-    <circle class="circuit-node" cx="700" cy="850" r="4.5" />
-
-    <path class="circuit-path" stroke="url(#circuitGradPredict)" d="M 1970,250 H 1600 L 1450,400 H 1250 V 700 L 1100,850 H 200" />
-    <path class="circuit-pulse-purple" d="M 1970,250 H 1600 L 1450,400 H 1250 V 700 L 1100,850 H 200" />
-    <circle class="circuit-node-purple" cx="1600" cy="250" r="5" />
-    <circle class="circuit-node-purple" cx="1450" cy="400" r="4" />
-    <circle class="circuit-node-purple" cx="1250" cy="700" r="4.5" />
-</svg>
-
-<!-- =========================================================================
-     4. 📚 SMALL FLOATING MATHEMATICAL SYMBOLS
-     ========================================================================= -->
-<div class="floating-math-container">
-    <span class="math-symbol math-cyan" style="top: 10%; left: 4%; font-size: 2.2rem; animation-delay: 0s;">&sum;</span>
-    <span class="math-symbol math-purple" style="top: 28%; left: 93%; font-size: 2.3rem; animation-delay: -2s;">&pi;</span>
-    <span class="math-symbol math-cyan" style="top: 60%; left: 3%; font-size: 2.6rem; animation-delay: -5s;">&int;</span>
-    <span class="math-symbol math-purple" style="top: 78%; left: 94%; font-size: 2rem; animation-delay: -3s;">&Delta;</span>
-    <span class="math-symbol math-emerald" style="top: 42%; left: 95%; font-size: 1.8rem; animation-delay: -6s;">&radic;x</span>
-    <span class="math-symbol math-cyan" style="top: 85%; left: 6%; font-size: 1.8rem; animation-delay: -4s;">f(x)</span>
-    <span class="math-symbol math-purple" style="top: 15%; left: 90%; font-size: 2rem; animation-delay: -7s;">&infin;</span>
-    <span class="math-symbol math-emerald" style="top: 92%; left: 40%; font-size: 1.6rem; animation-delay: -1s;">&mu;</span>
-</div>
-
-<!-- =========================================================================
-     5. 🎓 FLOATING EDUCATION ICONS & 📊 FLOATING CHARTS (Ambient Layer)
-     ========================================================================= -->
-<div class="floating-elements-layer d-none d-xl-block">
-    <!-- 🎓 Graduation Cap Floating Badge -->
-    <div class="floating-glass-pill pill-cap" style="top: 13%; left: 2%;">
-        <i class="bi bi-mortarboard-fill"></i>
-        <span>AI Classifier</span>
-    </div>
-
-    <!-- 📖 Book Floating Badge -->
-    <div class="floating-glass-pill pill-book" style="top: 52%; left: 1.5%;">
-        <i class="bi bi-journal-check"></i>
-        <span>Academic Metrics</span>
-    </div>
-
-    <!-- 💻 Laptop Floating Badge -->
-    <div class="floating-glass-pill pill-laptop" style="top: 13%; right: 2%;">
-        <i class="bi bi-laptop-fill"></i>
-        <span>95% Confidence</span>
-    </div>
-
-    <!-- 📊 Floating Mini Chart Widget -->
-    <div class="floating-chart-card" style="bottom: 12%; right: 2.5%;">
-        <div class="floating-chart-header">
-            <span>PERFORMANCE TREND</span>
-            <span class="text-success"><i class="bi bi-graph-up-arrow"></i> Live</span>
-        </div>
-        <div class="floating-chart-value">GPA vs Marks</div>
-        <svg class="floating-chart-svg" viewBox="0 0 200 48" preserveAspectRatio="none">
-            <defs>
-                <linearGradient id="chartGradPred" x1="0%" y1="0%" x2="1" y2="0">
-                    <stop offset="0%" stop-color="#38bdf8" />
-                    <stop offset="100%" stop-color="#c084fc" />
-                </linearGradient>
-                <linearGradient id="chartAreaGradPred" x1="0%" y1="0%" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.5" />
-                    <stop offset="100%" stop-color="#818cf8" stop-opacity="0.0" />
-                </linearGradient>
-            </defs>
-            <polygon class="chart-area" fill="url(#chartAreaGradPred)" points="0,48 0,35 35,28 75,32 110,16 150,22 180,8 200,12 200,48" />
-            <polyline class="chart-sparkline" stroke="url(#chartGradPred)" points="0,35 35,28 75,32 110,16 150,22 180,8 200,12" />
-            <circle class="chart-point-pulse" cx="180" cy="8" r="4.5" />
-        </svg>
-    </div>
-</div>
-
-<!-- =========================================================================
-     6. 🌟 MAIN INTERFACE WITH GLASSMORPHISM CARDS
-     ========================================================================= -->
 <div class="container position-relative" style="z-index: 20;">
     <!-- AI Performance Prediction Header Card -->
     <div class="predict-glass-header mb-4 fade-in-up">
@@ -138,18 +41,42 @@
             <div>
                 <div class="badge-ai-glass mb-2">
                     <i class="bi bi-cpu-fill text-info"></i>
-                    <span>Multi-Factor AI Evaluation Engine</span>
+                    <span>Multi-Factor AI Inference Engine</span>
                 </div>
                 <h2 class="fw-bold mb-1 text-white">
                     Student Performance <span style="background: linear-gradient(135deg, #38bdf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Predictor</span>
                 </h2>
                 <p class="text-white-50 mb-0">
-                    Real-time academic trajectory forecasting powered by Random Forest multi-class classification.
+                    Real-time academic trajectory forecasting powered by Random Forest multi-class classification model.
                 </p>
             </div>
-            <a href="/dashboard" class="btn btn-outline-light rounded-pill px-4 py-2 border-opacity-25" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);">
-                <i class="bi bi-arrow-left me-1"></i> Dashboard Overview
-            </a>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="/dashboard" class="btn btn-outline-light rounded-pill px-4 py-2 border-opacity-25" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);">
+                    <i class="bi bi-speedometer2 me-1"></i> Analytics Dashboard
+                </a>
+                <a href="/what-if" class="btn btn-outline-info rounded-pill px-4 py-2" style="background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.35);">
+                    <i class="bi bi-sliders me-1"></i> What-If Studio
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Load Sample Academic Profiles Toolbar -->
+    <div class="preset-toolbar d-flex flex-wrap align-items-center justify-content-between gap-2 fade-in-up">
+        <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-lightning-charge-fill text-warning fs-5"></i>
+            <span class="small fw-bold text-white">Quick-Load Sample Profiles:</span>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <button type="button" class="preset-sample-btn" id="presetHigh" title="Load High Performance Profile">
+                <span>⭐ Outstanding (High)</span>
+            </button>
+            <button type="button" class="preset-sample-btn" id="presetAverage" title="Load Borderline / Average Profile">
+                <span>⚠️ Average Scholar</span>
+            </button>
+            <button type="button" class="preset-sample-btn" id="presetLow" title="Load At-Risk Profile">
+                <span>🚨 At-Risk Student</span>
+            </button>
         </div>
     </div>
 
@@ -159,44 +86,59 @@
             <div class="predict-glass-card fade-in-up fade-in-delay-1">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="mb-0 fw-bold text-white d-flex align-items-center gap-2">
-                        <i class="bi bi-sliders2 text-info fs-5"></i> Academic Parameters
+                        <i class="bi bi-sliders2 text-info fs-5"></i> Student Academic Parameters
                     </h5>
-                    <span class="badge bg-primary bg-opacity-25 text-info border border-primary border-opacity-25 rounded-pill px-3 py-1">
-                        Form v2.4
+                    <span class="badge bg-primary bg-opacity-25 text-info border border-primary border-opacity-30 rounded-pill px-3 py-1">
+                        Model Ready
                     </span>
                 </div>
                 <div class="card-body p-4">
-                    <form method="post">
+                    <form method="post" id="predictionForm">
                         <div class="row g-3">
+                            <!-- Student ID -->
                             <div class="col-12">
-                                <label class="form-label fw-semibold small text-light text-opacity-75">STUDENT ID</label>
+                                <label class="form-label fw-semibold small text-light text-opacity-75">STUDENT IDENTIFIER</label>
                                 <div class="input-group glass-input-group">
-                                    <span class="input-group-text glass-input-icon"><i class="bi bi-hash"></i></span>
-                                    <input type="number" name="student_id" class="form-control glass-input-control" placeholder="Enter Student ID (e.g. 1)" value="{{ request.args.get('student_id', '') }}" required>
+                                    <span class="input-group-text glass-input-icon"><i class="bi bi-person-badge text-info"></i></span>
+                                    <input type="text" name="student_id" id="inp_student_id" class="form-control glass-input-control" placeholder="Enter Student ID (e.g. 1 or STU-101)" value="{{ request.args.get('student_id', '1') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Internal Marks & Assignment Marks -->
+                            <div class="col-md-6">
+                                <div class="input-card-group">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="form-label fw-semibold small text-light text-opacity-75 mb-0">INTERNAL EXAM MARKS</label>
+                                        <span class="badge bg-info bg-opacity-25 text-info rounded-pill px-2" id="val_internal">85</span>
+                                    </div>
+                                    <div class="input-group glass-input-group mb-2">
+                                        <span class="input-group-text glass-input-icon"><i class="bi bi-clipboard2-check-fill text-info"></i></span>
+                                        <input type="number" step="0.1" name="internal" id="inp_internal" class="form-control glass-input-control" placeholder="e.g. 85" min="0" max="100" value="85" required>
+                                    </div>
+                                    <input type="range" class="ai-range-slider" min="0" max="100" value="85" id="range_internal">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-light text-opacity-75">INTERNAL MARKS (0 - 100)</label>
-                                <div class="input-group glass-input-group">
-                                    <span class="input-group-text glass-input-icon"><i class="bi bi-clipboard2-check-fill text-info"></i></span>
-                                    <input type="number" step="0.1" name="internal" class="form-control glass-input-control" placeholder="e.g. 85" min="0" max="100" required>
+                                <div class="input-card-group">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="form-label fw-semibold small text-light text-opacity-75 mb-0">ASSIGNMENT MARKS</label>
+                                        <span class="badge bg-primary bg-opacity-25 text-info rounded-pill px-2" id="val_assignment">88</span>
+                                    </div>
+                                    <div class="input-group glass-input-group mb-2">
+                                        <span class="input-group-text glass-input-icon"><i class="bi bi-journal-code text-primary"></i></span>
+                                        <input type="number" step="0.1" name="assignment" id="inp_assignment" class="form-control glass-input-control" placeholder="e.g. 88" min="0" max="100" value="88" required>
+                                    </div>
+                                    <input type="range" class="ai-range-slider" min="0" max="100" value="88" id="range_assignment">
                                 </div>
                             </div>
 
+                            <!-- Previous Exam Marks & Practical Marks -->
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-light text-opacity-75">ASSIGNMENT MARKS (0 - 100)</label>
-                                <div class="input-group glass-input-group">
-                                    <span class="input-group-text glass-input-icon"><i class="bi bi-journal-code text-primary"></i></span>
-                                    <input type="number" step="0.1" name="assignment" class="form-control glass-input-control" placeholder="e.g. 88" min="0" max="100" required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-light text-opacity-75">PREVIOUS EXAM MARKS</label>
+                                <label class="form-label fw-semibold small text-light text-opacity-75">PREVIOUS SEMESTER EXAM MARKS</label>
                                 <div class="input-group glass-input-group">
                                     <span class="input-group-text glass-input-icon"><i class="bi bi-file-earmark-bar-graph-fill text-warning"></i></span>
-                                    <input type="number" step="0.1" name="previous_exam" class="form-control glass-input-control" placeholder="e.g. 75" min="0" max="100">
+                                    <input type="number" step="0.1" name="previous_exam" id="inp_previous_exam" class="form-control glass-input-control" placeholder="e.g. 80" min="0" max="100" value="80">
                                 </div>
                             </div>
 
@@ -204,45 +146,59 @@
                                 <label class="form-label fw-semibold small text-light text-opacity-75">LAB / PRACTICAL MARKS</label>
                                 <div class="input-group glass-input-group">
                                     <span class="input-group-text glass-input-icon"><i class="bi bi-flask-fill text-success"></i></span>
-                                    <input type="number" step="0.1" name="lab_marks" class="form-control glass-input-control" placeholder="e.g. 80" min="0" max="100">
+                                    <input type="number" step="0.1" name="lab_marks" id="inp_lab_marks" class="form-control glass-input-control" placeholder="e.g. 82" min="0" max="100" value="82">
                                 </div>
                             </div>
 
+                            <!-- Project Marks & GPA -->
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-light text-opacity-75">PROJECT MARKS</label>
+                                <label class="form-label fw-semibold small text-light text-opacity-75">CAPSTONE / PROJECT MARKS</label>
                                 <div class="input-group glass-input-group">
                                     <span class="input-group-text glass-input-icon"><i class="bi bi-laptop text-info"></i></span>
-                                    <input type="number" step="0.1" name="project_marks" class="form-control glass-input-control" placeholder="e.g. 85" min="0" max="100">
+                                    <input type="number" step="0.1" name="project_marks" id="inp_project_marks" class="form-control glass-input-control" placeholder="e.g. 85" min="0" max="100" value="85">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-light text-opacity-75">PREVIOUS PERFORMANCE (GPA: 0 - 10)</label>
+                                <label class="form-label fw-semibold small text-light text-opacity-75">CURRENT CUMULATIVE GPA (0 - 10)</label>
                                 <div class="input-group glass-input-group">
                                     <span class="input-group-text glass-input-icon"><i class="bi bi-star-fill text-warning"></i></span>
-                                    <input type="number" step="0.01" name="gpa" class="form-control glass-input-control" placeholder="e.g. 8.4" min="0" max="10" required>
+                                    <input type="number" step="0.01" name="gpa" id="inp_gpa" class="form-control glass-input-control" placeholder="e.g. 8.2" min="0" max="10" value="8.2" required>
+                                </div>
+                            </div>
+
+                            <!-- Attendance % & Failures -->
+                            <div class="col-md-6">
+                                <div class="input-card-group">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="form-label fw-semibold small text-light text-opacity-75 mb-0">ATTENDANCE RATE (%)</label>
+                                        <span class="badge bg-success bg-opacity-25 text-success rounded-pill px-2" id="val_attendance">90%</span>
+                                    </div>
+                                    <div class="input-group glass-input-group mb-2">
+                                        <span class="input-group-text glass-input-icon"><i class="bi bi-calendar-check-fill text-info"></i></span>
+                                        <input type="number" step="0.1" name="attendance" id="inp_attendance" class="form-control glass-input-control" placeholder="e.g. 90" min="0" max="100" value="90" required>
+                                    </div>
+                                    <input type="range" class="ai-range-slider" min="0" max="100" value="90" id="range_attendance">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-light text-opacity-75">ATTENDANCE (%)</label>
-                                <div class="input-group glass-input-group">
-                                    <span class="input-group-text glass-input-icon"><i class="bi bi-calendar-check-fill text-info"></i></span>
-                                    <input type="number" step="0.1" name="attendance" class="form-control glass-input-control" placeholder="e.g. 90" min="0" max="100" required>
+                                <div class="input-card-group h-100 d-flex flex-column justify-content-between">
+                                    <label class="form-label fw-semibold small text-light text-opacity-75 mb-1">PREVIOUS FAILURES / BACKLOGS</label>
+                                    <div class="input-group glass-input-group">
+                                        <span class="input-group-text glass-input-icon"><i class="bi bi-exclamation-octagon-fill text-danger"></i></span>
+                                        <input type="number" name="failures" id="inp_failures" class="form-control glass-input-control" placeholder="0, 1, 2..." min="0" value="0" required>
+                                    </div>
+                                    <small class="text-white-50 mt-1" style="font-size: 0.72rem;">0 = Active clean track</small>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-light text-opacity-75">PREVIOUS FAILURES / BACKLOGS</label>
-                                <div class="input-group glass-input-group">
-                                    <span class="input-group-text glass-input-icon"><i class="bi bi-exclamation-octagon-fill text-danger"></i></span>
-                                    <input type="number" name="failures" class="form-control glass-input-control" placeholder="0, 1, 2..." min="0" value="0" required>
-                                </div>
-                            </div>
-
-                            <div class="col-12 pt-3">
-                                <button type="submit" class="btn btn-ai-gradient w-100 py-3 fs-6">
-                                    <i class="bi bi-magic me-2"></i> Compute AI Prediction
+                            <!-- Submit Button -->
+                            <div class="col-12 pt-2">
+                                <button type="submit" class="btn btn-ai-gradient w-100 py-3 fs-6 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-magic fs-5"></i>
+                                    <span>Execute AI Performance Inference</span>
+                                    <i class="bi bi-arrow-right fs-5"></i>
                                 </button>
                             </div>
                         </div>
@@ -251,121 +207,147 @@
             </div>
         </div>
 
-        <!-- 🌟 Right Column: Glassmorphism Result Card / Guidance -->
+        <!-- 🌟 Right Column: Attractive Animated Prediction Result Card -->
         <div class="col-12 col-lg-5">
             {% if ai %}
-            <div class="predict-glass-card fade-in-up {% if ai.category in ['Excellent', 'Good'] %}outcome-glow-high{% elif ai.category == 'Average' %}outcome-glow-average{% else %}outcome-glow-low{% endif %}">
-                <div class="card-header py-3 d-flex align-items-center justify-content-between" style="background: rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.1);">
-                    <div class="d-inline-flex align-items-center gap-2">
-                        <i class="bi bi-cpu-fill fs-5 {% if ai.category in ['Excellent', 'Good'] %}text-success{% elif ai.category == 'Average' %}text-warning{% else %}text-danger{% endif %}"></i>
-                        <span class="fw-bold text-white">AI Performance Prediction 🤖</span>
+            <div class="prediction-result-master p-4 {% if ai.category in ['Excellent', 'Good', 'High'] %}tier-glow-excellent{% elif ai.category == 'Average' %}tier-glow-average{% else %}tier-glow-risk{% endif %}">
+                <!-- Result Card Header -->
+                <div class="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom border-white border-opacity-10">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background: rgba(56, 189, 248, 0.2); border: 1px solid rgba(56, 189, 248, 0.4);">
+                            <i class="bi bi-cpu-fill text-info"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block text-white small">AI Inference Output</strong>
+                            <small class="text-white-50">{{ ai.model_name }}</small>
+                        </div>
                     </div>
-                    <span class="badge bg-secondary bg-opacity-35 text-light border border-secondary border-opacity-35 rounded-pill px-2.5 py-1 small">
-                        {{ ai.model_name }}
+                    <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30 rounded-pill px-2.5 py-1 small">
+                        Confidence {{ "%.1f"|format(ai.confidence) }}%
                     </span>
                 </div>
-                <div class="card-body p-4">
-                    <!-- Predicted GPA & Category Banner -->
-                    <div class="text-center p-3 rounded-4 mb-4" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);">
-                        <span class="text-uppercase fw-semibold small text-white-50 letter-spacing d-block mb-1">Predicted GPA / Score</span>
-                        <div class="display-4 fw-extrabold mb-2" style="background: linear-gradient(135deg, {% if ai.category in ['Excellent', 'Good'] %}#34d399, #38bdf8{% elif ai.category == 'Average' %}#fbbf24, #f59e0b{% else %}#f87171, #ef4444{% endif %}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                            {{ "%.2f"|format(ai.predicted_gpa) }} <span class="fs-5 text-white-50">/ 10.0</span>
-                        </div>
-                        
-                        <div class="d-inline-flex align-items-center gap-2">
-                            <span class="badge {% if ai.category == 'Excellent' %}bg-primary text-info border-primary{% elif ai.category == 'Good' %}bg-success text-success border-success{% elif ai.category == 'Average' %}bg-warning text-warning border-warning{% else %}bg-danger text-danger border-danger{% endif %} bg-opacity-25 border border-opacity-40 rounded-pill px-3 py-1.5 fw-bold fs-6">
-                                Category: {{ ai.category }}
-                            </span>
-                        </div>
-                    </div>
 
-                    <!-- Model Confidence Progress Bar -->
-                    <div class="mb-4 p-3 rounded-3" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);">
-                        <div class="d-flex justify-content-between mb-2 small fw-semibold">
-                            <span class="text-white-50"><i class="bi bi-shield-check text-info me-1"></i> Prediction Confidence</span>
-                            <span class="text-white fw-bold">{{ ai.confidence }}%</span>
-                        </div>
-                        <div class="glow-progress-bar">
-                            <div class="glow-progress-fill {% if ai.category in ['Excellent', 'Good'] %}high{% elif ai.category == 'Average' %}average{% else %}low{% endif %}" style="width: {{ ai.confidence }}%;"></div>
-                        </div>
+                <!-- Circular SVG Confidence Gauge -->
+                <div class="confidence-gauge-box my-3">
+                    <svg class="confidence-gauge-svg" viewBox="0 0 100 100">
+                        <circle class="confidence-gauge-track" cx="50" cy="50" r="42"></circle>
+                        <circle class="confidence-gauge-value" 
+                                cx="50" cy="50" r="42" 
+                                stroke="{% if ai.category in ['Excellent', 'Good', 'High'] %}#10b981{% elif ai.category == 'Average' %}#f59e0b{% else %}#ef4444{% endif %}"
+                                stroke-dasharray="264" 
+                                stroke-dashoffset="{{ 264 - (264 * (ai.confidence / 100.0)) }}">
+                        </circle>
+                    </svg>
+                    <div class="confidence-gauge-center">
+                        <span class="h3 fw-extrabold text-white mb-0">{{ "%.1f"|format(ai.confidence) }}%</span>
+                        <small class="text-white-50" style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em;">Confidence</small>
                     </div>
+                </div>
 
-                    <!-- Risk Detection 🚨 -->
-                    <div class="mb-4">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="fw-bold text-white small text-uppercase">
-                                <i class="bi bi-exclamation-octagon-fill text-danger me-1"></i> Automated Risk Detection 🚨
-                            </span>
-                            <span class="badge {% if ai.risks %}bg-danger{% else %}bg-success{% endif %} bg-opacity-25 text-light rounded-pill px-2 py-0.5 small">
-                                {{ ai.risks|length }} Flagged
-                            </span>
-                        </div>
-                        {% if ai.risks %}
-                            <div class="d-flex flex-column gap-2">
-                                {% for r in ai.risks %}
-                                <div class="p-2.5 rounded-3 d-flex align-items-start gap-2.5" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);">
-                                    <i class="bi {{ r.icon }} text-danger fs-5 mt-0.5"></i>
-                                    <div>
-                                        <strong class="d-block text-danger small mb-0.5">{{ r.title }}</strong>
-                                        <p class="small text-white-50 mb-0 leading-snug">{{ r.message }}</p>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <div class="p-2.5 rounded-3 d-flex align-items-center gap-2" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);">
-                                <i class="bi bi-check-circle-fill text-success fs-5"></i>
-                                <span class="small text-success fw-semibold">No critical academic risks detected. Trajectory is healthy.</span>
-                            </div>
-                        {% endif %}
+                <!-- Predicted GPA Banner -->
+                <div class="text-center p-3 rounded-4 mb-3" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <small class="text-uppercase fw-semibold text-white-50 letter-spacing d-block mb-1">Forecasted Academic Trajectory</small>
+                    <div class="display-5 fw-extrabold mb-2" style="background: linear-gradient(135deg, {% if ai.category in ['Excellent', 'Good', 'High'] %}#34d399, #38bdf8{% elif ai.category == 'Average' %}#fbbf24, #f59e0b{% else %}#f87171, #ef4444{% endif %}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        {{ "%.2f"|format(ai.predicted_gpa) }} <span class="fs-6 text-white-50">/ 10.0 GPA</span>
                     </div>
+                    
+                    <div class="d-inline-flex align-items-center gap-2">
+                        <span class="badge {% if ai.category in ['Excellent', 'Good', 'High'] %}bg-success text-success border-success{% elif ai.category == 'Average' %}bg-warning text-warning border-warning{% else %}bg-danger text-danger border-danger{% endif %} bg-opacity-25 border border-opacity-40 rounded-pill px-3.5 py-1.5 fw-bold fs-6 pulse-outcome-badge">
+                            Performance Tier: {{ ai.category }}
+                        </span>
+                    </div>
+                </div>
 
-                    <!-- Personalized Recommendations 🎯 -->
-                    <div class="mb-4">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="fw-bold text-white small text-uppercase">
-                                <i class="bi bi-bullseye text-info me-1"></i> Personalized Recommendations 🎯
-                            </span>
-                        </div>
+                <!-- Automated Risk Detection -->
+                <div class="mb-3">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="fw-bold text-white small text-uppercase">
+                            <i class="bi bi-shield-exclamation text-danger me-1"></i> Diagnostic Risk Flags
+                        </span>
+                        <span class="badge {% if ai.risks %}bg-danger{% else %}bg-success{% endif %} bg-opacity-25 text-light rounded-pill px-2 py-0.5 small">
+                            {{ ai.risks|length }} Detected
+                        </span>
+                    </div>
+                    {% if ai.risks %}
                         <div class="d-flex flex-column gap-2">
-                            {% for rec in ai.recommendations %}
-                            <div class="p-2.5 rounded-3" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.09);">
-                                <div class="d-flex align-items-center gap-2 mb-1">
-                                    <i class="bi {{ rec.icon }}" style="color: {{ rec.color }};"></i>
-                                    <strong class="text-white small">{{ rec.title }}</strong>
+                            {% for r in ai.risks %}
+                            <div class="p-2.5 rounded-3 d-flex align-items-start gap-2.5" style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35);">
+                                <i class="bi {{ r.icon }} text-danger fs-5 mt-0.5"></i>
+                                <div>
+                                    <strong class="d-block text-danger small mb-0.5">{{ r.title }}</strong>
+                                    <p class="small text-white-50 mb-0 leading-snug">{{ r.message }}</p>
                                 </div>
-                                <p class="small text-white-50 mb-0 leading-snug">{{ rec.detail }}</p>
                             </div>
                             {% endfor %}
                         </div>
-                    </div>
+                    {% else %}
+                        <div class="p-2.5 rounded-3 d-flex align-items-center gap-2" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35);">
+                            <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                            <span class="small text-success fw-semibold">Zero critical risks detected. Student profile reflects healthy progression.</span>
+                        </div>
+                    {% endif %}
+                </div>
 
-                    <!-- Direct Action Buttons -->
-                    <div class="d-flex flex-column gap-2">
-                        <a href="/what-if?student_id={{ request.form.get('student_id', '1') }}" class="btn btn-outline-warning w-100 py-2 rounded-3" style="background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.35);">
-                            <i class="bi bi-sliders me-1"></i> Open in What-If Simulator ⭐
-                        </a>
-                        <a href="/predict" class="btn btn-outline-light w-100 py-2 rounded-3 border-opacity-25" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(8px);">
-                            <i class="bi bi-arrow-repeat me-1"></i> Run Another Prediction
-                        </a>
+                <!-- Targeted AI Recommendations -->
+                <div class="mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="fw-bold text-white small text-uppercase">
+                            <i class="bi bi-bullseye text-info me-1"></i> Targeted Interventions & Advice
+                        </span>
                     </div>
+                    <div class="d-flex flex-column gap-2">
+                        {% for rec in ai.recommendations %}
+                        <div class="p-2.5 rounded-3" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.09);">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <i class="bi {{ rec.icon }}" style="color: {{ rec.color }};"></i>
+                                <strong class="text-white small">{{ rec.title }}</strong>
+                            </div>
+                            <p class="small text-white-50 mb-0 leading-snug">{{ rec.detail }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Action Links -->
+                <div class="d-flex flex-column gap-2">
+                    <a href="/what-if?student_id={{ request.form.get('student_id', '1') }}" class="btn btn-outline-warning w-100 py-2.5 rounded-3 d-flex align-items-center justify-content-center gap-2" style="background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.4);">
+                        <i class="bi bi-sliders"></i>
+                        <span>Simulate Improvement in What-If Studio</span>
+                    </a>
+                    <a href="/predict" class="btn btn-outline-light w-100 py-2 rounded-3 border-opacity-25 text-white-50 small" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(8px);">
+                        <i class="bi bi-arrow-repeat me-1"></i> Reset / New Evaluation
+                    </a>
                 </div>
             </div>
             {% else %}
-            <!-- Standby / Waiting Glass State -->
-            <div class="predict-glass-card text-center p-5 h-100 d-flex flex-column justify-content-center align-items-center fade-in-up fade-in-delay-2" style="min-height: 480px;">
-                <div class="mb-4 position-relative">
-                    <div style="width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, rgba(56, 189, 248, 0.25), transparent 70%); display: flex; align-items: center; justify-content: center; margin: auto; box-shadow: 0 0 35px rgba(56, 189, 248, 0.3);">
+            <!-- Initial State Card: Waiting for parameters -->
+            <div class="predict-glass-card p-4 fade-in-up text-center">
+                <div class="my-4">
+                    <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.25)); border: 1px solid rgba(56, 189, 248, 0.4); box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);">
                         <i class="bi bi-cpu fs-1 text-info"></i>
                     </div>
+                    <h4 class="fw-bold text-white mb-2">AI Diagnostic Core Online</h4>
+                    <p class="text-white-50 small max-w-md mx-auto mb-4">
+                        Adjust student marks, attendance, and parameters on the left or click any quick-load preset above to execute real-time performance classification.
+                    </p>
                 </div>
-                <h4 class="fw-bold text-white mb-2">Awaiting Parameters</h4>
-                <p class="text-white-50 small mb-4" style="max-width: 320px;">
-                    Fill out the student's marks and attendance in the form on the left and trigger the AI model to calculate performance forecasts.
-                </p>
-                <div class="badge-ai-glass">
-                    <i class="bi bi-robot text-info"></i>
-                    <span>Ready for Inference</span>
+
+                <div class="p-3 rounded-3 text-start mb-3" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="small fw-bold text-white">Evaluated Factors:</span>
+                        <span class="badge bg-primary bg-opacity-25 text-info">8 Metrics</span>
+                    </div>
+                    <ul class="list-unstyled small text-white-50 mb-0 d-flex flex-column gap-1.5">
+                        <li><i class="bi bi-check2 text-info me-1.5"></i> Lecture & Lab Attendance Ratio</li>
+                        <li><i class="bi bi-check2 text-info me-1.5"></i> Continuous Assessment & Internal Marks</li>
+                        <li><i class="bi bi-check2 text-info me-1.5"></i> Practical Project & Lab Workload</li>
+                        <li><i class="bi bi-check2 text-info me-1.5"></i> Historical Failures & Backlog History</li>
+                    </ul>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between text-white-50 small p-2">
+                    <span><i class="bi bi-shield-check text-success me-1"></i> Random Forest ML</span>
+                    <span>Confidence &ge; 90%</span>
                 </div>
             </div>
             {% endif %}
@@ -375,15 +357,99 @@
 {% endblock %}
 
 {% block extra_js %}
-<!-- AI Ambient Effects Engine (Neural Particles & Synapses) -->
-<script src="{{ url_for('static', filename='js/ai_ambient_effects.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        if (window.initAiAmbientEffects) {
-            window.initAiAmbientEffects({
-                canvasId: 'ai-neural-canvas',
-                particleCount: window.innerWidth < 768 ? 30 : 65,
-                maxDistance: window.innerWidth < 768 ? 95 : 140
+        // Bi-directional slider sync helper
+        function syncSliderAndInput(sliderId, inputId, valBadgeId, suffix = '') {
+            const slider = document.getElementById(sliderId);
+            const input = document.getElementById(inputId);
+            const badge = document.getElementById(valBadgeId);
+
+            if (!slider || !input) return;
+
+            slider.addEventListener('input', function() {
+                input.value = this.value;
+                if (badge) badge.innerText = this.value + suffix;
+            });
+
+            input.addEventListener('input', function() {
+                slider.value = this.value;
+                if (badge) badge.innerText = this.value + suffix;
+            });
+        }
+
+        syncSliderAndInput('range_internal', 'inp_internal', 'val_internal');
+        syncSliderAndInput('range_assignment', 'inp_assignment', 'val_assignment');
+        syncSliderAndInput('range_attendance', 'inp_attendance', 'val_attendance', '%');
+
+        // Preset Loaders
+        const presetHigh = document.getElementById('presetHigh');
+        const presetAverage = document.getElementById('presetAverage');
+        const presetLow = document.getElementById('presetLow');
+
+        function setFormValues(data) {
+            document.getElementById('inp_internal').value = data.internal;
+            document.getElementById('range_internal').value = data.internal;
+            document.getElementById('val_internal').innerText = data.internal;
+
+            document.getElementById('inp_assignment').value = data.assignment;
+            document.getElementById('range_assignment').value = data.assignment;
+            document.getElementById('val_assignment').innerText = data.assignment;
+
+            document.getElementById('inp_previous_exam').value = data.previous_exam;
+            document.getElementById('inp_lab_marks').value = data.lab_marks;
+            document.getElementById('inp_project_marks').value = data.project_marks;
+            document.getElementById('inp_gpa').value = data.gpa;
+
+            document.getElementById('inp_attendance').value = data.attendance;
+            document.getElementById('range_attendance').value = data.attendance;
+            document.getElementById('val_attendance').innerText = data.attendance + '%';
+
+            document.getElementById('inp_failures').value = data.failures;
+        }
+
+        if (presetHigh) {
+            presetHigh.addEventListener('click', function() {
+                setFormValues({
+                    internal: 92,
+                    assignment: 94,
+                    previous_exam: 90,
+                    lab_marks: 95,
+                    project_marks: 92,
+                    gpa: 9.3,
+                    attendance: 96,
+                    failures: 0
+                });
+            });
+        }
+
+        if (presetAverage) {
+            presetAverage.addEventListener('click', function() {
+                setFormValues({
+                    internal: 62,
+                    assignment: 65,
+                    previous_exam: 60,
+                    lab_marks: 68,
+                    project_marks: 65,
+                    gpa: 6.4,
+                    attendance: 74,
+                    failures: 0
+                });
+            });
+        }
+
+        if (presetLow) {
+            presetLow.addEventListener('click', function() {
+                setFormValues({
+                    internal: 38,
+                    assignment: 42,
+                    previous_exam: 35,
+                    lab_marks: 40,
+                    project_marks: 45,
+                    gpa: 4.8,
+                    attendance: 52,
+                    failures: 2
+                });
             });
         }
     });

@@ -17,9 +17,8 @@
     'use strict';
 
     // 1. Mobile & Capability Detection
-    const isMobile = window.innerWidth < 768 || 
-                     (navigator.maxTouchPoints && navigator.maxTouchPoints > 2) ||
-                     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isMobile = window.innerWidth < 768 && 
+                     /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     const canvas = document.getElementById('education-3d-canvas');
     const fallbackEl = document.getElementById('education-mobile-fallback');
@@ -483,10 +482,11 @@
     const particleCloud = new THREE.Points(particleGeo, particleMat);
     scene.add(particleCloud);
 
-    // 8. Subtle Mouse Parallax & Smooth Damping
+    // 8. Enhanced Multi-Plane Mouse & Scroll Parallax
     // ==========================================
     let mouseX = 0;
     let mouseY = 0;
+    let scrollY = window.scrollY || window.pageYOffset;
     let targetCameraX = 0;
     let targetCameraY = 0;
 
@@ -494,9 +494,14 @@
         mouseX = (e.clientX / window.innerWidth) * 2 - 1;
         mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
 
-        // Subtle camera deflection (gentle tilt, non-distracting)
-        targetCameraX = mouseX * 1.8;
-        targetCameraY = mouseY * 1.2;
+        // Enhanced spatial deflection
+        targetCameraX = mouseX * 3.2;
+        targetCameraY = (mouseY * 2.2) - (scrollY * 0.006);
+    }, { passive: true });
+
+    window.addEventListener('scroll', function () {
+        scrollY = window.scrollY || window.pageYOffset;
+        targetCameraY = (mouseY * 2.2) - (scrollY * 0.006);
     }, { passive: true });
 
     // Window Resize Handler
@@ -531,9 +536,11 @@
         lastTime = currentTime;
         const time = currentTime * 0.001;
 
-        // Camera gentle parallax lerp
-        camera.position.x += (targetCameraX - camera.position.x) * 0.02;
-        camera.position.y += (targetCameraY - camera.position.y) * 0.02;
+        // Camera gentle parallax lerp with perspective rotation
+        camera.position.x += (targetCameraX - camera.position.x) * 0.045;
+        camera.position.y += (targetCameraY - camera.position.y) * 0.045;
+        camera.rotation.y = -camera.position.x * 0.012;
+        camera.rotation.x = camera.position.y * 0.008;
         camera.lookAt(0, 0, 0);
 
         // Slow-motion floating & rotation of Academic 3D Elements

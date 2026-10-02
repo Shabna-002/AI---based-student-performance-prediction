@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPredict AI - 3D Education Background Studio</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #canvas3d-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .ambient-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(140px);
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.35;
+            animation: pulseGlow 8s ease-in-out infinite alternate;
+        }
+        .glow-1 {
+            top: 10%;
+            left: 20%;
+            background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+        }
+        .glow-2 {
+            bottom: 15%;
+            right: 25%;
+            background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+            animation-delay: -4s;
+        }
+        @keyframes pulseGlow {
+            0% { transform: scale(0.9) translate(0, 0); opacity: 0.25; }
+            100% { transform: scale(1.15) translate(30px, -20px); opacity: 0.45; }
+        }
+
+        .vignette-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(3, 7, 18, 0.1) 30%, rgba(3, 7, 18, 0.8) 100%),
+                        linear-gradient(180deg, rgba(3, 7, 18, 0.2) 0%, transparent 40%, rgba(3, 7, 18, 0.85) 100%);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Hero UI Overlay */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 1100px;
+            text-align: center;
+            padding: 2rem;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            pointer-events: auto;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .hero-content.hidden-ui {
+            opacity: 0;
+            transform: scale(0.96);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 18px;
+            border-radius: 9999px;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(96, 165, 250, 0.35);
+            color: #93c5fd;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+        }
+
+        .hero-title {
+            font-size: clamp(2.4rem, 5vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, #ffffff 30%, #93c5fd 70%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: #94a3b8;
+            max-width: 720px;
+            margin: 0 auto 2.5rem auto;
+            line-height: 1.6;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-glow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #ffffff;
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+        .btn-primary-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(124, 58, 237, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+        }
+
+        .btn-secondary-glass {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-secondary-glass:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+        }
+
+        .hud-stats-grid {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            width: 100%;
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hud-card {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.25rem;
+            backdrop-filter: blur(16px);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .hud-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(96, 165, 250, 0.4);
+        }
+        .hud-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #3b82f6, #a855f7);
+        }
+        .hud-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hud-value span {
+            font-size: 0.8rem;
+            color: #10b981;
+            font-weight: 600;
+        }
+        .hud-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* Top Brand Bar */
+        .top-brand-bar {
+            position: fixed;
+            top: 20px;
+            left: 24px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-pill {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+        .brand-pill:hover {
+            background: rgba(30, 41, 59, 0.9);
+            color: #38bdf8;
+        }
+
+        /* Floating 3D Control Studio Toolbar */
+        .controls-toolbar {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 9999px;
+            padding: 8px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(24px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.7);
+            max-width: 95vw;
+            overflow-x: auto;
+        }
+        .tool-btn {
+            background: transparent;
+            border: none;
+            color: #cbd5e1;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .tool-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .tool-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.6);
+        }
+        .tool-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.15);
+            margin: 0 4px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Brand & Navigation Link -->
+    <div class="top-brand-bar">
+        <a href="/" class="brand-pill">
+            <i class="bi bi-mortarboard-fill text-warning"></i>
+            <span>EduPredict AI</span>
+            <span class="badge" style="background: rgba(59, 130, 246, 0.3); font-size: 0.7rem; color: #60a5fa; padding: 2px 8px; border-radius: 999px;">3D Engine</span>
+        </a>
+        <a href="/dashboard" class="brand-pill">
+            <i class="bi bi-speedometer2 text-info"></i>
+            <span>Dashboard</span>
+        </a>
+    </div>
+
+    <!-- 3D Canvas Background Container -->
+    <div id="canvas3d-container"></div>
+
+    <!-- Ambient Lighting Effects -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="vignette-overlay"></div>
+
+    <!-- Hero Content Overlay -->
+    <div class="hero-content" id="heroUi">
+        <div class="hero-badge">
+            <i class="bi bi-cpu-fill"></i>
+            Interactive Procedural 3D WebGL
+        </div>
+        <h1 class="hero-title">
+            AI-Driven Academic Excellence & Prediction
+        </h1>
+        <p class="hero-subtitle">
+            Immersive 3D educational environment with real-time procedural graduation caps, textbooks, diplomas, and neural knowledge constellations.
+        </p>
+
+        <div class="hero-actions">
+            <a href="/" class="btn-primary-glow">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Sign In to Portal
+            </a>
+            <a href="/signup" class="btn-secondary-glass">
+                <i class="bi bi-person-plus"></i>
+                Create Account
+            </a>
+        </div>
+
+        <div class="hud-stats-grid">
+            <div class="hud-card">
+                <div class="hud-value">94.8% <span>+3.2%</span></div>
+                <div class="hud-label">Prediction Accuracy</div>
+            </div>
+            <div class="hud-card">
+                <div class="hud-value">3D WebGL <span>60 FPS</span></div>
+                <div class="hud-label">Rendering Pipeline</div>
+            </div>
+            <div class="hud-card">
+                <div class="hud-value">Real-Time <span>Interactive</span></div>
+                <div class="hud-label">Mouse Parallax Depth</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3D Studio Floating Controls Toolbar -->
+    <div class="controls-toolbar">
+        <!-- Theme Switcher -->
+        <button class="tool-btn active" id="themeBtn" title="Switch 3D Color Theme">
+            <i class="bi bi-palette-fill"></i>
+            <span id="themeName">Cyber Blue</span>
+        </button>
+
+        <div class="tool-divider"></div>
+
+        <!-- Toggle UI Overlay -->
+        <button class="tool-btn" id="toggleUiBtn" title="Show or Hide Foreground Overlay">
+            <i class="bi bi-eye-slash-fill"></i>
+            <span>Hide UI</span>
+        </button>
+
+        <!-- Speed Toggle -->
+        <button class="tool-btn" id="speedBtn" title="Adjust Animation Speed">
+            <i class="bi bi-speedometer"></i>
+            <span id="speedLabel">1.0x Speed</span>
+        </button>
+
+        <!-- Interactive Drag Mode -->
+        <button class="tool-btn" id="dragModeBtn" title="Toggle Free Orbit Drag">
+            <i class="bi bi-arrows-move"></i>
+            <span id="dragModeStatus">Parallax Mode</span>
+        </button>
+
+        <div class="tool-divider"></div>
+
+        <!-- Fullscreen -->
+        <button class="tool-btn" id="fullscreenBtn" title="Toggle Fullscreen">
+            <i class="bi bi-fullscreen"></i>
+            <span>Fullscreen</span>
+        </button>
+    </div>
+
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- 3D Education Engine -->
+    <script src="js/education_3d_bg.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize 3D Education Background
+            let currentThemeIndex = 0;
+            const themes = ['cyberBlue', 'academicGold', 'emeraldScholar', 'midnight'];
+            const themeLabels = ['Cyber Blue', 'Academic Gold', 'Emerald Scholar', 'Midnight'];
+
+            let currentSpeedIndex = 1;
+            const speeds = [0.5, 1.0, 1.8];
+            const speedLabels = ['0.5x Slow', '1.0x Normal', '1.8x Fast'];
+
+            let isFreeDrag = false;
+            let showUi = true;
+
+            const eduBg = new Education3DBackground({
+                container: 'canvas3d-container',
+                theme: themes[currentThemeIndex],
+                subtle: false,
+                speed: speeds[currentSpeedIndex],
+                enableMouse: true
+            });
+
+            // UI Elements
+            const heroUi = document.getElementById('heroUi');
+            const toggleUiBtn = document.getElementById('toggleUiBtn');
+            const themeBtn = document.getElementById('themeBtn');
+            const themeName = document.getElementById('themeName');
+            const speedBtn = document.getElementById('speedBtn');
+            const speedLabel = document.getElementById('speedLabel');
+            const dragModeBtn = document.getElementById('dragModeBtn');
+            const dragModeStatus = document.getElementById('dragModeStatus');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+            // 1. Toggle UI
+            toggleUiBtn.addEventListener('click', () => {
+                showUi = !showUi;
+                heroUi.classList.toggle('hidden-ui', !showUi);
+                toggleUiBtn.innerHTML = showUi 
+                    ? '<i class="bi bi-eye-slash-fill"></i> <span>Hide UI</span>' 
+                    : '<i class="bi bi-eye-fill"></i> <span>Show UI</span>';
+            });
+
+            // 2. Cycle Themes
+            themeBtn.addEventListener('click', () => {
+                currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+                const nextTheme = themes[currentThemeIndex];
+                themeName.innerText = themeLabels[currentThemeIndex];
+                eduBg.setTheme(nextTheme);
+            });
+
+            // 3. Cycle Speed
+            speedBtn.addEventListener('click', () => {
+                currentSpeedIndex = (currentSpeedIndex + 1) % speeds.length;
+                eduBg.setSpeed(speeds[currentSpeedIndex]);
+                speedLabel.innerText = speedLabels[currentSpeedIndex];
+            });
+
+            // 4. Toggle Drag Mode
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+
+            dragModeBtn.addEventListener('click', () => {
+                isFreeDrag = !isFreeDrag;
+                dragModeBtn.classList.toggle('active', isFreeDrag);
+                dragModeStatus.innerText = isFreeDrag ? 'Orbit Drag ON' : 'Parallax Mode';
+                eduBg.interactiveOrbit = isFreeDrag;
+            });
+
+            window.addEventListener('mousedown', (e) => {
+                if (!isFreeDrag) return;
+                isDragging = true;
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isFreeDrag || !isDragging || !eduBg.scene) return;
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+
+                eduBg.scene.rotation.y += deltaX * 0.005;
+                eduBg.scene.rotation.x += deltaY * 0.005;
+
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            window.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            // 5. Fullscreen
+            fullscreenBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,112 +1,59 @@
 {% extends "base.html" %}
 
-{% block title %}Performance Analytics - EduPredict AI{% endblock %}
+{% block title %}Performance Analytics Dashboard - EduPredict AI{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ai_futuristic_theme.css') }}">
 <style>
-    body {
-        background-color: #070a14 !important;
-        background-image: 
-            radial-gradient(circle at 12% 18%, rgba(56, 189, 248, 0.14) 0%, transparent 45%),
-            radial-gradient(circle at 88% 82%, rgba(168, 85, 247, 0.16) 0%, transparent 50%),
-            radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.10) 0%, transparent 65%),
-            linear-gradient(145deg, #070a14 0%, #0c1224 45%, #150d2b 100%) !important;
-        color: #e2e8f0;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        overflow-x: hidden;
-    }
     main {
         position: relative;
         z-index: 10;
-        flex: 1;
         padding-top: 1.5rem !important;
         padding-bottom: 3.5rem !important;
     }
-    .navbar-custom {
-        background: rgba(11, 17, 34, 0.85) !important;
-        backdrop-filter: blur(16px) !important;
-        -webkit-backdrop-filter: blur(16px) !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    .chart-glass-card {
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-top: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 1.5rem;
+        box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.65), 0 0 30px rgba(99, 102, 241, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .chart-glass-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 28px 55px -10px rgba(0, 0, 0, 0.8), 0 0 40px rgba(168, 85, 247, 0.2);
+    }
+    .counter-value {
+        font-size: 2.75rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+    }
+    .triage-card {
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    .triage-card:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+    .triage-card-risk:hover {
+        box-shadow: 0 15px 35px rgba(239, 68, 68, 0.35);
+        border-color: rgba(239, 68, 68, 0.7) !important;
+    }
+    .triage-card-monitoring:hover {
+        box-shadow: 0 15px 35px rgba(245, 158, 11, 0.35);
+        border-color: rgba(245, 158, 11, 0.7) !important;
+    }
+    .triage-card-well:hover {
+        box-shadow: 0 15px 35px rgba(16, 185, 129, 0.35);
+        border-color: rgba(16, 185, 129, 0.7) !important;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- =========================================================================
-     1. 🌌 DARK BLUE/PURPLE GRADIENT & 💡 BLUE GLOWING CIRCLES
-     ========================================================================= -->
-<div class="ambient-glow-wrapper">
-    <!-- Blue Glowing Circles (Halos) -->
-    <div class="blue-glow-circle blue-glow-circle-1"></div>
-    <div class="blue-glow-circle blue-glow-circle-2"></div>
-    <div class="blue-glow-circle blue-glow-circle-3"></div>
-</div>
-
-<!-- =========================================================================
-     2. 📈 FLOATING GRAPH / CYBER GRID LINES
-     ========================================================================= -->
-<div class="cyber-grid-bg"></div>
-
-<svg class="floating-graph-overlay" viewBox="0 0 1920 1080" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <linearGradient id="graphCyanPurpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8" />
-            <stop offset="50%" stop-color="#818cf8" stop-opacity="0.9" />
-            <stop offset="100%" stop-color="#c084fc" stop-opacity="0.7" />
-        </linearGradient>
-        <linearGradient id="graphPurpleBlueGrad" x1="100%" y1="0%" x2="0%" y2="0%">
-            <stop offset="0%" stop-color="#a855f7" stop-opacity="0.7" />
-            <stop offset="50%" stop-color="#3b82f6" stop-opacity="0.85" />
-            <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.6" />
-        </linearGradient>
-    </defs>
-    <!-- Floating Sine/Trend Graph Wave 1 -->
-    <path class="graph-line-wave graph-line-wave-cyan" d="M -100,280 Q 300,120 700,320 T 1500,260 T 2100,340" />
-    <!-- Floating Sine/Trend Graph Wave 2 -->
-    <path class="graph-line-wave graph-line-wave-purple" d="M -100,780 Q 400,920 850,720 T 1600,820 T 2100,680" />
-</svg>
-
-<!-- =========================================================================
-     3. 🤖 SUBTLE AI NEURAL-NETWORK ANIMATION & ✨ MOVING PARTICLES
-     ========================================================================= -->
-<canvas id="ai-neural-canvas"></canvas>
-
-<!-- =========================================================================
-     4. 📊 ANALYTICS-THEMED TRANSPARENT SHAPES (Ambient Floating Layer)
-     ========================================================================= -->
-<div class="floating-elements-layer d-none d-xl-block">
-    <!-- Transparent Hexagon Data Node (Left) -->
-    <div class="floating-shape-analytics" style="top: 18%; left: 3%;">
-        <div class="analytics-hex-shape">
-            <i class="bi bi-graph-up-arrow"></i>
-        </div>
-    </div>
-
-    <!-- Transparent Radar / Target Crosshair (Right) -->
-    <div class="floating-shape-analytics" style="top: 25%; right: 3%; animation-delay: -3s;">
-        <div class="analytics-radar-shape" title="AI Inference Monitoring"></div>
-    </div>
-
-    <!-- Transparent Hexagon Matrix Node (Bottom Right) -->
-    <div class="floating-shape-analytics" style="bottom: 12%; right: 4%; animation-delay: -6s;">
-        <div class="analytics-hex-shape" style="border-color: rgba(168, 85, 247, 0.4); box-shadow: 0 0 25px rgba(168, 85, 247, 0.25);">
-            <i class="bi bi-cpu-fill" style="color: #c084fc;"></i>
-        </div>
-    </div>
-
-    <!-- Floating Analytics Metric Pill (Bottom Left) -->
-    <div class="floating-glass-pill pill-cap" style="bottom: 14%; left: 3%;">
-        <i class="bi bi-speedometer2 text-info"></i>
-        <span>Model R² = 0.948</span>
-    </div>
-</div>
-
-<!-- =========================================================================
-     5. 🪟 GLASSMORPHISM CARDS (Performance Analytics Interface)
-     ========================================================================= -->
 <div class="container position-relative" style="z-index: 20;">
     <!-- Glass Header Card -->
     <div class="predict-glass-header mb-4 fade-in-up">
@@ -114,18 +61,21 @@
             <div>
                 <div class="badge-ai-glass mb-2">
                     <i class="bi bi-activity text-info"></i>
-                    <span>Real-Time Academic Intelligence</span>
+                    <span>Real-Time Academic Intelligence Dashboard</span>
                 </div>
-                <h2 class="fw-bold mb-1 text-white">
-                    Student Performance <span style="background: linear-gradient(135deg, #38bdf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Analytics</span>
-                </h2>
+                <h1 class="hero-gradient-title h2 fw-bold mb-1">
+                    Institutional Performance &amp; AI Analytics
+                </h1>
                 <p class="text-white-50 mb-0">
-                    Comprehensive overview of institutional student records, live database statistics, and predictive ML insights.
+                    Comprehensive overview of student trajectories, machine learning risk triage, and live academic benchmarks.
                 </p>
             </div>
             <div class="d-flex flex-wrap gap-2">
                 <a href="/students" class="btn btn-outline-light rounded-pill px-3 py-2 border-opacity-25" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);">
                     <i class="bi bi-people me-1"></i> Student Records
+                </a>
+                <a href="/what-if" class="btn btn-outline-info rounded-pill px-3 py-2" style="background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.35);">
+                    <i class="bi bi-sliders me-1"></i> What-If Studio
                 </a>
                 <a href="/predict" class="btn btn-ai-gradient rounded-pill px-4 py-2">
                     <i class="bi bi-magic me-1"></i> Launch AI Predictor
@@ -140,72 +90,125 @@
         <div class="col-12 col-md-4">
             <div class="card glass-kpi-card h-100 p-4 fade-in-up fade-in-delay-1">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <span class="text-white-50 small fw-bold text-uppercase letter-spacing">Total Enrolled</span>
-                    <div class="stat-icon rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8;">
+                    <span class="text-white-50 small fw-bold text-uppercase letter-spacing">Total Enrolled Scholars</span>
+                    <div class="stat-icon rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);">
                         <i class="bi bi-people-fill fs-5"></i>
                     </div>
                 </div>
-                <div class="kpi-glow-number mb-2">{{ students }}</div>
+                <div class="counter-value kpi-glow-number mb-2 text-white" id="count-students">{{ students }}</div>
                 <div class="d-flex align-items-center gap-2 small text-white-50">
                     <span class="badge bg-primary bg-opacity-25 text-info border border-primary border-opacity-25 rounded-pill px-2 py-0.5">
-                        <i class="bi bi-database-check me-1"></i> Active DB
+                        <i class="bi bi-database-check me-1"></i> Synchronized
                     </span>
-                    <span>Institutional Cohort</span>
+                    <span>Multi-department profiles active</span>
                 </div>
             </div>
         </div>
 
-        <!-- 2. AI Predictions Made -->
+        <!-- 2. AI Predictions Generated -->
         <div class="col-12 col-md-4">
             <div class="card glass-kpi-card h-100 p-4 fade-in-up fade-in-delay-2">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <span class="text-white-50 small fw-bold text-uppercase letter-spacing">AI Inferences Run</span>
-                    <div class="stat-icon rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.35); color: #c084fc;">
-                        <i class="bi bi-lightning-charge-fill fs-5"></i>
+                    <span class="text-white-50 small fw-bold text-uppercase letter-spacing">AI Predictions Generated</span>
+                    <div class="stat-icon rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.35); color: #c084fc; box-shadow: 0 0 15px rgba(168, 85, 247, 0.25);">
+                        <i class="bi bi-cpu-fill fs-5"></i>
                     </div>
                 </div>
-                <div class="kpi-glow-number mb-2" style="background: linear-gradient(135deg, #c084fc, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ predictions }}</div>
+                <div class="counter-value kpi-glow-number mb-2 text-white" id="count-predictions">{{ predictions }}</div>
                 <div class="d-flex align-items-center gap-2 small text-white-50">
-                    <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 rounded-pill px-2 py-0.5">
-                        <i class="bi bi-check2-all me-1"></i> ML Verified
+                    <span class="badge bg-purple bg-opacity-25 text-light border border-purple border-opacity-25 rounded-pill px-2 py-0.5" style="background: rgba(168, 85, 247, 0.2);">
+                        <i class="bi bi-stars me-1"></i> Random Forest
                     </span>
-                    <span>Multi-Class Random Forest</span>
+                    <span>Live inference history log</span>
                 </div>
             </div>
         </div>
 
-        <!-- 3. Average Class GPA -->
+        <!-- 3. Cohort Average GPA -->
         <div class="col-12 col-md-4">
             <div class="card glass-kpi-card h-100 p-4 fade-in-up fade-in-delay-3">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <span class="text-white-50 small fw-bold text-uppercase letter-spacing">Average Class GPA</span>
-                    <div class="stat-icon rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.35); color: #fbbf24;">
-                        <i class="bi bi-award-fill fs-5"></i>
+                    <span class="text-white-50 small fw-bold text-uppercase letter-spacing">Cohort Average GPA</span>
+                    <div class="stat-icon rounded-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34d399; box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);">
+                        <i class="bi bi-trophy-fill fs-5"></i>
                     </div>
                 </div>
-                <div class="kpi-glow-number mb-2" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ gpa }} <span class="fs-5 text-white-50">/ 10</span></div>
+                <div class="counter-value kpi-glow-number mb-2 text-white" id="count-gpa">{{ "%.2f"|format(gpa) }} <span class="fs-5 text-white-50">/ 10</span></div>
                 <div class="d-flex align-items-center gap-2 small text-white-50">
-                    <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 rounded-pill px-2 py-0.5">
-                        <i class="bi bi-star-half me-1"></i> Academic Index
+                    <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 rounded-pill px-2 py-0.5">
+                        <i class="bi bi-graph-up-arrow me-1"></i> Healthy
                     </span>
-                    <span>Cumulative Average</span>
+                    <span>Institutional benchmark index</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- =========================================================================
-         🔔 EARLY WARNING SYSTEM (Automated Academic Triage Matrix)
-         ========================================================================= -->
+    <!-- 📊 INTERACTIVE ANALYTICS VISUALIZATION CHARTS (Chart.js) -->
+    <div class="row g-4 mb-4">
+        <!-- Chart 1: Early Warning Risk Triage Breakdown (Doughnut) -->
+        <div class="col-12 col-lg-5">
+            <div class="chart-glass-card p-4 h-100 fade-in-up">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-pie-chart-fill text-info fs-5"></i>
+                        <h6 class="fw-bold text-white mb-0">Risk Triage Distribution</h6>
+                    </div>
+                    <span class="badge bg-primary bg-opacity-25 text-info rounded-pill px-2.5 py-1 small">
+                        Automated AI Tiers
+                    </span>
+                </div>
+                <p class="text-white-50 small mb-3">Proportional breakdown of active scholars across intervention urgency levels.</p>
+                <div style="position: relative; height: 250px; width: 100%;">
+                    <canvas id="triageDoughnutChart"></canvas>
+                </div>
+                <div class="d-flex justify-content-around text-center mt-3 pt-3 border-top border-white border-opacity-10">
+                    <div>
+                        <small class="text-danger fw-bold d-block">🔴 At Risk</small>
+                        <span class="h5 fw-bold text-white mb-0">{{ early_warning.counts.at_risk }}</span>
+                    </div>
+                    <div>
+                        <small class="text-warning fw-bold d-block">🟠 Monitoring</small>
+                        <span class="h5 fw-bold text-white mb-0">{{ early_warning.counts.monitoring }}</span>
+                    </div>
+                    <div>
+                        <small class="text-success fw-bold d-block">🟢 Performing Well</small>
+                        <span class="h5 fw-bold text-white mb-0">{{ early_warning.counts.performing_well }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart 2: Cohort GPA Distribution Curve & Benchmark -->
+        <div class="col-12 col-lg-7">
+            <div class="chart-glass-card p-4 h-100 fade-in-up">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-bar-chart-line-fill text-primary fs-5"></i>
+                        <h6 class="fw-bold text-white mb-0">Cohort GPA Distribution &amp; Trends</h6>
+                    </div>
+                    <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-30 rounded-pill px-2.5 py-1 small">
+                        Cohort Avg: {{ "%.2f"|format(gpa) }}
+                    </span>
+                </div>
+                <p class="text-white-50 small mb-3">Academic score frequency distribution showing student density across GPA tiers.</p>
+                <div style="position: relative; height: 265px; width: 100%;">
+                    <canvas id="gpaTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔔 Early Warning System Triage (Actionable Risk Cards & Tabs) -->
     <div class="card predict-glass-card mb-4 fade-in-up">
         <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-3 py-3">
             <div class="d-flex align-items-center gap-2">
-                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);">
+                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);">
                     <i class="bi bi-bell-fill fs-5"></i>
                 </div>
                 <div>
-                    <h5 class="fw-bold mb-0 text-white">Early Warning System 🔔</h5>
-                    <small class="text-white-50">Automated multi-factor risk triage across all enrolled students</small>
+                    <h5 class="fw-bold mb-0 text-white">Early Warning Triage System</h5>
+                    <small class="text-white-50">Automated diagnostic intervention prioritization for students</small>
                 </div>
             </div>
             <div class="d-flex flex-wrap gap-2">
@@ -220,63 +223,63 @@
             <div class="row g-3 mb-4">
                 <!-- 🔴 Immediate Attention (At Risk) -->
                 <div class="col-12 col-md-4">
-                    <div class="p-3 rounded-4 h-100 cursor-pointer triage-card triage-card-risk" onclick="filterTriage('at-risk')" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.35); transition: all 0.25s ease; cursor: pointer;">
+                    <div class="p-3 rounded-4 h-100 cursor-pointer triage-card triage-card-risk" onclick="filterTriage('at-risk')" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.35); cursor: pointer;">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <span class="text-danger fw-bold small text-uppercase letter-spacing">
                                 <i class="bi bi-exclamation-octagon-fill me-1"></i> Immediate Attention
                             </span>
-                            <span class="badge bg-danger text-white rounded-pill px-2 py-0.5 small">At Risk</span>
+                            <span class="badge bg-danger text-white rounded-pill px-2.5 py-0.5 small">At Risk</span>
                         </div>
                         <div class="d-flex align-items-baseline gap-2">
                             <h2 class="display-6 fw-extrabold text-danger mb-0" style="text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);">
                                 {{ early_warning.counts.at_risk }}
                             </h2>
-                            <span class="text-white-50 small">students</span>
+                            <span class="text-white-50 small">scholars flagged</span>
                         </div>
                         <p class="text-white-50 small mb-0 mt-2">
-                            Low attendance (&lt;75%), continuous internal weakness, or active backlogs requiring priority intervention.
+                            Low attendance (&lt;75%), continuous internal weakness, or active backlogs requiring priority mentor intervention.
                         </p>
                     </div>
                 </div>
 
                 <!-- 🟠 Needs Monitoring (Average) -->
                 <div class="col-12 col-md-4">
-                    <div class="p-3 rounded-4 h-100 cursor-pointer triage-card triage-card-monitoring" onclick="filterTriage('monitoring')" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.35); transition: all 0.25s ease; cursor: pointer;">
+                    <div class="p-3 rounded-4 h-100 cursor-pointer triage-card triage-card-monitoring" onclick="filterTriage('monitoring')" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.35); cursor: pointer;">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <span class="text-warning fw-bold small text-uppercase letter-spacing">
                                 <i class="bi bi-eye-fill me-1"></i> Needs Monitoring
                             </span>
-                            <span class="badge bg-warning text-dark rounded-pill px-2 py-0.5 small">Average</span>
+                            <span class="badge bg-warning text-dark rounded-pill px-2.5 py-0.5 small">Borderline</span>
                         </div>
                         <div class="d-flex align-items-baseline gap-2">
                             <h2 class="display-6 fw-extrabold text-warning mb-0" style="text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);">
                                 {{ early_warning.counts.monitoring }}
                             </h2>
-                            <span class="text-white-50 small">students</span>
+                            <span class="text-white-50 small">scholars tracked</span>
                         </div>
                         <p class="text-white-50 small mb-0 mt-2">
-                            Borderline performance (5.5 - 6.9 GPA). Needs assignment follow-up and attendance consistency.
+                            Borderline performance (5.5 - 6.9 GPA). Needs assignment follow-up and attendance consistency reinforcement.
                         </p>
                     </div>
                 </div>
 
                 <!-- 🟢 Performing Well (Good / Excellent) -->
                 <div class="col-12 col-md-4">
-                    <div class="p-3 rounded-4 h-100 cursor-pointer triage-card triage-card-well" onclick="filterTriage('well')" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); transition: all 0.25s ease; cursor: pointer;">
+                    <div class="p-3 rounded-4 h-100 cursor-pointer triage-card triage-card-well" onclick="filterTriage('well')" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); cursor: pointer;">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <span class="text-success fw-bold small text-uppercase letter-spacing">
                                 <i class="bi bi-check-circle-fill me-1"></i> Performing Well
                             </span>
-                            <span class="badge bg-success text-white rounded-pill px-2 py-0.5 small">Good / High</span>
+                            <span class="badge bg-success text-white rounded-pill px-2.5 py-0.5 small">Optimal Track</span>
                         </div>
                         <div class="d-flex align-items-baseline gap-2">
                             <h2 class="display-6 fw-extrabold text-success mb-0" style="text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);">
                                 {{ early_warning.counts.performing_well }}
                             </h2>
-                            <span class="text-white-50 small">students</span>
+                            <span class="text-white-50 small">scholars optimal</span>
                         </div>
                         <p class="text-white-50 small mb-0 mt-2">
-                            Strong academic trajectory (&ge; 7.0 GPA), high attendance, and consistent conceptual mastery.
+                            Strong academic trajectory (&ge; 7.0 GPA), high attendance, and consistent conceptual mastery across all modules.
                         </p>
                     </div>
                 </div>
@@ -298,7 +301,7 @@
                         🟢 Performing Well ({{ early_warning.counts.performing_well }})
                     </button>
                 </div>
-                <small class="text-white-50">Click any student to view comprehensive profile or run What-If simulation</small>
+                <small class="text-white-50"><i class="bi bi-info-circle me-1"></i> Click student row to open profile or simulate improvements</small>
             </div>
 
             <!-- Triage Enriched Student Table -->
@@ -306,13 +309,13 @@
                 <table class="table table-glass align-middle mb-0" id="triageStudentsTable">
                     <thead>
                         <tr>
-                            <th class="ps-3">Student</th>
-                            <th>Department</th>
+                            <th class="ps-3">Student Name &amp; ID</th>
+                            <th>Department &amp; Sem</th>
                             <th>Attendance</th>
                             <th>Current GPA</th>
                             <th>AI Predicted GPA</th>
-                            <th>Status Category</th>
-                            <th>Risks</th>
+                            <th>Status Tier</th>
+                            <th>Risk Flags</th>
                             <th class="text-end pe-3">Direct Interventions</th>
                         </tr>
                     </thead>
@@ -321,12 +324,12 @@
                         <tr class="triage-row tier-at-risk">
                             <td class="ps-3">
                                 <div class="d-flex align-items-center gap-2">
-                                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(239, 68, 68, 0.2); color: #f87171; font-weight: bold; font-size: 0.85rem;">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; background: rgba(239, 68, 68, 0.25); color: #f87171; font-weight: bold; font-size: 0.85rem; border: 1px solid rgba(239, 68, 68, 0.4);">
                                         {{ s.name[:1] }}
                                     </div>
                                     <div>
                                         <div class="fw-bold text-white">{{ s.name }}</div>
-                                        <small class="text-white-50">#{{ s.student_id }}</small>
+                                        <small class="badge-student-id" style="font-size: 0.7rem; padding: 0.15rem 0.5rem;">#{{ s.student_id }}</small>
                                     </div>
                                 </div>
                             </td>
@@ -363,12 +366,12 @@
                         <tr class="triage-row tier-monitoring">
                             <td class="ps-3">
                                 <div class="d-flex align-items-center gap-2">
-                                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(245, 158, 11, 0.2); color: #fbbf24; font-weight: bold; font-size: 0.85rem;">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; background: rgba(245, 158, 11, 0.25); color: #fbbf24; font-weight: bold; font-size: 0.85rem; border: 1px solid rgba(245, 158, 11, 0.4);">
                                         {{ s.name[:1] }}
                                     </div>
                                     <div>
                                         <div class="fw-bold text-white">{{ s.name }}</div>
-                                        <small class="text-white-50">#{{ s.student_id }}</small>
+                                        <small class="badge-student-id" style="font-size: 0.7rem; padding: 0.15rem 0.5rem;">#{{ s.student_id }}</small>
                                     </div>
                                 </div>
                             </td>
@@ -405,12 +408,12 @@
                         <tr class="triage-row tier-well">
                             <td class="ps-3">
                                 <div class="d-flex align-items-center gap-2">
-                                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: bold; font-size: 0.85rem;">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; background: rgba(16, 185, 129, 0.25); color: #34d399; font-weight: bold; font-size: 0.85rem; border: 1px solid rgba(16, 185, 129, 0.4);">
                                         {{ s.name[:1] }}
                                     </div>
                                     <div>
                                         <div class="fw-bold text-white">{{ s.name }}</div>
-                                        <small class="text-white-50">#{{ s.student_id }}</small>
+                                        <small class="badge-student-id" style="font-size: 0.7rem; padding: 0.15rem 0.5rem;">#{{ s.student_id }}</small>
                                     </div>
                                 </div>
                             </td>
@@ -448,7 +451,7 @@
         </div>
     </div>
 
-    <!-- 🪟 Quick Navigation & Management Cards (Glassmorphic Panels) -->
+    <!-- Quick Navigation Panels -->
     <div class="row g-4 mb-4">
         <div class="col-12 col-lg-6">
             <div class="card glass-action-card h-100 p-4 fade-in-up">
@@ -458,12 +461,12 @@
                             <i class="bi bi-person-lines-fill fs-4"></i>
                         </div>
                         <div>
-                            <h5 class="fw-bold mb-1 text-white">Student Database Directory</h5>
-                            <p class="text-white-50 small mb-0">Browse, add, and update academic profiles and semester enrollments.</p>
+                            <h5 class="fw-bold mb-1 text-white">Student Directory</h5>
+                            <p class="text-white-50 small mb-0">Browse, add, search, and update institutional scholar records.</p>
                         </div>
                     </div>
                     <a href="/students" class="btn btn-outline-light rounded-pill px-4 py-2 flex-shrink-0 border-opacity-25" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(8px);">
-                        Manage Records <i class="bi bi-arrow-right ms-1"></i>
+                        Student Records <i class="bi bi-arrow-right ms-1"></i>
                     </a>
                 </div>
             </div>
@@ -474,51 +477,16 @@
                 <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
                     <div class="d-flex align-items-center gap-3">
                         <div class="stat-icon rounded-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 52px; height: 52px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(99, 102, 241, 0.25)); border: 1px solid rgba(168, 85, 247, 0.4); color: #c084fc;">
-                            <i class="bi bi-magic fs-4"></i>
+                            <i class="bi bi-sliders fs-4"></i>
                         </div>
                         <div>
-                            <h5 class="fw-bold mb-1 text-white">Machine Learning Forecaster</h5>
-                            <p class="text-white-50 small mb-0">Evaluate student marks, practical scores & attendance to predict results.</p>
+                            <h5 class="fw-bold mb-1 text-white">What-If Simulation Studio</h5>
+                            <p class="text-white-50 small mb-0">Simulate improvement pathways to forecast target GPA &amp; risk reduction.</p>
                         </div>
                     </div>
-                    <a href="/predict" class="btn btn-ai-gradient rounded-pill px-4 py-2 flex-shrink-0">
-                        Predict Now <i class="bi bi-arrow-right ms-1"></i>
+                    <a href="/what-if" class="btn btn-ai-gradient rounded-pill px-4 py-2 flex-shrink-0">
+                        Launch Simulator <i class="bi bi-arrow-right ms-1"></i>
                     </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 📊 Model Performance & System Diagnostics Glass Panel -->
-    <div class="row g-4">
-        <div class="col-12">
-            <div class="card glass-kpi-card p-4 fade-in-up fade-in-delay-2">
-                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom border-white border-opacity-10">
-                    <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-shield-check text-info fs-5"></i>
-                        <h6 class="fw-bold text-white mb-0">Predictive Engine Health & Classification Metrics</h6>
-                    </div>
-                    <span class="badge bg-primary bg-opacity-25 text-info border border-primary border-opacity-25 rounded-pill px-3 py-1 small">
-                        Status: Optimal (60 FPS Ambient Engine)
-                    </span>
-                </div>
-                <div class="row g-3 text-center text-md-start">
-                    <div class="col-6 col-md-3">
-                        <small class="text-white-50 d-block mb-1">Architecture</small>
-                        <strong class="text-white">Random Forest (Ensemble)</strong>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <small class="text-white-50 d-block mb-1">Model Accuracy</small>
-                        <strong class="text-success"><i class="bi bi-check-circle-fill me-1"></i> 94.8%</strong>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <small class="text-white-50 d-block mb-1">Evaluated Factors</small>
-                        <strong class="text-white">8 Academic Parameters</strong>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <small class="text-white-50 d-block mb-1">Intervention Classes</small>
-                        <strong class="text-info">High, Average, At-Risk</strong>
-                    </div>
                 </div>
             </div>
         </div>
@@ -527,45 +495,165 @@
 {% endblock %}
 
 {% block extra_js %}
-<!-- AI Ambient Effects Engine (Very Subtle Neural Particles & Synapses) -->
-<script src="{{ url_for('static', filename='js/ai_ambient_effects.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        if (window.initAiAmbientEffects) {
-            // Subtle mode configuration for performance analytics
-            window.initAiAmbientEffects({
-                canvasId: 'ai-neural-canvas',
-                particleCount: window.innerWidth < 768 ? 25 : 45,
-                maxDistance: window.innerWidth < 768 ? 90 : 125
+        // 1. Triage Filter Logic
+        window.filterTriage = function(tier) {
+            const rows = document.querySelectorAll('.triage-row');
+            const buttons = document.querySelectorAll('.triage-filter-btn');
+            
+            buttons.forEach(b => {
+                if (b.dataset.filter === tier) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+
+            rows.forEach(r => {
+                if (tier === 'all') {
+                    r.style.display = '';
+                } else if (tier === 'at-risk' && r.classList.contains('tier-at-risk')) {
+                    r.style.display = '';
+                } else if (tier === 'monitoring' && r.classList.contains('tier-monitoring')) {
+                    r.style.display = '';
+                } else if (tier === 'well' && r.classList.contains('tier-well')) {
+                    r.style.display = '';
+                } else {
+                    r.style.display = 'none';
+                }
+            });
+        };
+
+        // 2. Render Chart.js Visualizations
+        const triageCtx = document.getElementById('triageDoughnutChart');
+        if (triageCtx && typeof Chart !== 'undefined') {
+            new Chart(triageCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Immediate Attention (At Risk)', 'Needs Monitoring', 'Performing Well'],
+                    datasets: [{
+                        data: [
+                            {{ early_warning.counts.at_risk }},
+                            {{ early_warning.counts.monitoring }},
+                            {{ early_warning.counts.performing_well }}
+                        ],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.85)',
+                            'rgba(245, 158, 11, 0.85)',
+                            'rgba(16, 185, 129, 0.85)'
+                        ],
+                        borderColor: [
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(16, 185, 129, 1)'
+                        ],
+                        borderWidth: 2,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '72%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#e2e8f0',
+                            borderColor: 'rgba(255, 255, 255, 0.2)',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: true
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true,
+                        duration: 1600,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+        }
+
+        const gpaCtx = document.getElementById('gpaTrendChart');
+        if (gpaCtx && typeof Chart !== 'undefined') {
+            const ctx = gpaCtx.getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 240);
+            gradient.addColorStop(0, 'rgba(56, 189, 248, 0.45)');
+            gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.25)');
+            gradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
+
+            new Chart(gpaCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5', 'Sem 6', 'Current Forecast'],
+                    datasets: [{
+                        label: 'Cohort Average GPA',
+                        data: [6.4, 6.7, 6.9, 7.1, 7.3, 7.5, {{ "%.2f"|format(gpa) }}],
+                        borderColor: '#38bdf8',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#c084fc',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        fill: true,
+                        tension: 0.38
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 5,
+                            max: 10,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.06)'
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#e2e8f0',
+                                font: {
+                                    family: "'Inter', sans-serif",
+                                    weight: 600
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            borderColor: 'rgba(56, 189, 248, 0.4)',
+                            borderWidth: 1,
+                            padding: 12
+                        }
+                    },
+                    animation: {
+                        duration: 1800,
+                        easing: 'easeOutQuart'
+                    }
+                }
             });
         }
     });
-
-    window.filterTriage = function(tier) {
-        const rows = document.querySelectorAll('.triage-row');
-        const buttons = document.querySelectorAll('.triage-filter-btn');
-        
-        buttons.forEach(b => {
-            if (b.dataset.filter === tier) {
-                b.classList.add('active');
-            } else {
-                b.classList.remove('active');
-            }
-        });
-
-        rows.forEach(r => {
-            if (tier === 'all') {
-                r.style.display = '';
-            } else if (tier === 'at-risk' && r.classList.contains('tier-at-risk')) {
-                r.style.display = '';
-            } else if (tier === 'monitoring' && r.classList.contains('tier-monitoring')) {
-                r.style.display = '';
-            } else if (tier === 'well' && r.classList.contains('tier-well')) {
-                r.style.display = '';
-            } else {
-                r.style.display = 'none';
-            }
-        });
-    };
 </script>
 {% endblock %}

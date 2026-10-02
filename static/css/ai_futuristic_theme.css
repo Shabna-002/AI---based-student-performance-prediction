@@ -50,6 +50,85 @@
 }
 
 /* ==========================================================================
+   CONTINUOUS MOVING AI + EDUCATION BACKGROUND UNIVERSE
+   Features:
+   - High-Definition AI + Education Moving Video Layer
+   - Smooth Ken Burns Pan & Zoom continuous motion (36s loop)
+   - Semi-transparent dark blue/purple overlay for clear readability
+   - 3D WebGL Three.js Procedural Education Canvas
+   - Synaptic AI Neural Particles with mouse attraction
+   ========================================================================== */
+.ai-bg-universe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.ai-bg-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%) scale(1.05);
+    object-fit: cover;
+    opacity: 0.38;
+    filter: saturate(140%) contrast(115%) hue-rotate(5deg);
+    pointer-events: none;
+    transition: opacity 1.2s ease;
+}
+
+.ai-bg-kenburns {
+    position: absolute;
+    inset: -6%;
+    width: 112%;
+    height: 112%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 0.32;
+    pointer-events: none;
+    animation: continuousSlowMotion 36s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+@keyframes continuousSlowMotion {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1.0);
+    }
+    25% {
+        transform: translate3d(-1.8%, 1.2%, 0) scale(1.05);
+    }
+    50% {
+        transform: translate3d(1.4%, -1.4%, 0) scale(1.08);
+    }
+    75% {
+        transform: translate3d(-1.2%, -1.2%, 0) scale(1.04);
+    }
+    100% {
+        transform: translate3d(1.8%, 1%, 0) scale(1.02);
+    }
+}
+
+.ai-bg-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: 
+        radial-gradient(ellipse at 50% 20%, rgba(13, 18, 36, 0.72) 0%, rgba(7, 10, 20, 0.90) 100%),
+        linear-gradient(180deg, rgba(7, 10, 20, 0.70) 0%, rgba(11, 16, 32, 0.88) 100%);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+}
+
+/* ==========================================================================
    3D EDUCATION & AI ANIMATION BACKGROUND (Three.js Fullscreen)
    ========================================================================== */
 .education-3d-canvas {
@@ -58,7 +137,7 @@
     left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    z-index: 0 !important;
+    z-index: 1 !important;
     pointer-events: none !important;
     display: block;
 }
@@ -71,8 +150,7 @@
     height: 100vh !important;
     z-index: 1 !important;
     pointer-events: none !important;
-    background: radial-gradient(circle at 50% 40%, rgba(7, 10, 20, 0.68) 0%, rgba(7, 10, 20, 0.88) 100%),
-                linear-gradient(180deg, rgba(11, 17, 34, 0.60) 0%, rgba(7, 10, 20, 0.85) 100%);
+    background: radial-gradient(circle at 50% 40%, rgba(7, 10, 20, 0.45) 0%, rgba(7, 10, 20, 0.75) 100%);
 }
 
 .education-mobile-fallback {
@@ -82,7 +160,7 @@
     left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    z-index: 0 !important;
+    z-index: 1 !important;
     pointer-events: none !important;
     background-color: #070a14;
     overflow: hidden;
@@ -157,15 +235,24 @@
     100% { transform: translate(-30px, 40px) scale(0.95); }
 }
 
-/* Neural Network Interactive Canvas */
-#ai-neural-canvas {
+/* Neural Network Interactive Canvas (Non-blocking) */
+#ai-neural-canvas, .ai-neural-canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 1;
-    pointer-events: auto;
+    z-index: 2;
+    pointer-events: none !important;
+}
+
+/* Global Floating Academic & AI Icons Layer */
+.global-floating-academic-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none !important;
+    z-index: 3;
+    overflow: hidden;
 }
 
 /* ==========================================================================
@@ -1015,5 +1102,272 @@
     font-weight: 600;
     font-size: 0.78rem;
 }
+
+/* ==========================================================================
+   10. 🎯 ANIMATED HEADINGS & BUTTONS
+   ========================================================================== */
+.hero-gradient-title {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #ffffff 10%, #93c5fd 50%, #c084fc 90%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textShimmer 8s ease infinite alternate;
+}
+
+@keyframes textShimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+.hero-subtitle-lead {
+    font-size: 1.15rem;
+    color: #94a3b8;
+    line-height: 1.7;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.btn-hero-glow {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #d946ef 100%);
+    background-size: 200% 200%;
+    color: #ffffff !important;
+    border: none;
+    font-weight: 700;
+    padding: 0.9rem 2rem;
+    border-radius: 9999px;
+    box-shadow: 0 0 25px rgba(37, 99, 235, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-hero-glow:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 0 40px rgba(124, 58, 237, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    background-position: 100% 0;
+}
+
+.btn-hero-glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #f1f5f9 !important;
+    font-weight: 600;
+    padding: 0.9rem 1.85rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-hero-glass:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.45);
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   11. 🔮 ATTRACTIVE ANIMATED PREDICTION RESULT CARD
+   ========================================================================== */
+.prediction-result-master {
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 27, 75, 0.92) 100%);
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 1.75rem;
+    box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.85), 0 0 50px rgba(124, 58, 237, 0.25);
+    position: relative;
+    overflow: hidden;
+    animation: resultPopIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes resultPopIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.prediction-result-master::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(56, 189, 248, 0.12) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+/* Circular SVG Gauge for Prediction Confidence */
+.confidence-gauge-box {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+}
+
+.confidence-gauge-svg {
+    transform: rotate(-90deg);
+    width: 150px;
+    height: 150px;
+}
+
+.confidence-gauge-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 10;
+}
+
+.confidence-gauge-value {
+    fill: none;
+    stroke-width: 10;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+.confidence-gauge-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tier Glow Styles */
+.tier-glow-excellent {
+    border-color: rgba(52, 211, 153, 0.5) !important;
+    box-shadow: 0 0 45px rgba(52, 211, 153, 0.3) !important;
+}
+
+.tier-glow-good {
+    border-color: rgba(56, 189, 248, 0.5) !important;
+    box-shadow: 0 0 45px rgba(56, 189, 248, 0.3) !important;
+}
+
+.tier-glow-average {
+    border-color: rgba(251, 191, 36, 0.5) !important;
+    box-shadow: 0 0 45px rgba(251, 191, 36, 0.3) !important;
+}
+
+.tier-glow-risk {
+    border-color: rgba(248, 113, 113, 0.55) !important;
+    box-shadow: 0 0 45px rgba(248, 113, 113, 0.35) !important;
+}
+
+/* Interactive Sliders for What-If and Predict */
+.ai-range-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.ai-range-slider:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.ai-range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #38bdf8, #a855f7);
+    border: 2px solid #ffffff;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.7);
+    transition: all 0.2s ease;
+}
+
+.ai-range-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.9);
+}
+
+.ai-range-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #38bdf8, #a855f7);
+    border: 2px solid #ffffff;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.7);
+}
+
+/* Status Indicator Dot with Pulse */
+.status-pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+}
+
+.status-pulse-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: inherit;
+    opacity: 0.6;
+    animation: statusRingPulse 2s ease-out infinite;
+}
+
+@keyframes statusRingPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+.status-pulse-online {
+    background-color: #10b981;
+    box-shadow: 0 0 10px #10b981;
+}
+
+/* Quick Fill Preset Buttons */
+.preset-sample-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.preset-sample-btn:hover {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: rgba(168, 85, 247, 0.5);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+}
+
 
 
