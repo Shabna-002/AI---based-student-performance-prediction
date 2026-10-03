@@ -27,22 +27,6 @@
         letter-spacing: 0.04em;
         text-transform: uppercase;
         backdrop-filter: blur(12px);
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
-    }
-    .demo-credentials-pill {
-        background: rgba(168, 85, 247, 0.12);
-        border: 1px dashed rgba(168, 85, 247, 0.4);
-        border-radius: 0.75rem;
-        padding: 0.65rem 0.95rem;
-        transition: all 0.2s ease;
-        cursor: pointer;
-    }
-    .demo-credentials-pill:hover {
-        background: rgba(168, 85, 247, 0.22);
-        border-color: rgba(168, 85, 247, 0.7);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
-    }
     .stat-pill-hero {
         background: rgba(15, 23, 42, 0.75);
         border: 1px solid rgba(255, 255, 255, 0.12);
@@ -163,20 +147,6 @@
                             <p class="text-white-50 small mb-0">Enter your institutional credentials to access performance analytics</p>
                         </div>
 
-                        <!-- One-Click Demo Credentials Pill -->
-                        <div class="demo-credentials-pill mb-4 d-flex align-items-center justify-content-between" id="autofillDemoBtn" title="Click to autofill default administrator credentials">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-lightning-charge-fill text-warning fs-5"></i>
-                                <div>
-                                    <strong class="d-block text-white small">Demo Admin Credentials</strong>
-                                    <span class="text-white-50 small" style="font-size: 0.75rem;">Username: <code>admin</code> &bull; Password: <code>admin123</code></span>
-                                </div>
-                            </div>
-                            <span class="badge bg-warning bg-opacity-25 text-warning rounded-pill px-2.5 py-1 small">
-                                Auto-Fill <i class="bi bi-arrow-down-short"></i>
-                            </span>
-                        </div>
-
                         {% if error %}
                         <div class="alert alert-danger d-flex align-items-center rounded-3 mb-4 py-2 px-3 border border-danger border-opacity-50" style="background: rgba(239, 68, 68, 0.15); color: #fca5a5;" role="alert">
                             <i class="bi bi-exclamation-triangle-fill fs-5 me-2 flex-shrink-0"></i>
@@ -195,7 +165,7 @@
                                 <label class="form-label fw-semibold text-light small text-opacity-75">USERNAME</label>
                                 <div class="input-group glass-input-group">
                                     <span class="input-group-text glass-input-icon"><i class="bi bi-person-fill"></i></span>
-                                    <input type="text" name="username" id="usernameInput" class="form-control glass-input-control" placeholder="Enter username (e.g. admin)" required autofocus>
+                                    <input type="text" name="username" id="usernameInput" class="form-control glass-input-control" placeholder="Enter your username" required autofocus>
                                 </div>
                             </div>
                             <div class="mb-4">
@@ -204,7 +174,7 @@
                                 </div>
                                 <div class="input-group glass-input-group">
                                     <span class="input-group-text glass-input-icon"><i class="bi bi-shield-lock-fill"></i></span>
-                                    <input type="password" name="password" id="passwordInput" class="form-control glass-input-control" placeholder="Enter password (e.g. admin123)" required>
+                                    <input type="password" name="password" id="passwordInput" class="form-control glass-input-control" placeholder="Enter your password" required>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-ai-gradient w-100 py-3 mb-3 d-flex align-items-center justify-content-center gap-2">
@@ -223,29 +193,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Quick Auto-Fill Demo Credentials handler
-        const demoBtn = document.getElementById('autofillDemoBtn');
-        const usernameInput = document.getElementById('usernameInput');
-        const passwordInput = document.getElementById('passwordInput');
-
-        if (demoBtn && usernameInput && passwordInput) {
-            demoBtn.addEventListener('click', function() {
-                usernameInput.value = 'admin';
-                passwordInput.value = 'admin123';
-                
-                // Visual feedback pulse
-                demoBtn.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    demoBtn.style.transform = '';
-                    usernameInput.focus();
-                }, 150);
-            });
-        }
-    });
-</script>
 {% endblock %}
