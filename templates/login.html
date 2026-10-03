@@ -27,6 +27,7 @@
         letter-spacing: 0.04em;
         text-transform: uppercase;
         backdrop-filter: blur(12px);
+    }
     .stat-pill-hero {
         background: rgba(15, 23, 42, 0.75);
         border: 1px solid rgba(255, 255, 255, 0.12);
@@ -51,20 +52,22 @@
                     <!-- Left Side: Hero Section & Academic AI Capabilities -->
                     <div class="col-12 col-lg-7 glass-hero-side d-flex flex-column justify-content-between p-4 p-md-5">
                         <div>
-                            <!-- Animated Badge -->
-                            <div class="d-flex align-items-center gap-2 mb-3">
-                                <span class="hero-badge-pill">
-                                    <i class="bi bi-stars text-info"></i>
-                                    <span>Next-Gen Academic Intelligence</span>
-                                </span>
-                                <span class="badge bg-primary bg-opacity-25 text-info border border-primary border-opacity-30 rounded-pill px-2.5 py-1 small">
+                            <!-- Brand & Animated Badge -->
+                            <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(168, 85, 247, 0.35)); border: 1px solid rgba(56, 189, 248, 0.5); box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);">
+                                        <i class="bi bi-mortarboard-fill text-info fs-4"></i>
+                                    </div>
+                                    <span class="fs-2 fw-bold tracking-tight text-white">EduPredict <span style="background: linear-gradient(135deg, #38bdf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI</span></span>
+                                </div>
+                                <span class="badge bg-primary bg-opacity-25 text-info border border-primary border-opacity-30 rounded-pill px-2.5 py-1 small ms-auto">
                                     v2.4 Pro ML
                                 </span>
                             </div>
 
                             <!-- Animated Main Heading -->
                             <h1 class="hero-gradient-title display-5 fw-extrabold mb-3">
-                                AI-Powered Student Trajectory & Prediction
+                                EduPredict AI: Student Performance Prediction
                             </h1>
                             <p class="hero-subtitle-lead mb-4">
                                 State-of-the-art predictive analytics platform utilizing Random Forest ensemble learning to forecast academic performance, identify at-risk scholars early, and deliver actionable intervention pathways.
@@ -139,12 +142,12 @@
                         <div class="mb-4">
                             <div class="d-inline-flex align-items-center gap-2 mb-2">
                                 <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4);">
-                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    <i class="bi bi-mortarboard-fill"></i>
                                 </div>
-                                <span class="text-info fw-bold small text-uppercase letter-spacing">Secure Access</span>
+                                <span class="text-info fw-bold small text-uppercase letter-spacing">EduPredict AI</span>
                             </div>
-                            <h3 class="fw-bold text-white mb-1">Sign In to AI Portal</h3>
-                            <p class="text-white-50 small mb-0">Enter your institutional credentials to access performance analytics</p>
+                            <h3 class="fw-bold text-white mb-1">Sign In to EduPredict AI</h3>
+                            <p class="text-white-50 small mb-0">Enter your credentials to access student performance analytics</p>
                         </div>
 
                         {% if error %}
@@ -178,12 +181,12 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-ai-gradient w-100 py-3 mb-3 d-flex align-items-center justify-content-center gap-2">
-                                <span>Access AI Portal</span>
+                                <span>Access EduPredict AI</span>
                                 <i class="bi bi-arrow-right-short fs-4"></i>
                             </button>
 
                             <div class="text-center pt-2">
-                                <span class="text-white-50 small">New to EduPredict?</span>
+                                <span class="text-white-50 small">New to EduPredict AI?</span>
                                 <a href="{{ url_for('signup') }}" class="small fw-bold text-info text-decoration-none ms-1 hover-underline">Create an Account</a>
                             </div>
                         </form>
